@@ -1,0 +1,491 @@
+<apex:page controller="Cloudrop.adddomainController" sidebar="false">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<apex:form id="leftpanel">
+<apex:composition template="Cloudrop__SetUpTemplate">  
+<!--<apex:composition template="SetUpTemplate">-->
+<apex:define name="left_heading">Start Here</apex:define>
+<apex:define name="heading"><p>{!heading}</p></apex:define> 
+
+<apex:define name="image_1"></apex:define>  
+<apex:define name="left_middle1"><font size="3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:commandLink value="Overview" action="{!overview}"/></b></font></apex:define>  
+
+<apex:define name="image_2"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/1.jpg')}" border="0" height="45px" width="45px" onclick="Domain();"/></a>
+<apex:actionFunction name="Domain" action="{!adddomain}"/></apex:define>  
+<apex:define name="left_middle2"><apex:commandLink value="Add Domain" action="{!adddomain}"/></apex:define>
+
+<apex:define name="image_3"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/2.jpg')}" border="0" height="45px" width="45px" onclick="edit();"/></a>
+<apex:actionFunction name="edit" action="{!viewedit}"/></apex:define>  
+<apex:define name="left_middle3"><apex:commandLink value="Edit Domain and Email" action="{!viewedit}"/></apex:define> 
+
+<apex:define name="image_4"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/3.jpg')}" border="0" height="45px" width="45px" onclick="site();"/></a>
+<apex:actionFunction name="site" action="{!add_siteURL}"/></apex:define>
+<apex:define name="left_middle4"><apex:commandLink value="Add Site" action="{!add_siteURL}"/></apex:define> 
+
+<apex:define name="block_5"></apex:define> 
+<apex:define name="block_6"></apex:define> 
+<apex:define name="bottomline"></apex:define>
+
+
+<apex:define name="body">
+
+  
+    <apex:messages />
+       <!--Overview -->
+       <apex:detail rendered="{!overview}">
+    
+<table cellspacing="0" cellpadding="0" style="width:700px;padding-left:15px; padding-right:15px; padding-top:10px; "><tr>
+<td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >With Email2Drop functionality enabled, the Cloud Drop app will automatically read the mails from your inbox and
+upload them to Rackspace. The uploaded files would be accessed via your Salesforce account.
+</font></td></tr>
+<tr>
+<td style="height:10px; padding-left:15px; padding-right:15px; padding-top:15px; " valign="top">
+<font size="2.5" face="Arial" >To set up Email2Drop, you need to setup the email domian and your account information.</font></td>
+</tr></table>
+<table cellspacing="0" cellpadding="0" style="width:700px;padding-left:15px; padding-right:15px; padding-top:10px; ">
+<tr><td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >
+ For example, if you want to configure your gmail account, in the Add Domain link you will enter the -</font>
+</td>
+</tr>
+<tr><td style="padding-left:45px; padding-top:10px; "> 
+<b> 1.</b> Server Name as gmail.com</td></tr>
+<tr><td style="padding-left:45px; padding-top:10px; ">
+<b> 2.</b> Host Name as pop.gmail.com</td></tr>
+<tr><td style="padding-left:45px; padding-top:10px; ">
+<b> 3.</b> Port Number as 995 (this is unique for all email domains)<br/><br/></td></tr>
+
+<tr><td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >
+<b>Note:&nbsp; </b> To configure your company outlook, contact your email admin for this information.</font>
+<br/></td></tr>
+<tr><td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >
+In the email setup, you would need to enter your account id and password. </font></td></tr>
+
+    </table>
+    </apex:detail>
+    <!--ADD Domain------------------------ -->
+      <apex:detail rendered="{!adddomain}" >
+  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+  <tr><td><table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+  <tr>
+  <td width="100px" align="center">Server Name</td>
+  <td><apex:inputfield value="{!domain.Name}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr>
+ <tr>
+ <td width="100px" align="center"> Host Name</td>
+ <td><apex:inputfield value="{!domain.Cloudrop__Host_Name__c}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+  </tr><tr>
+ <td width="100px" align="center">Port Number</td>
+ <td> <apex:inputfield value="{!domain.Cloudrop__Port_Number__c}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr>
+ </table>
+ </td></tr> 
+ 
+ <tr><td style="padding-left:150px; padding-right:20px; padding-top:20px;">
+ <!--<apex:commandButton action="{!savedomain}"  value=""  id="saveaccount" styleClass="save" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <apex:commandButton action="{!Canceldomain}"  value=""  id="cancelaccount" styleClass="cancel" />--> 
+  <input type="button" onclick="callCtlr();" id="saveaccount" class="save" />    
+            <apex:actionFunction name="callCtlr" action="{!savedomain}"/>  
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <input type="button" onclick="callCtlr1();" id="cancelaccount" class="cancel" />    
+            <apex:actionFunction name="callCtlr1" action="{!Canceldomain}"/>            
+ </td>
+ </tr>
+ </table>
+ 
+        </apex:detail>
+    <!--Edit -->
+ <apex:detail rendered="{!edit}">
+ <table cellpadding="0" cellspacing="0" border="0" width="100%">
+  <tr><td><table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+  <tr>
+  <td width="100px" align="center">Server Name </td>
+  <td><apex:inputfield value="{!editserver.Name}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr><tr>
+ <td width="100px" align="center">Host Name</td>
+ <td><apex:inputfield value="{!editserver.Cloudrop__Host_Name__c}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr>
+ <tr>
+ <td width="100px" align="center"> Port Number</td>
+ <td> <apex:inputfield value="{!editserver.Cloudrop__Port_Number__c}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr>
+ </table>
+ </td></tr>
+ <tr><td style="padding-left:150px; padding-right:20px; padding-top:20px;">
+  <!-- <apex:commandButton action="{!saveedit}"  value=""  id="saveaccount1" styleClass="save" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <apex:commandButton action="{!Canceleditdomain}"  value=""  id="cancelaccount2" styleClass="cancel" />    -->      
+   <input type="button" onclick="callCtlr2();" id="saveaccount1" class="save" />    
+            <apex:actionFunction name="callCtlr2" action="{!saveedit}"/>    
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="button" onclick="callCtlr3();" id="cancelaccount2" class="cancel" />    
+            <apex:actionFunction name="callCtlr3" action="{!Canceleditdomain}"/>    
+ 
+ 
+ 
+ </td>
+   </tr>
+ </table>
+ 
+    </apex:detail>
+    
+    <apex:detail rendered="{!manipulate}">
+     <apex:pageBlock >
+    <!-- <apex:pageBlockTable value="{!domainlist}" var="dm" id="table" rows="20"> -->
+ <!--    <apex:dataTable value="{!domainlist}" var="dm" id="table" rows="20"> -->
+<table cellpadding="5" cellspacing="0" border="0" width="100%" style="padding-left:10px; padding-right:20px; padding-top:5px;"><tr>
+  <td><font size="2"><b>  Action</b></font></td>
+<td><font size="2"><b>Domain Name</b></font></td></tr>
+<apex:repeat value="{!domainlist}" var="dm"> 
+          <tr style="padding-down:7px; padding-top:7px;"> 
+          <td width="10%"  style="padding-down:7px; padding-top:7px;">          
+                        <apex:commandLink value="View" action="{!Onlyview}" >
+                        <apex:param name="serverid" value="{!dm.dm.Id}" assignTo="{!serverid}"/></apex:commandLink>
+                        &nbsp;|&nbsp;
+                          <apex:commandLink value="Edit" action="{!Edit}">
+                          <apex:param name="serverid" value="{!dm.dm.Id}" assignTo="{!serverid}"/></apex:commandLink>
+                           &nbsp;|&nbsp;
+                            <apex:commandLink value="Delete" action="{!deleteserver}">
+                          <apex:param name="serverid" value="{!dm.dm.Id}" assignTo="{!serverid}"/> </apex:commandLink>
+          </td>
+         
+           <td width="30%"  style="padding-down:7px; padding-top:7px;">               
+      
+                        <apex:facet name="header">Domain Name</apex:facet>
+                        <apex:outputText value="{!dm.dm.Name}"> </apex:outputText>
+             
+           </td>
+           </tr>
+       </apex:repeat>
+       </table>
+     <!-- </apex:pageBlockTable> -->
+     </apex:pageBlock>
+    </apex:detail>
+    <!--  view Page-->
+    <apex:detail rendered="{!view}">
+    <table>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr>
+  <td  style="padding-left:120px; padding-right:5px;">
+  <input type="button" onclick="backto1();"  class="back" />
+                 <apex:actionFunction name="backto1" action="{!viewedit}">
+                      </apex:actionFunction>
+  <!--<apex:commandButton value="" styleClass="back" action="{!viewedit}"/> --> </td>
+     <td style="padding-right:5px;">
+     <input type="button" onclick="edit1();"  class="edit" />
+                 <apex:actionFunction name="edit1" action="{!Edit}">
+                 <apex:param name="serverid" value="{!viewserver.id}" assignTo="{!serverid}" />
+                 </apex:actionFunction>
+    <!-- <apex:commandButton value="" styleClass="edit" action="{!Edit}" > 
+       <apex:param name="serverid" value="{!viewserver.id}" /></apex:commandButton> --></td>
+     <td style="padding-right:10px;">
+     <input type="button" onclick="delete1();"  class="delete" />
+                 <apex:actionFunction name="delete1" action="{!deleteserver}">
+                 <apex:param name="serverid" value="{!viewserver.id}" assignTo="{!serverid}"/>
+                 </apex:actionFunction>
+   <!--
+     <apex:commandButton value="" styleClass="delete"  action="{!deleteserver}">
+      <apex:param name="serverid" value="{!viewserver.id}" assignTo="{!serverid}"/> </apex:commandButton> --> </td>
+ </tr>
+ </table><table>
+ 
+  <tr><td><table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+  <tr>
+  <td width="100px" align="center">Server Name </td>
+  <td><apex:outputField value="{!viewserver.Name}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+  
+ </tr><tr>
+ <td width="100px" align="center">Host Name</td>
+ <td><apex:outputField value="{!viewserver.Cloudrop__Host_Name__c}" /></td>
+ </tr>
+ <tr>
+ <td width="100px" align="center"> Port Number</td>
+ <td> <apex:outputField value="{!viewserver.Cloudrop__Port_Number__c}" style="border:solid 1px #dbdbdb;height:25px;width:230px"/></td>
+ </tr>
+ </table>
+ </td></tr>
+ </table>
+    <apex:pageBlock >
+ <!-- <apex:pageblockTable value="{!emails}" var="email" id="table1" rows="20"> -->
+<br/>
+ <apex:commandLink value="Add Email Account" action="{!addemail}">
+  <apex:param name="serverid" value="{!viewserver.id}" /></apex:commandLink><br/> <br/>
+ 
+ <table cellpadding="5" cellspacing="0" border="0" width="100%" style="padding-left:10px; padding-right:20px; padding-top:5px;"><tr>
+  <td><font size="2"><b>  Action</b></font></td>
+<td><font size="2"><b> Email Account</b></font></td></tr>
+<apex:repeat value="{!emails}" var="email"> 
+          <tr style="padding-down:7px; padding-top:7px;"> 
+          <td width="10%"  style="padding-down:7px; padding-top:7px;">          
+                        <apex:commandLink value="View" action="{!emailview}" >
+                        <apex:param name="emailid" value="{!email.Id}" /></apex:commandLink>
+                        &nbsp;|&nbsp;
+                          <apex:commandLink value="Edit"  action="{!editemail}">
+                          <apex:param name="emailid" value="{!email.Id}"  assignTo="{!emailid}" /></apex:commandLink>
+                           &nbsp;|&nbsp;
+                            <apex:commandLink value="Delete" action="{!deleteemail}">
+                          <apex:param name="emailid" value="{!email.Id}"/> 
+                          <apex:param name="serverid" value="{!email.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  /> 
+                          </apex:commandLink>
+          </td>
+         
+           <td width="30%"  style="padding-down:7px; padding-top:7px;">               
+      
+                      
+                     <apex:commandLink value="{!email.Cloudrop__User_Name__c}" action="{!emailview}" > 
+                         <apex:param name="emailid" value="{!email.Id}"/></apex:commandLink> 
+             
+           </td>
+           </tr>
+       </apex:repeat>
+       </table>
+
+ 
+ </apex:pageBlock>
+    </apex:detail>
+    
+ <apex:detail rendered="{!Emailview}">
+ <br/><br/>
+ 
+<table> 
+  <tr><td>&nbsp;</td><td>&nbsp;</td>
+  <td  style="padding-left:120px; padding-right:5px;">
+  <input type="button" onclick="back123();"  class="back" />
+                 <apex:actionFunction name="back123" action="{!Onlyview}">
+                 <apex:param name="serverid" value="{!emaildetail.Cloudrop__Server_Details__r.Id}" assignTo="{!serverid}"/>
+                 </apex:actionFunction>
+  <!--<apex:commandButton value="" styleClass="back" action="{!Onlyview}"> 
+     <apex:param name="serverid" value="{!emaildetail.Cloudrop__Server_Details__r.Id}" assignTo="{!serverid}"/></apex:commandButton>-->
+     </td>
+      <td  style="padding-right:5px;" > 
+      <input type="button" onclick="edit123();"  class="edit" />
+                 <apex:actionFunction name="edit123" action="{!editsynemail}">
+                
+                 </apex:actionFunction>
+    <!--  <apex:commandButton value="" styleClass="edit"  action="{!editsynemail}" >
+                         </apex:commandButton>--></td>
+     <td >
+      <input type="button" onclick="sync123();"  class="syncronize" />
+                 <apex:actionFunction name="sync123" action="{!sync}">
+                <apex:param name="emailid" value="{!emaildetail.Id}" assignTo="{!emailid}"/>
+                 </apex:actionFunction>
+     <!--<apex:commandButton value="" styleClass="syncronize" action="{!sync}"> 
+     <apex:param name="emailid" value="{!emaildetail.Id}" assignTo="{!emailid}"/></apex:commandButton>-->
+     </td>
+     </tr></table>
+     <table>
+ <tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr>
+  <tr><td>&nbsp;</td>
+  <td style="padding-left:100px; padding-right:20px;">Account Name</td>
+  <td ><apex:outputField value="{!emaildetail.Name}"  /></td>
+ <td style="padding-left:30px; padding-right:20px;">User Id </td>
+ <td><apex:outputField value="{!emaildetail.Cloudrop__User_Name__c}" /></td>
+ </tr>
+ <tr><td  >&nbsp;</td>
+ <td style="padding-left:100px; padding-right:20px;">Retype Password</td>
+ <td ><apex:outputField value="{!emaildetail.Cloudrop__Password__c}" /></td>
+
+ <td style="padding-left:30px; padding-right:20px;"> Password</td>
+ <td><apex:outputField value="{!emaildetail.Cloudrop__Retype_Password__c}" /></td>
+ </tr>
+ <tr><td >&nbsp;</td>
+ <td style="padding-left:100px; padding-right:20px;">Domain Name</td>
+ <td> <apex:outputField value="{!emaildetail.Cloudrop__Server_Details__r.Name}" /></td> 
+ 
+ <td style="padding-left:30px; padding-right:20px;"> Access Type</td>
+ <td> <apex:outputField value="{!emaildetail.Cloudrop__Access_Type__c}" /></td> 
+ </tr>
+
+ 
+ </table>
+    </apex:detail>
+    
+ <!-- edit -->
+
+<apex:detail rendered="{!editemail}">
+
+
+      <table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+            <tr><td style="padding-left:20px; padding-right:20px; padding-top:15px;" >
+                    Account Name
+                </td>
+                <td >
+                 <apex:inputField value="{!emailaccview.Name}" style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Username  
+                </td>
+                <td>
+                    <apex:inputField value="{!emailaccview.Cloudrop__User_Name__c}"     style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                </tr>
+                
+                <tr>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                    Password   
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                     <apex:inputsecret value="{!emailaccview.Cloudrop__Password__c}"  id="passwd1"      style="border:solid 1px #dbdbdb;height:25px;width:200px" /></div>
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Retype Password 
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                    <apex:inputsecret value="{!emailaccview.Cloudrop__Retype_Password__c}"   id="repasswd1"       style="border:solid 1px #dbdbdb;height:25px;width:200px"/></div>
+                </td>
+                </tr>
+                
+                 <tr>
+                 <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Server Details
+                </td>
+                <td>
+                     <apex:outputText value="{!sv_name}"  style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                 Access Type  
+                </td>
+                <td>
+                    <apex:inputField value="{!emailaccview.Cloudrop__Access_Type__c}"  style="border:solid 1px #dbdbdb;height:25px;width:200px"/>
+                </td>
+                </tr><tr></tr><tr><td align="center">
+</td></tr></table> <br/>
+<p align="center">
+                <input type="button" onclick="save34();"  class="save" />
+                 <apex:actionFunction name="save34" action="{!emaileditsave}">
+                  <apex:param name="serverid" value="{!emailaccview.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  />
+                 </apex:actionFunction>
+                 <!--<apex:commandButton value="" styleClass="save" action="{!emaileditsave}" >
+                 <apex:param name="serverid" value="{!emailaccview.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  /></apex:commandButton>-->  &nbsp;&nbsp;&nbsp;
+                 <input type="button" onclick="cancle345();"  class="cancel" />
+                 <apex:actionFunction name="cancle345" action="{!cancle}">
+                  <apex:param name="serverid" value="{!emailaccview.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  />
+                 </apex:actionFunction>
+                <!-- <apex:commandButton value=""  action="{!cancle}" styleClass="cancel"><apex:param name="serverid" value="{!showemailac.Server_Details__c}" assignTo="{!serverid}"  /></apex:commandButton>-->
+</p>
+</apex:detail>
+ <!-- Add New Email -->
+ 
+ <apex:detail rendered="{!addnew}">
+
+   <!--<hr style="height: 4px;color: lightblue;background-color: lightblue;"></hr>
+<h3 style="font-size: large">Information</h3> <br/>
+  <hr style="height: 1px;color: lightblue;background-color: lightblue;"></hr>
+  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr><td> -->
+
+      <table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+            <tr><td style="padding-left:20px; padding-right:20px; padding-top:15px;" >
+             <apex:outputLabel value="Account Name"> </apex:outputLabel>      
+                </td>
+                <td >
+                 <apex:inputField value="{!ead.Name}" style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Username  
+                </td>
+                <td>
+                    <apex:inputField value="{!ead.Cloudrop__User_Name__c}"     style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                </tr>
+                
+                <tr>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                    Password   
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                     <apex:inputsecret value="{!ead.Cloudrop__Password__c}"  id="passwd"      style="border:solid 1px #dbdbdb;height:25px;width:200px" /></div>
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Retype Password 
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                    <apex:inputsecret value="{!ead.Cloudrop__Retype_Password__c}"   id="repasswd"       style="border:solid 1px #dbdbdb;height:25px;width:200px"/></div>
+                </td>
+                </tr>
+                
+                 <tr>
+                 <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                   Server Details
+                </td>
+                <td>
+                     <apex:outputtext value="{!servername}"  style="border:solid 1px #dbdbdb;height:25px;width:200px"  />
+                </td>
+                <td style="padding-left:20px; padding-right:20px; padding-top:15px; ">
+                 Access Type  
+                </td>
+                <td>
+                    <apex:inputField value="{!ead.Cloudrop__Access_Type__c}"  style="border:solid 1px #dbdbdb;height:25px;width:200px"/>
+                </td>
+                </tr>
+                <tr></tr><tr><td align="center">
+</td></tr>
+                </table>
+               <br/>
+<p align="center">
+                <input type="button" onclick="verify();"  class="save" />
+                 <apex:actionFunction name="verify" action="{!VerifyDetails}">
+                 <apex:param name="serverid" value="{!ead.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  />
+                 </apex:actionFunction>
+               <!--  <apex:commandButton value="" styleClass="save" action="{!VerifyDetails}"  > <apex:param name="serverid" value="{!ead.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  /></apex:commandButton>  -->
+                 &nbsp;&nbsp;&nbsp; 
+                <input type="button" onclick="cancelaction();"  class="cancel" />
+                 <apex:actionFunction name="cancelaction" action="{!cancle}">
+                 <apex:param name="serverid" value="{!ead.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  />
+                 </apex:actionFunction>
+              <!-- <apex:commandButton value="" styleClass="cancel" action="{!cancle}">
+               <apex:param name="serverid" value="{!ead.Cloudrop__Server_Details__c}" assignTo="{!serverid}"  /> </apex:commandButton> -->
+               </p>
+
+              <!--  </table> -->
+</apex:detail>
+
+<apex:detail rendered="{!add_Url}">
+<table cellpadding="5" cellspacing="15" border="0" width="100%" style="margin-left:10px">
+            <tr><td style="padding-left:20px; padding-right:20px; padding-top:15px;" >
+             <apex:outputLabel value="Site Url"> </apex:outputLabel>      
+                </td>
+                <td >
+                 <apex:inputField value="{!Url.Cloudrop__Site_Url__c}" style="border:solid 1px #dbdbdb;height:25px;width:200px"  rendered="{!Edit_Url}" />
+                 <apex:outputField value="{!Url.Cloudrop__Site_Url__c}" style="border:solid 1px #dbdbdb;height:25px;width:200px"  rendered="{!view_Url}" />
+               
+                </td>
+                
+               </tr>
+               </table>
+               <table>
+      <tr>  
+      <td  width="50px" align="center">&nbsp;</td>
+      <td  width="50px" align="center">&nbsp;</td>
+     <td  width="50px" align="center">&nbsp;</td>
+     <td  width="50px" align="center">&nbsp;</td>
+     <td  width="50px" align="center">
+     <!--<apex:commandButton value="" styleClass="edit" action="{!edit_url}" rendered="{!view_Url}"/>-->
+     <apex:outputPanel rendered="{!view_Url}">
+      <input type="button" onclick="callCtlr5();" id="registeraccount" class="edit" />    
+            <apex:actionFunction name="callCtlr5" action="{!edit_url}"/>  </apex:outputPanel>
+     
+     
+    <!-- <apex:image url="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/Edit.png')}" onclick="editbtn();" rendered="{!view_Url}" style="height:30px;width:65px;"/>
+      <apex:actionFunction name="editbtn" action="{!edit_url}"/>
+      <apex:commandButton value="Edit" action="{!edit_url}" rendered="{!view_Url}"/>-->
+      <!--<apex:commandButton value="" styleClass="save" action="{!save_url}" rendered="{!Edit_Url}"/>-->
+         <apex:outputPanel rendered="{!Edit_Url}"><input type="button" onclick="callCtlr6();" class="save" />    
+            <apex:actionFunction name="callCtlr6" action="{!save_url}"/> </apex:outputPanel>
+      </td><td>
+     <!-- <apex:commandButton value="" styleClass="cancel" action="{!overview}"/>-->
+    <apex:outputPanel rendered="{!Edit_Url}">
+     <input type="button" onclick="callCtlr7();"  class="cancel" />    
+            <apex:actionFunction name="callCtlr7" action="{!overview}"/>
+            </apex:outputpanel>
+       </td>
+      </tr>     
+</table>
+
+</apex:detail>
+
+ </apex:define>
+ </apex:composition>
+ </apex:form>
+ <script>
+ document.getElementById("dom").className="selected";
+  $(":submit").removeClass("btn");
+ </script>
+ 
+</apex:page>

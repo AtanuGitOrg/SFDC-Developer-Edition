@@ -1,0 +1,5 @@
+<apex:page controller="ReportClass">
+<apex:form >
+<apex:commandButton value="Generate Report" action="{!generateReport}"/>
+</apex:form>
+</apex:page>

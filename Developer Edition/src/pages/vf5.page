@@ -1,0 +1,40 @@
+<apex:page standardController="Account" recordSetVar="ops">
+<apex:form >
+    <apex:pageBlock title="List of Accounts">
+        <apex:pageBlockTable value="{!ops}" var="o">
+            <apex:column ><apex:commandLink >{!o.Name}<apex:param name="Opportunityid" value="{!o.ID}"/>
+                            <apex:param name="opportunityname" value="{!o.Name}"/></apex:commandLink></apex:column><Apex:column >
+             <apex:repeat rows="5">BA</apex:repeat></apex:column>
+         <!--   <apex:column headerValue="Amount">
+                <apex:inputField value="{!o.Amount}"/>
+            </apex:column>
+            <apex:column value="{!o.Account.Name}"/>
+            <apex:column value="{!o.ExpectedRevenue}"/>
+           <apex:column value="{!o.CloseDate}"/>
+            <apex:column headerValue="Amount">
+             <apex:outputField value="{!o.Amount}">
+                <apex:inlineEditSupport />
+               </apex:outputField>
+            </apex:column>
+            <apex:column value="{!o.StageName}"/> -->
+         
+        </apex:pageBlockTable>
+        
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{!First}" value="<<"/>
+            <apex:commandButton action="{!Previous}" value="<"/>
+            <apex:commandButton action="{!Next}" value=">"/>
+            <apex:commandButton action="{!Last}" value=">>"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="1" title="{!$CurrentPage.parameters.opportunityname}">
+            <apex:detail subject="{!$CurrentPage.parameters.Opportunityid}" relatedList="false"/>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection columns="1" title="{!$CurrentPage.parameters.opportunityname.Contacts.Name}">
+           <!-- <apex:detail subject="{!$CurrentPage.parameters.Opportunityid}" relatedList="false"/> -->
+        </apex:pageBlockSection>
+
+        
+        
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

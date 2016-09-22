@@ -1,0 +1,168 @@
+<apex:page standardController="Account" extensions="AccountCls">
+     <apex:sectionHeader title="Account" subtitle="Account Page Info."  /> 
+  <apex:form >
+     <!-- Edit Section -->
+     <apex:pageBlock id="editAcctPage" rendered="{!ShowEditPage}">
+     
+          <apex:commandButton id="btnSave_editpage" value="SAVE" action="{!doSave}" 
+          rendered="{!ShowEditPage}"/>
+          <apex:commandButton id="btnCancel_editpage" value="CANCEL" action="{!doShowEdit}" 
+          rendered="{!ShowEditPage}"/>
+     
+         <apex:pageBlockSection columns="2">
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Account Name:
+                 </apex:outputLabel>
+                 <apex:inputField id="acName" value="{!account.Name}" />
+                 
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Account Number:
+                 </apex:outputLabel>
+                 <apex:inputField id="acNumber" value="{!account.accountNumber}" />
+                 
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Account Type:
+                 </apex:outputLabel>
+                 <apex:inputField id="acType" value="{!account.Type}" />
+                 
+             </apex:pageBlockSectionItem>
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Phone:
+                 </apex:outputLabel>
+                 <apex:inputField id="phone" value="{!account.Phone}" />
+                 
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                <apex:outPutPanel >
+                 <table border="0" cellpadding = "1" celspacing="1">
+                 <tr>
+                 <td>
+                 Bank Account:
+                 </td>
+                 <td>
+                    <div class="requiredInput"><div class="requiredBlock"></div>
+                     <apex:inputField id="bank" value="{!account.BankAccountNumber__c}" />
+                    </div>
+                </td>
+                </tr>
+                </table> 
+                </apex:outputPanel>
+             </apex:pageBlockSectionItem>
+             
+          </apex:pageBlocksection>
+     </apex:pageBlock>
+     
+     <!-- end of edit section--> 
+     
+     <!-- Detail Section -->
+     <apex:pageBlock id="acctdetailPage" rendered="{!ShowDetailPage}">
+     
+          <apex:commandButton id="btnEdit_detailpage" value="EDIT" action="{!doShowEdit}" 
+          rendered="{!ShowDetailPage}"/>
+          <apex:commandButton id="btnCancel_detailpage" value="CANCEL" action="{!doShowDetails}" 
+          rendered="{!ShowDetailPage}"/>
+     
+            <apex:pageBlocksection id="detailPageWithoutAcctSearch" columns="2">
+                 <apex:pageBlockSectionItem >
+                     <apex:outputLabel >
+                     Account Name:
+                     </apex:outputLabel>
+                 <apex:outputText id="acName" value="{!objAcct.Name}" />
+            </apex:pageBlockSectionItem> 
+             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Account Number:
+                 </apex:outputLabel>
+                 <apex:outputText id="acNumber" value="{!objAcct.accountNumber}" />
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Account Type:
+                 </apex:outputLabel>
+                 <apex:outputText id="acType" value="{!objAcct.Type}" />
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 Phone:
+                 </apex:outputLabel>
+                 <apex:outputText id="phone" value="{!objAcct.Phone}" />
+             </apex:pageBlockSectionItem>
+             
+             <apex:pageBlockSectionItem >
+                <apex:outputLabel >
+                    Bank Account:
+                </apex:outputLabel>                 
+                                  
+                <apex:outputText id="bank" value="{!objAcct.BankAccountNumber__c}" />
+                    
+               
+             </apex:pageBlockSectionItem>
+             
+          </apex:pageBlockSection>
+          
+          <apex:pageBlocksection id="detailPageWithAcctSearch" columns="3" rendered="{!ShowDetailPage}" >
+          <apex:pageBlockSectionItem >
+                <apex:outPutPanel >
+                 <table border="1" cellpadding = "2" cellspacing="2">
+                 <tr>
+                 
+                     <td>
+                            Search for Account by its Name:
+                     </td>
+                 
+                     <td>
+                            <apex:inputText id="acctSearch" value="{!searchString}"/>
+                     </td>
+                 
+                     <td>
+                            <apex:commandButton id="searchAcctButton" value="Search" action="{!searchForAcctNames}" rendered="{!ShowDetailPage}" />
+                     </td>
+                
+                </tr>
+                </table> 
+                
+                    <apex:pageblock id="PageBlockForAccountRelatedList" rendered="{!acctSearchListExists}">
+   
+                          <!-- Using PageBlockTable apex visualforce component to display list of data -->
+                          
+                          <apex:pageBlockTable value="{!AcctsAfterNameSearch}" var="accRecord">
+                          
+                               <apex:column value="{!accRecord.Name}" />
+                               <apex:column value="{!accRecord.accountNumber}" />
+                               <apex:column value="{!accRecord.BankAccountNumber__c}" />
+                               
+                          </apex:pageBlockTable>
+                          
+                    </apex:pageblock>  
+                    
+                    <apex:pageBlockSectionItem id="pageBlockSectionItemForText" rendered="{!ShowDetailPage}">
+                        <h1>The value of acctSearchListExists is {!acctSearchListExists}</h1>
+                        <h1>The value of search string entered account name is {!searchString}</h1>   
+                    </apex:pageBlockSectionItem>
+                
+                </apex:outputPanel>
+                
+          </apex:pageBlockSectionItem>
+          </apex:pageBlockSection>
+          
+     </apex:pageBlock>
+     <!-- end of detail section--> 
+     
+     
+     
+  </apex:form>
+  
+  
+  
+</apex:page>

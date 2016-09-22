@@ -1,0 +1,347 @@
+<apex:page controller="Cloudrop.UpdatefileCont_Dynamic" tabstyle="Dynamic_cloudrop__tab" showHeader="true" id="thepage" >
+  <script type="text/javascript" src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/jquery-1.4.4.min.js')}"></script>
+
+   <apex:sectionHeader title="File Edit" subtitle="Upload New Version" id="sheader"/> 
+
+    <apex:pageMessages >
+    </apex:pageMessages>
+  <hr style="height: 4px;color: Lightblue;background-color: Lightblue;"></hr>
+  <h2 style="font-size: large">File Edit </h2> <br/>
+  <hr/> 
+  <div id="thediv" style="display:none">
+<table>
+ 
+  <tr>
+  <td>
+   <apex:image url="{!URLFOR($Resource.Cloudrop__CloudDrop_setup, 'clouddrop/loading.gif')}" style="display: block !important;"/>
+    </td>
+  <td>
+  &nbsp;&nbsp;&nbsp;
+    <apex:outputtext value="Uploading" style="font-size: 2.25em; margin-bottom: 15px; font-weight: normal; color: #333;"/>
+    </td>
+  </tr>
+  
+  </table> 
+  </div>  
+  <table>
+         <tr>
+         <td>
+             <form  name="uploadform" method="post" action="{!jsinhtmlencode(storageurl)}" enctype="multipart/form-data"  >
+             <input id="redirectf" type="hidden" name="redirect" value="{!jsinhtmlencode(redirect)}" />
+             <input id="maxfilesizef" type="hidden" name="max_file_size" value="{!jsinhtmlencode(maxfilesize)}" />
+             <input id="maxfilecountf" type="hidden" name="max_file_count" value="1" />
+             <input id="expiresf" type="hidden" name="expires" value="{!expires}" />
+             <input id="signaturef" type="hidden" name="signature" value="{!htmlencode(Signature)}" /> 
+             <input id="file1" name="file1" type="hidden"/>
+            
+               <table>
+                   <tr>
+                        <td>
+                            File
+                        </td>
+                        <td>
+                      
+                        <input type="file" name="file1"  id="fileToUpload"/>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td>
+                          Version Name
+                         </td>
+                        <td>
+                             <input type="text" name="vername" id="Vernameid" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                          Version
+                        </td>
+                        <td>
+                       
+                        <input type="text" value="{!Versionno}" id="versiono" disabled="true"/> 
+                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Keywords
+                        </td>
+                        <td>
+                            <input type="text" name="keywords" id="keyId" />
+                        </td>
+                    </tr>                                      
+                    <tr>
+                        <td>
+                            Access Type
+                        </td>
+                        <td>
+                        <select name="AccessType" id="AccesstypeId" OnChange = "changevalue(this.value);">
+                          <option value="Private">Private</option>
+                          <option value="Public">Public</option>                  
+                        </select>
+                        </td>
+                    </tr>   
+                   <tr>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            <TEXTAREA NAME="descrp" ROWS="4" COLS="40" id="desId"/>
+                        </td>
+                    </tr> 
+        <!-- by shs -->
+                    <tr>
+                        <td colspan="2" align="right"> 
+                       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+                   
+                      <!--  <input id="submit" type="submit" value="Upload" />  &nbsp;&nbsp;&nbsp; 
+                        <input type="button" name="canclebtn" value="Cancel" onclick="getvalue1();"/> -->
+                        <input id="submit" type="button" value="Upload" onclick="ValidateFile();"/>
+                       <!--  onclick="validateFile(this.form);"/>-->  &nbsp;&nbsp;&nbsp; 
+                <input type="button" name="canclebtn" value="Cancel" onclick="getvalue1();"/> 
+                <input id="submit1" type="submit" value="" style="display:none" />
+                       
+                        </td>
+                    </tr>
+              </table>
+          </form>
+        </td>
+        <td>
+          <apex:form id="apexform1">
+          <Apex:repeat value="{!fldlbls1}" var="f" ID="rep1">
+          <table ><tr><td>
+            {!jsinhtmlencode(f)}
+          </td></tr>
+   
+         </table> 
+         </apex:repeat>
+         </apex:form>
+        </td>
+        <td>
+        <apex:form id="apexform">          
+          <table>
+               <Apex:repeat value="{!fldapinames1}" var="f" ID="rep">
+            <tr><td>
+                <Apex:inputField value="{!cstore[f]}" onchange="callapex(this.value,'{!f}')"/>
+           </td></tr>
+             </Apex:repeat>
+              <apex:actionFunction name="callapex" id="af" action="{!assignval}" rerender="apexform">
+            <Apex:param name="fieldapi"  value="" id="fld1" assignto="{!value1}"/>
+            <Apex:param name="val" value="" assignto="{!fldnme1}" id="fld2"/>
+             </apex:actionFunction>
+        </table>
+       </apex:form>             
+  </td></tr> 
+</table>
+        
+       
+          <apex:form id="Theform" >
+           <apex:inputHidden value="{!isUserAuthorize}" id="isUserAuthorize"/>
+           <apex:inputHidden value="{!FolderIdValue}" id="FolderId"/>
+           <apex:inputHidden value="{!ObjectIdValue}" id="ObjectId"/>
+           <apex:inputHidden value="{!fileExist}" id="DupfileExist"/>
+           <apex:inputHidden value="{!inputfileValue}" id="actualfilename"   />
+           <apex:inputHidden value="{!inputdescriptionValue}" id="descriptionId"/>
+           <apex:actionFunction name="uploadfileaction" action="{!uploadfileaction}"  rerender="Theform" oncomplete="complete();" />
+           <apex:inputHidden value="{!inputkeywordValue}" id="keywordId"/>
+           <apex:inputHidden value="{!Versionno}" id="versionid"/>
+           <apex:inputHidden value="{!versionname}" id="versionnameid"/>
+            <apex:inputHidden value="{!acl}" id="aclid"/>
+          <apex:actionFunction name="getvalue1" action="{!cancle}"/> 
+          
+          
+           <!--  slf code-->
+          <apex:inputhidden id="storageurl"  value="{!storageurl}"/>
+          <apex:inputhidden id="redirect" value="{!redirect}"/>
+          <apex:inputhidden id="maxfilesize" value="{!maxfilesize}"/>
+          <apex:inputhidden id="expires" value="{!expires}"/>
+          <apex:inputhidden id="signature" value="{!Signature}"/>
+           <apex:actionfunction name="ChangeValue1" action="{!updatesignature}" reRender="Theform" oncomplete="changeformvalue();"   >
+          <apex:param name="val1" value="val1" assignTo="{!acl}"/> 
+          </apex:actionfunction>
+          <apex:actionfunction name="cancelupload" action="{!cancleupload}" />
+         <apex:actionFunction name="startinit" action="{!init}"  reRender="Theform" oncomplete="afterinit();"/>
+         </apex:form> 
+    <div id="cover">
+        <div id="warning">
+      <!--   <apex:image url="https://mansasyscloud.com/cloudfiles/loading.gif" style="display: block !important;"/>&nbsp;&nbsp;&nbsp;&nbsp;-->
+       Please Wait... <br/><br/>
+     <input type="button" value="Cancel Upload" onclick="cancelupload()"/>
+      
+       
+        </div>
+    </div>    
+ <script type="text/javascript">
+var __sfdcSessionId = '{!GETSESSIONID()}';
+var flnm;
+startinit();
+function afterinit()
+{
+
+document.getElementById('versiono').value = document.getElementById('{!$Component.Theform.versionid}').value;
+}
+</script>
+    
+    <script src="../../soap/ajax/19.0/connection.js" type="text/javascript"></script>
+<script type="text/javascript">
+  function changevalue(aclval)
+  {
+   flnm = document.getElementById('fileToUpload').value;
+   if(flnm!='' && flnm!=null)
+   {
+    ChangeValue1(aclval);
+   }
+   else
+   {
+    alert('Please Choose a file before changing the Access Type value.');
+    document.getElementById('AccesstypeId').value='Private';
+   }
+  }
+  
+  function checkJs(){
+     sforce.connection.sessionId=__sfdcSessionId; 
+    //  var flnm = document.getElementById('fileToUpload').value;    
+     var ff = flnm.replace(/^.*\\/, '').replace(/'/g, '_');
+      
+      var objid = document.getElementById("{!$Component.Theform.ObjectId}").value;
+      var folid = document.getElementById("{!$Component.Theform.FolderId}").value;
+      
+       if(objid==null || objid=='')
+       {
+       objid="{!JSENCODE(ObjectId)}";
+       }
+      var qurystr;
+      
+     if(folid !=null && folid!= '')
+         qurystr = "select id,name from Cloudrop__Cloud_Storage__c where name ='" +ff +"' and Cloudrop__Folder__c='" +folid+"' limit 1";
+     else
+         qurystr = "select id,name from Cloudrop__Cloud_Storage__c where name ='" +ff +"' and Cloudrop__ObjectId__c='" +objid+"' limit 1";
+           
+           result=sforce.connection.query(qurystr);
+           
+           records = result.getArray("records"); 
+         //   alert('Records is---->' +records);
+         if(records.length>0)
+            return false;
+         else
+           return true;
+}
+</script>
+  <script type="text/javascript">
+  
+   function changeformvalue()
+   {
+  // alert('hi');
+  // var id='{!$Component.uploadform.maxfilesizef}';
+   // var id11="{!$Component.maxfilesizef}";
+  // alert('EEEEE'+id11);
+   //  alert(document.getElementById("maxfilesizef"));
+    //  alert('--'+aa);
+    // alert(aa.value);
+    document.uploadform.action =document.getElementById('thepage:Theform:storageurl').value ;
+  
+    document.getElementById('redirectf').value = document.getElementById('thepage:Theform:redirect').value;
+   // alert('def'+document.getElementById('redirectf').value);
+    document.getElementById('maxfilesizef').value = document.getElementById('thepage:Theform:maxfilesize').value;
+   document.getElementById('AccesstypeId').value =document.getElementById('thepage:Theform:aclid').value;
+    
+   document.getElementById('expiresf').value = document.getElementById('thepage:Theform:expires').value;
+   document.getElementById('signaturef').value = document.getElementById('thepage:Theform:signature').value;
+    
+   }
+  
+    
+    function ValidateFile(){
+      
+     //alert('in confirm');     
+       flnm = document.getElementById('fileToUpload').value;
+
+//    var flm1 = document.getElementById('nameId').value;
+
+      var ff = flnm.replace(/^.*\\/, '').replace(/'/g, '_');
+
+    // alert (ff);
+         if(flnm==''){
+    alert('Please choose a file');
+    return false;
+  }
+ // alert('inside');
+ // returnUrl();
+  var result = checkJs();
+ // alert('In result loop' +result);
+  if(result){
+    document.getElementById('thediv').style.display="";
+  var des = document.getElementById('desId').value;
+   var key = document.getElementById('keyId').value;
+   var Accessval = document.getElementById('AccesstypeId').value;
+   var vn = document.getElementById('Vernameid').value;
+   document.getElementById("{!$Component.Theform.versionnameid}").value = vn;
+  document.getElementById("{!$Component.Theform.actualfilename}").value = ff;
+  document.getElementById("{!$Component.Theform.descriptionId}").value = des;
+  document.getElementById("{!$Component.Theform.keywordId}").value = key;
+ // document.getElementById("{!$Component.Theform.AccessTypevalueId}").value = Accessval;
+ // document.getElementById("{!$Component.Theform.userfilename}").value = flm1;
+
+   
+  uploadfileaction();
+  // alert('Please be Patient while Your File is being uploaded.');
+  //cover();
+ 
+  //  document.getElementById("submit").disabled = true;
+  //  document.getElementById("cancel").disabled = true;
+ 
+ // return true;
+ 
+  
+      
+    }
+    else
+    {
+       alert('File already exists. Please choose a different file name.');
+    //   return false;
+    // http://www.mansasys.com/dev/rackspace/upload.php
+    }  
+  }
+ function complete()
+ {
+    var isUserAuthorize=document.getElementById("{!$Component.Theform.isUserAuthorize}").value;
+      if(isUserAuthorize=='false')
+      {
+         alert('Sorry .....You are not authorized to upload the file!!!\nPlease Contact your system admin.');
+         document.getElementById('thediv').style.display="NONE";
+         return;
+      }
+      else
+      {
+        cover();
+        $('#uploadform').submit();       
+        $("#submit1").trigger("click");  
+      }
+ } 
+
+    </script>
+    <script type="text/javascript">
+        var vis=1;
+        function cover() 
+        {  
+        
+            var cover=document.getElementById('cover');
+        
+            if(vis)
+            {
+                vis=0;
+                cover.style.display='block';      
+            } 
+            else 
+            {   
+                vis=1;
+                cover.style.display='none'; 
+            }
+        
+        }
+    </script>
+    <style type="text/css">
+#cover{position:absolute;top:0px;left:0px;overflow:hidden;display:none;width:100%;height:100%;background-color:#000000;opacity:0.5;MozOpacity:0.5;zIndex:50;filter:alpha(opacity=50);text-align:center;}
+#warning{margin:auto;position:relative;width:400px;height:10px;color:white;padding:10px;zIndex:100;padding-top:200px;font-family:Arial,Helvetica,sans-serif;font-size:40px;}
+</style>
+</apex:page>

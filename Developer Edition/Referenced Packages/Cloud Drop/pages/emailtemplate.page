@@ -1,0 +1,51 @@
+<apex:page controller="Cloudrop.Emailtemplatecontroller" title="Select Email Templates" showHeader="false" sidebar="false" tabStyle="Contact"> 
+<script>
+     
+         function populateParent(obj)
+         {
+            
+            var trNode = obj.parentNode.parentNode;
+             var tdNodes = trNode.getElementsByTagName('td');
+             var etId = (tdNodes[0].getElementsByTagName('span')[0]).innerHTML;
+             var etName = (tdNodes[1].getElementsByTagName('a')[0]).innerHTML;   
+            // var etsub = (tdNodes[2].getElementsByTagName('span')[0]).innerHTML;          
+             top.window.opener.setSelectedDocumentDetails2(etId);//, etsub);    
+                 
+             return false;
+         }
+         
+     </script>
+<apex:form >
+  <br/>&nbsp;&nbsp;
+  <apex:outputLabel ><b>Folder&nbsp;&nbsp;    </b></apex:outputLabel>
+   
+
+    <apex:selectList id="folder" value="{!selectedfolder}" size="1" title="Folder Name">
+    <apex:selectOptions value="{!folder}"></apex:selectOptions>
+    <apex:actionSupport event="onchange" action="{!getTemplates}" oncomplete="alert('you change!!');"/>
+    </apex:selectList>
+    
+     <apex:outputPanel id="detail" >
+                 <apex:pageBlock title="Choose Email Template"  >
+                 
+                  
+                 <apex:inputtext value="{!likestring}" label="Enter Search Term here." title="Enter Search Term here."/>&nbsp;&nbsp;
+                 <apex:commandbutton value="Search Template" action="{!searchtemplates}"/>
+                 
+                 <br/>
+                    <apex:pageBlockTable value="{!etlist}" var="et">
+                        <apex:column > 
+                           <span style="display: none" width="0">{!et.Id}</span>
+                        </apex:column>
+                         <apex:column headerValue="Name">
+                           <apex:outputLink value="" onClick="return populateParent(this)">{!et.Name} </apex:outputLink>
+                        </apex:column>                    
+                        <apex:column headerValue="Type" value="{!et.TemplateType}" /> 
+                         <apex:column headerValue="Description" value="{!et.Description}" /> 
+                         
+                         <apex:column headerValue="ID" value="{!et.Id}" /> 
+                    </apex:pageBlockTable> 
+                </apex:pageBlock>
+              </apex:outputPanel> 
+</apex:form>
+</apex:page>

@@ -1,0 +1,61 @@
+<apex:page standardController="Opportunity" extensions="OpportunityDataCls">
+     <apex:form >
+              <apex:sectionHeader title="Add Opportunity Data"/>
+              <apex:pageBlock >
+                <!--  <apex:pageBlockButtons >
+                  <apex:commandButton id="cmdAdd" value="Add Row" action="{!doAdd}"/>
+                  <apex:commandButton id="cmdEdit" value="Edit" action="{!doEdit}"/>
+                  <apex:commandButton id="cmdSave" value="Save" action="{!doSave}"/>
+                  <apex:commandButton id="cmdCancel" value="Cancel"/>    
+                  </apex:pageBlockButtons>
+        
+                  <!-- Details Section -->
+               <apex:pageBlockSection id="pbDetails">
+                 <!-- <apex:pageBlockTable align="center" style="width=100%"  id="pbDet" value="{!allOpportunityData}" var="x">
+                      <apex:column headerValue="Opportunity Owner" value="{!x.Opportunity_Owner__c}"/>
+                      <apex:column headerValue="Opportunity Name" value="{!x.Opportunity__c}"/>
+                      <apex:column headerValue="Associated On" value="{!x.AccountassociatedOn__c}"/>
+                  </apex:pageBlockTable> -->
+              </apex:pageBlockSection>  
+                 <!-- Edit Section -->
+               <!--  <apex:pageBlockSection id="pbEdit" rendered="{!blShowEdit}" columns="3">
+                     <apex:pageBlockSectionItem >
+                         <apex:outputLabel >Owner</apex:outputLabel>
+                     <apex:inputField id="pbEdOw" value="{!odt.Opportunity_Owner__c}"/>
+                     </apex:pageBlockSectionItem>
+                     <apex:pageBlockSectionItem >
+                     <apex:outputLabel >Opportunity:</apex:outputLabel>
+                     <apex:inputField id="pbEdOp" value="{!odt.Opportunity__c}"/>
+                     </apex:pageBlockSectionItem>
+                     <apex:pageBlockSectionItem >
+                     <apex:outputLabel >
+                     Associated On:
+                     </apex:outputLabel>
+                     <apex:inputField id="pbEditAssoc" value="{!odt.AccountassociatedOn__c}"/>
+                     </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection> -->
+
+              <!-- New Section -->
+               <!--  <apex:pageBlockSection id="pbAdd" rendered="{!blShowAdd}" columns="3">
+                     <apex:pageBlockSectionItem >
+                         <apex:outputLabel >Owner</apex:outputLabel>
+                     <apex:inputField id="pbNew" value="{!odtNew.Opportunity_Owner__c}"/>
+                     </apex:pageBlockSectionItem>
+                     <apex:pageBlockSectionItem >
+                     <apex:outputLabel >Opportunity:</apex:outputLabel>
+                     <apex:inputField id="pbNewOppO" value="{!odtNew.Opportunity__c}"/>
+                     </apex:pageBlockSectionItem>
+                     <apex:pageBlockSectionItem >
+                     <apex:outputLabel >
+                     Associated On:
+                     </apex:outputLabel>
+                     <apex:inputField id="pbEdit" value="{!odtNew.AccountassociatedOn__c}"/>
+                     </apex:pageBlockSectionItem>
+                 </apex:pageBlockSection> -->
+
+              </apex:pageBlock> -->
+      
+      </apex:form>
+      
+     
+</apex:page>

@@ -1,0 +1,44 @@
+<apex:page >
+ 
+ <script>
+     function showMe()
+     {
+         alert('Hello');
+     }
+ </script>
+ <!-- Script using the Ajax Toolkit to do the processing of new object -->
+ <script src="/soap/ajax/24.0/connection.js">
+ </script>
+ <script src="/soap/ajax/24/apex.js"></script> 
+ <script>
+ function doLogIn()
+ {
+   
+   // var oLbl = document.getElementById('opResult');
+    try
+    {
+         var result = sforce.connection.login('rd@developer.com','am$5555mituWqgo0fr8V1zVZohEiqUqbDqg');
+         alert('Hello'); 
+         alert(result.sessionId);
+         //oLbl.innerHtml = 'Log In Successful' + 'SessionId:' + result.sessionId);
+         
+    }
+    catch(error)
+    {
+         alert(error); 
+    }  
+  
+    
+ }
+ 
+ 
+ </script>
+ 
+ <script>
+     window.onload = doLogIn();
+ </script> 
+ <apex:outputLabel id="opResult">
+ 
+ </apex:outputLabel>
+ 
+</apex:page>

@@ -1,0 +1,31 @@
+<apex:page standardController="Opportunity" extensions="opCloneCls" >
+ 
+    <apex:PageBlock >
+    <apex:form >
+        <table border='0' cellpadding='1' cellspacing='1'>
+            <tr>
+            <td>
+                <b>Select Related Objects For Cloning</b>
+            </td>
+            
+            <td>
+                <apex:selectList id="sObjectList" value="{!selectedObject}" multiselect="true">
+                    <apex:selectOptions value="{!allRelatedObjects}"></apex:selectOptions>                      
+
+                    
+                </apex:selectList>
+                
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" align="center">
+             <apex:CommandButton id="btnClone" styleClass="btn" value="Clone Objects" action="{!cloneObjects}"/> 
+            </td>
+            </tr> 
+        </table>
+    </apex:form>
+   
+    
+    </apex:PageBlock>
+
+</apex:page>

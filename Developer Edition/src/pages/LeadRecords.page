@@ -1,0 +1,41 @@
+<apex:page standardController="Lead" extensions="LeadGenerator">
+    <apex:form >
+    <apex:pageblock id="pb">
+    <apex:PageBlockTable id="dtLead" value="{!leadList}" var="ac">
+           <apex:column >
+                <apex:facet name="header"> 
+                    <apex:inputCheckbox >
+                        <apex:actionSupport id="acSelall" event="onclick" action="{!doSelect}" onsubmit="checkAll(this)"  /> 
+                    </apex:inputCheckbox>
+                </apex:facet>
+                <apex:inputCheckbox id="chkSingle" value="{!ac.isSelected}">
+                <apex:actionSupport id="acSel" event="onclick" action="{!doSelect}" reRender="pb"/>    
+                </apex:inputCheckbox>
+           </apex:column>
+           <apex:column headerValue="Name">
+                    {!ac.acLead.Name}
+                
+           </apex:column>
+            
+   </apex:PageBlockTable>
+   <apex:panelGrid cellpadding="1">
+   <table widht="100%"><tr><td>
+   <apex:commandLink id="cmdFirst" action="{!first}" value="First" reRender="pb" rendered="{!hasPrevious}" /></td><td><apex:commandLink id="cmdPrevious" action="{!previous}" value="Previous" reRender="pb" rendered="{!hasPrevious}" /></td>
+   <td><apex:commandLink id="cmdNext" action="{!next}" value="Next" reRender="pb" rendered="{!hasNext}" /></td><td><apex:commandLink id="cmdNext1" action="{!last}" value="Last" reRender="pb" rendered="{!hasNext}" /></td></tr>
+   </table>
+   </apex:panelGrid>
+    </apex:pageblock>  
+    </apex:form>
+  <script>
+  function checkAll(cb)
+{
+var inputElem = document.getElementsByTagName("input");
+for(var i=0; i<inputElem.length; i++)
+{
+if(inputElem[i].id.indexOf("chkSingle")!=-1)
+inputElem[i].checked = cb.checked;
+}
+}   
+</script>
+  
+</apex:page>

@@ -1,0 +1,49 @@
+<apex:page controller="Cloudrop.DriveConfigClassMaster" title="Cloud Drop" tabStyle="Cloud_Drop__tab" sidebar="false">
+<apex:composition template="Cloudrop__SetUpTemplate">
+  
+  <apex:define name="body">
+   <div>
+       <span style="padding-left:30px"><image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></span>
+        <b>Step 1</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.
+    </div>            
+    <div>
+       <span style="padding-left:30px"><image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></span>
+        <b>Step 1</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.
+    </div> 
+    <div>
+       <span style="padding-left:30px"><image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></span>
+        <b>Step 1</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.
+    </div>       
+   <!--
+  <span style="padding-left:30px"><image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></span>
+  
+  <b>Step 1</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.
+  
+     <br/>
+     <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/>
+     <b>Step 2</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.
+  
+  <table>
+  <tr><td>Mithilesh</td></tr>
+  </table>
+  
+        <table>
+        <tr><td> 
+        <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/>
+        
+        </td>
+        <td ><b>Step 1</b> - Enter Rackspace Cloud Account User Name and Auth Key Details.</td></tr>
+        <tr><td>
+        <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></td>
+        <td >
+         <b>Step 2</b> - Set up Remote Site Setting URLs as per the description in Step 2 page. </td> </tr>  
+         <tr><td> <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="20" height="20"/></td><td >
+        <b>Step 3</b> - Click on 'Click to Finish' button and you are ready to go.    </td></tr>                                                                                           
+         <tr></tr>
+          </table>                                                                           
+ -->
+  </apex:define>
+   
+ 
+  </apex:composition>
+</apex:page>

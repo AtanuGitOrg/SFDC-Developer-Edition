@@ -1,0 +1,11 @@
+<apex:page standardController="Account" extensions="c5">
+    <apex:pageBlock >
+    <apex:pageBlockSection columns="2">
+            <apex:detail />
+            <apex:pageBlockTable value="{!campaigns}" var="c">
+                    <apex:column value="{!c.Name}"/>
+            </apex:pageBlockTable>
+    </apex:pageBlockSection>  
+    
+    </apex:pageBlock>
+</apex:page>

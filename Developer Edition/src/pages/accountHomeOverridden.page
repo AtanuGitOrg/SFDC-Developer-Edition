@@ -1,0 +1,20 @@
+<apex:page standardController="Account" extensions="AccountOver" recordSetVar="acc">
+    
+    <apex:form >
+        <apex:pageBlock title=" Account Details">
+        
+            <apex:pageBlockTable value="{!acc}" var="ac">
+            
+                <apex:column headerValue="AccountName" value="{!ac.name}"/>
+                <apex:column headerValue="AccountType" value="{!ac.Type}"/>
+                            
+            
+            </apex:pageBlockTable>
+            
+        
+        </apex:pageBlock>
+    
+    </apex:form>
+
+  
+</apex:page>

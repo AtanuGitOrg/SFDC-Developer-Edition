@@ -1,0 +1,33 @@
+<apex:page controller="Cloudrop.BulkEmailPicklist" >
+<apex:sectionHeader title="Setup" subtitle="Picklist"/>
+ <apex:form id="myform"  >
+
+    <apex:pageMessages />
+        <apex:pageBlock id="thepageblock"  >   
+                  <apex:pageBlockButtons location="bottom">
+                        <apex:commandButton value="Save" action="{!Save}" />&nbsp;&nbsp;&nbsp;
+                        <apex:commandButton value="Cancel" action="{!Cancle}"/>
+                    </apex:pageBlockButtons>
+       <apex:pageBlockTable value="{!recvals}" var="c" width="100%" id="table" >
+         
+         
+                     <apex:column width="10%" > 
+                         <apex:facet name="header">Select</apex:facet>
+                         <apex:inputCheckbox value="{!c.selected}" disabled="{!c.disabled}" />
+                         
+                    </apex:column>
+                    
+<apex:column width="30%"> 
+         <apex:facet name="header">Object Name</apex:facet>
+         {!jsinhtmlencode(c.Label)}
+          </apex:column>
+          <apex:column > 
+         <apex:facet name="header">Object API Name</apex:facet>
+         {!jsinhtmlencode(c.api)}
+          </apex:column>
+           </apex:pageBlockTable>
+          </apex:pageBlock>           
+    </apex:form>
+    
+
+</apex:page>

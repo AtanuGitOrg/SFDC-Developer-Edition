@@ -1,0 +1,19 @@
+<apex:page standardController="Account" extensions="CloneObjCls">
+    <apex:form >
+      <apex:pageBlock >
+         <apex:pageBlockSection columns="1">
+             <apex:pageBlockSectionItem >
+                 <apex:outputLabel >
+                 List of Child Objects
+                 </apex:outputLabel>
+                 <apex:selectList id="slChObj" value="{!selectedObjects}" multiselect="true">
+                   <apex:selectOptions id="selVal" value="{!allObjects}"></apex:selectOptions>
+                     
+                 </apex:selectList>
+             </apex:pageBlockSectionItem>
+         </apex:pageBlockSection>
+     
+     
+     </apex:pageBlock>
+    </apex:form>  
+</apex:page>

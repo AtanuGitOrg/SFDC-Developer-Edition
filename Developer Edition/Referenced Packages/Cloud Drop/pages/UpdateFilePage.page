@@ -1,0 +1,4 @@
+<apex:page controller="Cloudrop.UpdateFileController" tabstyle="Cloudrop__Cloud_Storage__c" showHeader="true" >
+   
+
+</apex:page>

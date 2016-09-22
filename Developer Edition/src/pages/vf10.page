@@ -1,0 +1,22 @@
+<apex:page standardController="Account" recordSetVar="aaa">
+<apex:form >
+    <apex:pageBlock title="{!Account.Name}">
+        <apex:pageBlockTable value="{!aaa}" var="c">
+            <apex:column >
+                <apex:commandLink >
+                    {!c.Name}<apex:param name="contactid" value="{!c.ID}"/>
+                            <apex:param name="contactname" value="{!c.Name}"/>
+                </apex:commandLink>
+            </apex:column>
+            <apex:column value="{!c.Name}"/>
+           <!--  <apex:column value="{!c.LastName}"/> 
+            <apex:column value="{!c.Email}"/>
+            <apex:column value="{!c.Phone}"/> -->
+        </apex:pageBlockTable>
+        
+        <apex:pageBlockSection columns="1" title="{!$CurrentPage.parameters.contactname}">
+            <apex:detail subject="{!$CurrentPage.parameters.contactid}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

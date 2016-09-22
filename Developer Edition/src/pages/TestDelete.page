@@ -1,0 +1,21 @@
+<apex:page standardController="Task" id="pageid"> 
+<script type="text/javascript">
+var boolean = false;
+if('{!Task.Status}' == 'Completed'){
+   <!-- if('{!$Profile.Name}' == 'System Administrator') -->
+   if('{!$UserRole.Name}' == 'CEO'){
+   alert("Completed Task cannot be edited");   
+   window.open('/'+'{!Task.whatid}',"_parent"); 
+  }
+  else{
+    
+       window.top.location.href = '/'+'{!Task.id}'+'/e?&nooverride=1&retURL=%2F'+'{!$CurrentPage.Parameters.retURL}';
+      } 
+   }
+  
+else{
+   <!--  window.top.location.href = "https://na17.salesforce.com/"+'{!Task.id}'+'/e?&nooverride=1&retURL=%2F'+'{!$CurrentPage.Parameters.retURL}'; -->
+     window.top.location.href = '/'+'{!Task.id}'+'/e?&nooverride=1&retURL=%2F'+'{!$CurrentPage.Parameters.retURL}';
+} 
+</script>
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:component controller="MultiAttachmentController" allowDML="true">
+    <apex:attribute name="objId" type="String" description="The id of the object to manage attachments for" required="true" assignTo="{!sobjId}"/>
+    <apex:form id="attForm">
+        <apex:pageBlock title="Upload Attachments">
+            <apex:repeat value="{!newAttachments}" var="newAtt">
+                <apex:pageBlockSection columns="3">
+                   <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="File"/>                         
+                        <apex:inputFile value="{!newAtt.body}" filename="{!newAtt.name}"/>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Description"/>                      
+                        <apex:inputText value="{!newAtt.Description}"/>
+                    </apex:pageBlockSectionItem>
+                </apex:pageBlockSection>
+            </apex:repeat>
+            <apex:commandButton value="Add More" action="{!addMore}"/>
+            <apex:commandButton value="Save" action="{!save}"/>
+           <!-- <apex:commandButton value="Done" action="{!done}"/> -->
+        </apex:pageBlock>
+    
+    <apex:outputPanel id="opnl">
+    <apex:pageBlock title="Existing Attachments" rendered="{!attachments.size>0}" id="pb">
+        <apex:pageBlockTable value="{!attachments}" var="attachment" id="pbt">
+            <apex:column headerValue="Action">
+               <apex:outputLink value="{!URLFOR($Action.Attachment.Download, attachment.Id)}" target="_blank">View</apex:outputLink>|
+               <apex:commandLink action="{!delAttachment}" value="Delete" reRender="opnl"> 
+                  <apex:param name="partid" value="{!attachment.id}" assignTo="{!attachmentId}"/>  
+               </apex:commandLink>
+            </apex:column>
+            <apex:column value="{!attachment.Name}"/>
+            <apex:column value="{!attachment.Description}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    </apex:outputPanel>
+    </Apex:form>
+   
+</apex:component>

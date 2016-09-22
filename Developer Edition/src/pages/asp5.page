@@ -1,0 +1,14 @@
+<apex:page controller="sample">
+    
+    <apex:form >
+    <apex:pageBlock id="a" >
+        <apex:selectList id="SL" value="{!Account}" size="1" >
+            <apex:selectOptions value="{!answers}"/>
+        </apex:selectList>        
+    </apex:pageBlock>   
+    <apex:pageBlock >
+      <apex:commandButton action="{!search}" />
+    </apex:pageBlock> 
+
+    </apex:form>
+</apex:page>

@@ -1,0 +1,20 @@
+<apex:page controller="statecitypopulator">
+   <apex:form >
+   SELECT STATE:<apex:selectList value="{!stateSelect}" size="1" >
+       <apex:actionSupport event="onchange" action="{!doPopulate}" reRender="slCity">
+       </apex:actionSupport>
+       
+         <apex:selectOptions value="{!stateSelectList}">    
+         </apex:selectOptions>
+   </apex:selectList>
+       
+   <BR/>
+   
+  SELECT CITY: <apex:selectList size="1" id="slCity">
+       <apex:selectOptions value="{!citySelectList}">
+       </apex:selectOptions>
+  </apex:selectList>
+      
+   </apex:form>
+   
+</apex:page>

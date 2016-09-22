@@ -1,0 +1,21 @@
+<apex:page standardController="Account">
+    <apex:pageBlock title="{!Account.Name}">
+        <apex:tabpanel >
+            <apex:tab label="Details"  labelWidth="200">
+                <apex:detail relatedList="False" />
+            </apex:tab>
+                        
+            <apex:tab label="Contacts" labelWidth="200">
+                <apex:relatedList list="contacts"/>
+            </apex:tab>
+            
+            <apex:tab label="Opportunities" labelWidth="200">
+                <apex:relatedList list="opportunities"/>
+            </apex:tab>
+            
+            <apex:tab label="Cases" labelWidth="200">
+                <apex:relatedList list="cases"/>
+            </apex:tab>
+        </apex:tabpanel>
+    </apex:pageBlock>
+</apex:page>

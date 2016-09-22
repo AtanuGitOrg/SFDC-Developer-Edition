@@ -1,0 +1,385 @@
+<apex:page controller="Cloudrop.MainSetupController" sidebar="false" >
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<style>
+    .disabled {
+  
+   color: #000000;
+   background-color: #666666;
+   border: 1px solid #000000;
+   }
+    .oRight .infoTable .headerRow th {
+    background-color: #CCCCCC;
+    border: medium none;
+    font-weight: bold;
+    margin: 1px;
+    padding: 3px;
+    white-space: nowrap;
+    text-align: center; 
+}
+.list .headerRow th {
+    border-bottom: 2px solid #CCCCCC;
+    white-space: nowrap;
+    text-align: center; 
+}
+
+.pbBody, .pbBody a, .pbBody td, .lbBody a, .lbBodyDescription, .list .headerRow .noRowsHeader {
+    color: #000000;
+}
+
+.{
+    background-color: #E2F6E2;
+    text-align: center; 
+}
+.{
+    border-bottom: 1px solid #C0C0C0;
+    text-align: center; 
+}
+
+th.dataCell {
+    white-space: nowrap;
+}
+tr td.dataCell img {
+    vertical-align: middle;
+}
+.list th.dataCell {
+    white-space: nowrap;
+}
+.list td.dataCell {
+    white-space: nowrap;
+}
+.list .extraRow tr {
+    border-right: medium none;
+    line-height: 16px;
+    padding-right: 0;
+    
+}
+</style>
+<apex:pageMessages /> 
+<apex:form >
+<apex:composition template="Cloudrop__SetUpTemplate">
+   <!--<apex:composition template="SetUpTemplate">-->
+    
+   
+    
+<apex:define name="heading"><p>{!heading}</p></apex:define>
+
+<apex:define name="image_1"></apex:define>  
+<apex:define name="left_middle1"><font size="3"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<apex:commandLink value="Overview" action="{!initial}"/></b></font></apex:define>
+
+<apex:define name="image_2"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/1.jpg')}" borde="0" height="45px" width="45px" onclick="login();"/></a>
+<apex:actionFunction name="login" action="{!dynamicsetup}"/></apex:define> 
+<apex:define name="left_middle2"><apex:commandLink value="Cloud Drop Table Layout Setup" action="{!dynamicsetup}" /></apex:define>
+
+<apex:define name="image_3"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/2.jpg')}" borde="0" height="45px" width="45px" onclick="Remote();"/></a>
+<apex:actionFunction name="Remote" action="{!inputsetup}"/></apex:define>
+<apex:define name="left_middle3"><apex:commandLink value="New Document Page Layout Setup" action="{!inputsetup}"/></apex:define>  
+
+<apex:define name="image_4"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/3.jpg')}" borde="0" height="45px" width="45px" onclick="finish();"/></a> 
+<apex:actionFunction name="finish" action="{!viewsetup}"/></apex:define> 
+<apex:define name="left_middle4"><apex:commandLink value="Document Details Page Layout Setup" action="{!viewsetup}"/></apex:define>
+
+<apex:define name="image_5"><a href="#"><img src="{!URLFOR($Resource.SetUp,'SR/images/4.jpg')}" borde="0" height="45px" width="45px" onclick="buttonvis();"/></a> 
+<apex:actionFunction name="buttonvis" action="{!buttonsetup}"/></apex:define> 
+<apex:define name="left_middle5"><apex:commandLink value="Cloud Drop Button Layout Setup" action="{!buttonsetup}"/></apex:define>  
+<apex:define name="block_6"></apex:define>
+<apex:define name="bottomline"></apex:define>
+<apex:define name="body">
+<apex:detail id="dtl" rendered="{!init}" >
+<table cellspacing="0" cellpadding="0" style="float:left;margin:10px 0px 6px 10px;width:650px "><tr>
+<td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >You can customize your Page Layout for Cloud Drop Table, New Document Page, and Document Details Page by creating and adding custom fields. </font></td></tr></table>
+<table cellspacing="0" cellpadding="0" style="width:650px ">
+<tr><td style="padding-left:35px; padding-top:10px; "><b>1. </b>
+To create fields for any of these pages navigate to User Menu Setup.</td></tr>
+<tr>
+<td style="padding-left:35px; padding-top:10px; "><b>2. </b>
+Click on App Setup in the left menu.</td></tr>
+<tr><td style="padding-left:35px; padding-top:10px; "><b>3. </b>
+Select Objects under the Create menu item.</td></tr>
+<tr><td style="padding-left:35px; padding-top:10px; "><b>4. </b>
+Select the Cloud Drop object (right screen).</td></tr>
+<tr><td style="padding-left:35px; padding-top:10px; "><b>5. </b>
+You can create new fields in the Custom Fields and Relationships section.</td></tr>
+<tr><td style="padding-left:35px; padding-top:10px; "><b>6. </b>
+<span>Once the fields are created you can click on the appropriate links in the left menu on this page to add the new </span></td>
+</tr>
+<tr><td style="padding-left:49px; padding-top:0px; ">to the appropriate pages.</td></tr>
+
+</table>
+</apex:detail>
+<apex:detail id="dtl1" rendered="{!dynamicform}" >
+<style>
+.tdesign{ margin:0px; height:auto; width:713px;}
+.tdesign table{ padding:0px; border:1px solid #d0d0d0; border-bottom:none; border-right:none }
+ .tdesign td{  border-right:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0; text-align:left; padding:3px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#353535}
+ .tdesign .top{ background:#4b92ca; font-weight:bold; padding:5px}
+.tdesign .odd{ background:#e5e5e5}
+a.button:active {
+   
+    height: 30px;
+    width: 65px;
+    display: block;
+    float: left;
+    
+    text-decoration: none;
+}
+
+a.button:active span {
+   
+    display: block;
+    height: 34px;
+    width: 69px;
+    
+} 
+}
+
+
+ 
+ </style>
+<div class="tdesign" >
+<table cellpadding="0" cellspacing="0" border="0" width="703" height="auto"><tr>
+<td class="top">Select</td>
+<td class="top">Field Name</td>
+<td class="top">API Name</td>
+<td class="top">Data Type</td>
+<td class="top">Position</td></tr> 
+<apex:repeat value="{!dynamic.recvals3}" var="c">
+<tr style="padding-down:7px; padding-top:7px;">
+<td class="{!IF(c.disabled==true,'odd','')}" ><apex:inputCheckbox value="{!c.selected}" disabled="{!c.disabled}" /></td>
+<td class="{!IF(c.disabled==true,'odd','')}" > {!c.Label}</td>
+<td class="{!IF(c.disabled==true,'odd','')}" > {!c.api}</td>
+<td  class="{!IF(c.disabled==true,'odd','')}" >{!c.Typ}</td>
+<td  class="{!IF(c.disabled==true,'odd','')}" ><apex:selectList value="{!c.picklist}" multiselect="false" size="1" disabled="{!c.disabled}" rendered="{!c.disabled}">
+
+<apex:selectOptions value="{!dynamic.disabledOption}"/>
+</apex:selectList>
+<apex:selectList value="{!c.picklist}" multiselect="false" size="1" disabled="{!c.disabled}" rendered="{!!c.disabled}">
+
+<apex:selectOptions value="{!dynamic.enabledOption}"/>
+</apex:selectList></td></tr>
+</apex:repeat>
+
+</table><br/>
+<p align="center">
+<!--<apex:commandButton value="" styleClass="save" action="{!dynamic.Save3}"/>-->
+ <input type="button" onclick="callCtlr();" class="save" />    
+            <apex:actionFunction name="callCtlr" action="{!dynamic.Save3}"/>  
+&nbsp;&nbsp;&nbsp;
+<!--<apex:commandButton value="" styleClass="cancel" action="{!cancle}"/>-->
+ <input type="button" onclick="callCtlr1();"  class="cancel" />    
+            <apex:actionFunction name="callCtlr1" action="{!cancle}"/>  
+ </p>
+ </div>       
+        </apex:detail>
+        
+        
+        
+        
+        <apex:detail id="dtl2" rendered="{!inputform}" >
+        <style>
+ .tdesign{ margin:0px; height:auto; width:713px;}
+ .tdesign table{ padding:0px; border:1px solid #d0d0d0; border-bottom:none; border-right:none }
+ .tdesign td{  border-right:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0; text-align:left; padding:3px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#353535}
+ .tdesign .top{ background:#4b92ca; font-weight:bold; padding:5px}
+ .tdesign .odd{ background:#e5e5e5}
+ </style>
+<div class="tdesign"  id="div2">
+  <table cellpadding="0" cellspacing="0" border="0" width="703" height="auto"><tr>
+       <td class="top">Select</td>
+        <td class="top">Field Name</td>
+        <td class="top">Data Type</td>
+        <td class="top">API Name</td>
+        </tr>
+        <apex:repeat value="{!input.recvals1}" var="c">
+        <tr style="padding-down:7px; padding-top:7px;">
+        <td class="{!IF(c.disabled==true,'odd','')}"><apex:inputCheckbox value="{!c.selected}" disabled="{!c.disabled}" /></td>
+        <td width="30%" class="{!IF(c.disabled==true,'odd','')}"> {!c.Label}</td>
+        <td width="30%"  class="{!IF(c.disabled==true,'odd','')}">  {!c.Typ}</td>
+        <td  class="{!IF(c.disabled==true,'odd','')}">{!c.api}</td>
+        </tr>
+        </apex:repeat>
+         </table><br/>
+        <p align="center">
+     <!--   <apex:commandButton value="" styleClass="save" action="{!input.Save1}"/>
+        &nbsp;&nbsp;&nbsp; 
+<apex:commandButton value="" styleClass="cancel" action="{!cancle}"/>-->
+
+<input type="button" onclick="callCtlr3();" class="save" />    
+            <apex:actionFunction name="callCtlr3" action="{!input.Save1}"/> 
+              &nbsp;&nbsp;&nbsp;  
+            <input type="button" onclick="callCtlr4();" class="cancel" />    
+            <apex:actionFunction name="callCtlr4" action="{!cancle}"/> 
+
+
+
+</p>
+                </div>
+                </apex:detail>
+       
+   
+   
+  <apex:detail id="dtl3" rendered="{!viewform}" >
+  <style>
+ .tdesign{ margin:0px; height:auto; width:713px;}
+ .tdesign table{ padding:0px; border:1px solid #d0d0d0; border-bottom:none; border-right:none }
+ .tdesign td{  border-right:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0; text-align:left; padding:3px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#353535}
+ .tdesign .top{ background:#4b92ca; font-weight:bold; padding:5px}
+ .tdesign .odd{ background:#e5e5e5}
+ </style>
+  <div class="tdesign"  id="div3">
+  <table cellpadding="0" cellspacing="0" border="0" width="703" height="auto"><tr>
+
+        <td class="top">Select</td>
+        <td class="top">Field Name</td>
+        <td class="top">Data Type</td>
+        <td class="top">API Name</td>
+        </tr>
+        <apex:repeat value="{!view.recvals}" var="c">
+        <tr style="padding-down:7px; padding-top:7px;">
+        <td width="10%"  class="{!IF(c.disabled==true,'odd','')}"><apex:inputCheckbox value="{!c.selected}" disabled="{!c.disabled}" /></td>
+        <td width="30%"  class="{!IF(c.disabled==true,'odd','')}"> {!c.Label}</td>
+        <td width="30%"  class="{!IF(c.disabled==true,'odd','')}">  {!c.Typ}</td>
+        <td  class="{!IF(c.disabled==true,'odd','')}">{!c.api}</td>
+        </tr>
+        </apex:repeat>
+        </table>
+        <br/>
+            <p align="center">
+            <!--<apex:commandButton value="" styleClass="save" action="{!view.Save}"/>
+            &nbsp;&nbsp;&nbsp; 
+<apex:commandButton value="" styleClass="cancel" action="{!cancle}"/>-->
+<input type="button" onclick="callCtlr6();" class="save" />    
+            <apex:actionFunction name="callCtlr6" action="{!view.Save}"/> 
+            &nbsp;&nbsp;&nbsp; 
+            <input type="button" onclick="callCtlr7();" class="cancel" />    
+            <apex:actionFunction name="callCtlr7" action="{!cancle}"/> 
+
+
+
+</p>
+        </div>
+        </apex:detail> 
+            <apex:detail id="dt14" rendered="{!viewbuttonform}" >
+  <style>
+ .tdesign{ margin:0px; height:auto; width:713px;}
+ .tdesign table{ padding:0px; border:1px solid #d0d0d0; border-bottom:none; border-right:none }
+ .tdesign td{  border-right:1px solid #d0d0d0; border-bottom:1px solid #d0d0d0; text-align:left; padding:3px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#353535}
+ .tdesign .top{ background:#4b92ca; font-weight:bold; padding:5px}
+ .tdesign .odd{ background:#e5e5e5}
+ </style>
+ 
+  <div class="tdesign"  id="div3">
+  
+  <div style=" background:#4b92ca; font-weight:bold; padding:5px;width:690px;color:#FFFFFF" >{!profilemsg}</div>
+  
+   
+
+ 
+  <table style="border:0px;">
+  <tr width="100%" >
+  <td style="border:0px;" width="15%"></td>
+  <td style="border:0px;" width="20%">
+  <apex:outputLabel ><b>Profile Name </b></apex:outputLabel>
+     </td>               
+  <td style="border:0px;" width="40%">
+   <apex:outputPanel rendered="{!isnew}">
+    <apex:selectList id="profilee" value="{!selectedprofile}" size="1" title="Profile Name">
+    <apex:selectOptions value="{!profiles}"></apex:selectOptions>
+    </apex:selectList> 
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isupdate}">
+    <apex:outputText >{!pvb.Name}</apex:outputText>
+    
+    </apex:outputPanel>
+    </td>
+  <td style="border:0px;" width="10%"></td>
+  
+  </tr> 
+  <tr>
+  <td style="border:0px;"></td>
+  <td style="border:0px;"> 
+  <apex:outputLabel ><b>New File Button</b></apex:outputLabel>
+  </td>
+  <td style="border:0px;">
+  <apex:inputField value="{!pvb.Cloudrop__New_File_Button__c}"/>
+  </td>
+  <td style="border:0px;"></td>
+  </tr>
+  <tr>
+  <td style="border:0px;"></td>
+  <td style="border:0px;"> 
+  <apex:outputLabel ><b>New Folder Button</b></apex:outputLabel>
+  </td>
+  <td style="border:0px;">
+  <apex:inputField value="{!pvb.Cloudrop__New_Folder_Button__c}"/>
+  </td>
+  <td style="border:0px;"></td>
+  </tr>
+  <tr>
+  <td style="border:0px;"></td>
+  <td style="border:0px;"> 
+  <apex:outputLabel ><b>Send Bulk Email Button</b></apex:outputLabel>
+  </td>
+  <td style="border:0px;">
+  <apex:inputField value="{!pvb.Cloudrop__Send_bulk_Email_Button__c}"/>
+  </td>
+  <td style="border:0px;"></td>
+  </tr>
+  <tr><br/></tr>
+  <tr>
+  <td style="border:0px;"></td>
+  <td colspan="2" style="border:0px;">
+  <center>
+  <apex:outputPanel rendered="{!isnew}">
+   <input type="button" onclick="profilesave();" class="save" />    
+            <apex:actionFunction name="profilesave" action="{!profilesave}"/> 
+   </apex:outputPanel>
+   <apex:outputPanel rendered="{!isupdate}">
+   <input type="button" onclick="profileupdate();" class="save" />    
+            <apex:actionFunction name="profileupdate" action="{!updateprofile}"/> 
+   </apex:outputPanel>
+              &nbsp;&nbsp;&nbsp;  
+            <input type="button" onclick="profilecancel();" class="cancel" />    
+            <apex:actionFunction name="profilecancel" action="{!profilecancel}"/> 
+    </center>        
+  </td>
+  <td style="border:0px;"></td>
+  </tr>
+  
+  </table>
+   <br/>
+   <div style="overflow-y:auto;overflow-x:hidden;height:100px;width:703px">
+ 
+      <table cellpadding="0" cellspacing="0" border="0" width="703" >
+      <tr>
+
+        <td class="top">Action</td>
+        <td class="top">Profile Name</td>
+        <td class="top">New Document Button</td>
+        <td class="top">New Folder Button</td>
+        <td class="top">Send Bulk Email Button</td>
+        </tr>  
+         <apex:repeat value="{!profilelist}" var="p">
+        <tr style="padding-down:7px; padding-top:7px;">
+        <td  > <apex:commandLink value="Edit" action="{!editprofile}" >
+                        <apex:param name="profileid" value="{!p.Id}" assignTo="{!profileid}"/></apex:commandLink>
+        
+        &nbsp; | &nbsp;
+        <apex:commandLink value="Delete" action="{!deleteprofile}" >
+       <apex:param name="profileid" value="{!p.Id}" assignTo="{!profileid}"/></apex:commandLink></td>
+        <td  > {!p.Name}</td>
+        <td > {!p.New_File_Button__c}</td>
+        <td>{!p.New_Folder_Button__c}</td>
+        <td  >{!p.Send_bulk_Email_Button__c} </td> 
+        </tr>
+        </apex:repeat>
+        
+    </table></div>
+    </div>
+    </apex:detail>  
+   </apex:define></apex:composition></apex:form> 
+   <script>
+ document.getElementById("dyn").className="selected";
+ $(":submit").removeClass("btn");
+ </script>        
+</apex:page>

@@ -1,0 +1,89 @@
+<apex:page standardController="opportunity" extensions="optransactionCls">
+    <apex:form >
+            <apex:pageBlock >
+                <!-- Details Section -- to be enabled while you save
+                record -->
+                
+                <apex:pageBlockSection id="pbDetails" rendered="{!blShowDet}">
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <table border='1' cellpadding='1' cellspacing='1' width='200%'>
+                            <tr>
+                                <td width="33%" align ="center"><b>Average Transaction Value</b></td>
+                                <td width="33%" align = "center"><b>Average Transaction Volume</b></td>
+                                <td width="33%" align = "center"><b>Average Total Transaction Value</b></td>
+                            </tr>
+                            <tr>
+                                <td align = "center">
+                                    <apex:outputField id="opTV" 
+                                    value="{!opportunity.Average_Transaction_Value__c}" />
+                                </td>
+                                <td align = "center">
+                                    <apex:outputField id="opTVOL" 
+                                    value="{!opportunity.Average_Transaction_Volume__c}"/>
+                                </td>
+                                <td align = "center">
+                                    <apex:outputField id="opTotv" value="{!opportunity.Average_Total_Transaction_Value__c}" />
+                                </td>
+                            
+                            </tr>
+                            <tr>
+                            <td colspan="3" align="center" valign="middle">
+                                <apex:commandButton id="cmdSave" action="{!doEdit}" value="Edit" styleclass="btn"/>
+                            </td>
+                            </tr>
+                            </table>
+                        
+                        </apex:outputPanel>    
+                    
+                    </apex:pageBlockSectionItem>
+                
+                </apex:pageBlockSection>
+                        <!-- Edit Section -- to be enabled while you save
+                record -->
+                
+                <apex:pageBlockSection id="pbEdit" rendered="{!blShowEdit}" >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputPanel >
+                            <table border='2' cellpadding='1' cellspacing='1' width="200%">
+                            <tr>
+                                <td align = "center"><b>Average Transaction Va</b>lue</td>
+                                <td align ="center"><b>Average Transaction Volume</b></td>
+
+                            </tr>
+                            <tr>
+                                <td align = "center">
+                                    <apex:inputField id="opTV1" 
+                                    value="{!opMain.Average_Transaction_Value__c}" />
+                                </td>
+                                <td align ="center">
+                                    <apex:inputField id="opTVOL1" 
+                                    value="{!opMain.Average_Transaction_Volume__c}"/>
+                                </td>
+                                
+                                
+                                                        
+                            </tr>
+                            <tr>
+                            <td colspan="3" align="center" valign="middle">
+                                <apex:commandButton id="cmdSave1" action="{!doSave}" value="Save" styleClass="btn" />
+                            </td>
+                            </tr>
+                            </table>
+                        
+                        </apex:outputPanel>    
+                    
+                    </apex:pageBlockSectionItem>
+                
+                </apex:pageBlockSection>
+                
+                
+                
+                
+            </apex:pageBlock>
+            
+            
+    
+    </apex:form>
+
+</apex:page>

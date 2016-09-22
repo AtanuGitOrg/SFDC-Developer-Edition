@@ -1,0 +1,64 @@
+<apex:page controller="Cloudrop.SendEmailController" tabStyle="Cloudrop__Cloud_Storage__c" >
+<apex:Pagemessages />
+<style>
+.label{text-align:right;font-weight:bolder;}
+.ccinputbox{width:300px;height:50px;}
+</style>
+<apex:sectionHeader title="Send an Email"/>
+<apex:form id="theForm"> 
+<apex:actionFunction name="referesh" action="{!onchangevalue}" />
+<apex:pageBlock >
+<apex:pageBlockButtons >
+<apex:commandButton id="btnSend" value="Send" action="{!send}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<apex:commandButton id="cncl" value="Cancel" action="{!canclebutton}"/>
+</apex:pageBlockButtons>
+<table align="center" width="100%">
+<tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--<apex:outputLabel value="{!success}" style="color:red" ></apex:outputlabel>-->
+</td></tr>
+
+<tr style="height:25px;background-color:#79BAEC">
+<th colspan="2"><font size="3"> Edit Email</font></th></tr>
+<tr><td></td></tr><tr><td></td></tr>
+<tr><td class="label">To </td>
+<td>
+<apex:selectList size="1" value="{!relatedTo}" onchange="referesh();">
+<apex:selectOptions value="{!Items}" ></apex:selectOptions>
+
+</apex:selectList>
+<apex:inputField value="{!CS.Cloudrop__ToLead__c}" style="width:300px" rendered="{!tolead}" />
+<apex:inputField value="{!CS.Cloudrop__ToContact__c}" style="width:300px" rendered="{!tocontact}"/>
+</td></tr>
+<tr>
+<td class="label">
+<apex:outputText value="CC"></apex:outputText></td>
+<td>
+<apex:inputTextarea value="{!ccAddress}" rows="2" cols="51"/>
+
+
+</td></tr>
+<tr><td class="label">
+<apex:outputText value="BCC"></apex:outputText></td>
+<td>
+<apex:inputTextarea value="{!bccAddress}" rows="2" cols="51"/>
+</td></tr>
+<tr><td class="label">
+<apex:outputText value="Subject" ></apex:outputText></td>
+<td>
+<apex:inputText value="{!subject}"  style="width:550px;" /></td></tr>
+<tr><td class="label">Body</td>
+<td><apex:inputField value="{!CS.Cloudrop__Body__c}"/><!--<apex:inputTextarea rows="8" value="{!filepath}" style="width:550px;"/>--></td></tr>
+</table>
+
+
+</apex:pageBlock>
+</apex:form>
+
+<script type="text/javascript">
+//alert('Hi');
+
+
+</script>
+
+</apex:page>

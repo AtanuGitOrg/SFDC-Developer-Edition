@@ -1,0 +1,62 @@
+<apex:page standardcontroller="Contact" extensions="ContactExtn">
+    <apex:includeScript value="https://code.jquery.com/jquery-1.11.1.min.js"/>
+    <apex:includeScript value="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"/>
+    <apex:includeScript value="https://www.datatables.net/release-datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"/>
+    <apex:stylesheet value="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.css"/>
+    <apex:stylesheet value="https://www.datatables.net/release-datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css"/>
+ <apex:form >
+ <head>
+  <apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" / >
+        <apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
+        <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
+        <script>
+            $ = jQuery.noConflict();
+            $(document).ready( function () {
+                var contactTable = $('[id$="contacttable"]').DataTable({
+                    
+                });
+            });
+        </script>
+ </head>
+
+    <body>
+             <apex:outputpanel id="scripts">
+                <script>
+                 initializeDataTable();
+                </script>
+             </apex:outputpanel>
+             <apex:outputPanel id="Table">
+             <apex:commandButton Value="Add Contact" action="{!contactsearch}"/>
+              <table id="contacttable" class="display">
+                    <thead>
+                        <tr>
+                            <th><apex:inputCheckbox id="selectAll" onclick="checkAll(this)"/> </th>
+                            <th>Account</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!results}" var="cont" id="repeatContact">
+                        <apex:variable var="acc" value="{!cont.con}" /> 
+                            <tr id="{!$Component.repeatContact}:contact" class="dataRow">
+                           
+                                <td class="actionColumn">
+                                    <apex:inputCheckbox id="selectLine1" value="{!cont.selected}" />
+                                </td>
+                               
+                                <td>{!cont.con.Account.Name}</td>
+                                <td>{!cont.con.FirstName}</td>
+                                <td>{!cont.con.LastName}</td>
+                                <td>{!cont.con.Phone}</td>
+                                
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                   </table>
+   
+             </apex:outputpanel>
+    </body> 
+   </apex:form> 
+</apex:page>

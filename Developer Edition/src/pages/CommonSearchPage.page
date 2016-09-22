@@ -1,0 +1,26 @@
+<apex:page sidebar="false"  >
+
+<html>
+<head>
+
+</head>
+<body >
+
+<apex:form >
+
+    <c:commonobjectsearchcomponent objectName="Account" objectLabel="Account" 
+        selectFields="Id,Name,AnnualRevenue,AccountNumber,Website,Type" 
+        displayFields="Name,AnnualRevenue,AccountNumber,Website,Type" 
+        displayLabels="Name,AnnualRevenue,AccountNumber,Website,Type" textFields="Name,AccountNumber,Website" textFieldLabels="Name,AccountNumber,Website"
+        nonTextFields="AnnualRevenue" nonTextFieldLabels="AnnualRevenue"
+        picklistFields="Type" picklistFieldLabels="Type" showSelectBox="true" sortByFields="Name">
+    </c:commonobjectsearchcomponent>
+
+
+ </apex:form>
+
+ 
+  </body>
+  </html>
+
+</apex:page>

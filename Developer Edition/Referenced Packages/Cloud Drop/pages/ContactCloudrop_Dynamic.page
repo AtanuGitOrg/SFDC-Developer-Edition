@@ -1,0 +1,324 @@
+<apex:page standardController="Contact" extensions="Cloudrop.CommonStorageControl_Dynamic" showHeader="false" sidebar="true"> 
+
+<script type="text/javascript">
+var __sfdcSessionId = '{!jsinhtmlencode(GETSESSIONID())}';
+</script>
+    
+    <script src="../../soap/ajax/19.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/19.0/apex.js" type="text/javascript"></script> 
+
+<script language="javascript">
+ function openfile(file)
+   {
+   sforce.connection.sessionId=__sfdcSessionId;
+    var id=file;
+    var url1='url value';
+     
+     // url1= geturl(id);
+      
+    url1= sforce.apex.execute("Cloudrop.RackSpaceMethods","generate_temporaryurl",{fileid:id,timetoexpire:10}); 
+     //alert(url);
+    window.open(url1, "_blank","width=500, height=400,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=1", false);  
+     return true;
+     // window.open(URL);
+   }
+    function openPopup(url,val,obj,val4) { 
+    val1 = document.getElementById("{!$Component.form1.userId}").value;
+    val2 = document.getElementById("{!$Component.form1.keyId}").value;
+    val3 = document.getElementById("{!$Component.form1.conId}").value;   
+   // val4 = document.getElementById("{!$Component.form1.pageblock.nameId}").innerHTML;   
+   // alert(val1);
+   if(val =='Private'){
+      url = 'https://mansasyscloud.com/download/download.php?username=' + val1 + '&api_key=' + val2 + '&container_name=' + val3 + '&fname=' + val4;
+      url = url + '&object_name=' + obj;
+   }
+  // alert(url);
+   window.open(url, "_blank", "scrollbars=0,menubar=0,titlebar=0,location=0,resizable=1,status=0,toolbar=0,width=500,height=430,modal=yes");
+   return false; 
+    }
+    
+    function confirmDelete(fId){
+    sforce.connection.sessionId=__sfdcSessionId;
+     // alert('Hi' + fId);
+      qurystr = "select id,name from Cloudrop__Cloud_Storage__c where Cloudrop__Folder__c='" +fId+"' limit 1";
+     // alert('Hi--->   ' + qurystr);
+      result=sforce.connection.query(qurystr);
+      records = result.getArray("records");
+    //  alert('Hi--->   ' + records);
+      if(records.length>0){
+      alert('Folder cannot be deleted with content inside');
+      return false;
+      }
+      else
+      return true;
+    }
+     function validate(){
+     sforce.connection.sessionId=__sfdcSessionId;
+  //   alert('in validate');
+  qurystr = "select id,name from Cloudrop__ContainerID__c limit 1";
+        result=sforce.connection.query(qurystr);
+      records = result.getArray("records");
+      if(records.length>0){
+     return true;
+     }
+     else{
+     alert('Please complete Cloud Drop setup first');
+     return false;
+    } 
+     }
+  </script>
+  <apex:pageMessages />
+  <apex:form >
+    Enter criteria to find matching documents or folders &nbsp;
+     <apex:inputText id="search" title="Enter file/folder name, description, keyword or version name" styleClass="searchTextBox" value="{!searchTerm}"/> &nbsp;
+     <apex:commandButton value="Search" id="searchBtn" action="{!searchfile}" />
+  </apex:form>
+  
+  <apex:form id="form1"> 
+   <apex:pageBlock rendered="{!folderblock}">
+    <apex:pageBlockButtons location="top">
+      <apex:outputPanel id="mainBtnPanel">
+             <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFilePage_Dynamic,null,[RecId=objectID])}" id="selFilesDisplay1" target="_top" styleClass="btn" style="text-decoration: none;" onclick="return validate();" rendered="{!newdocbuttonshow}">New Document</apex:outputLink>
+                <!--    <apex:commandButton value="New Folder" id="newFldrBtn" action="{!newFolderPage}"/> -->
+        <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFolderPage,null,[RecId=objectID,isNew=true,isRoot= true])}" target="_top" styleClass="btn" style="text-decoration: none;" onclick="return validate();" rendered="{!newfolbuttonshow}">New Folder</apex:outputLink>
+         <apex:outputLink value="{!urlFor($Page.Cloudrop__bulkemail,null,[RecId=objectID])}" target="_top" styleClass="btn" style="text-decoration: none;" rendered="{!sendbulkbutttonshow}" onclick="return validate();">Send Bulk Email</apex:outputLink>
+                </apex:outputPanel>
+    </apex:pageBlockButtons>
+    
+     <apex:pageBlockTable value="{!FolderFilelist}" var="mCon" id="table" >
+
+                    <apex:column width="50">
+                        <apex:facet name="header">Action</apex:facet>
+                  <!--       <apex:outputLink value="{!urlFor($Page.UpdateFilePage,null,[RecId=objectID,FileId=mCon.cloudtype.id])}" target="_top"  rendered="{!mCon.isFile}">edit</apex:outputLink>  -->
+                       
+                        <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFolderPage,null,[RecId=objectID,FolId=mCon.cloudtype.id,isNew=false,isRoot=true])}"  target="_top" rendered="{!mCon.isFolder}">edit  </apex:outputLink>
+                          <apex:outputLabel value="" rendered="{!mCon.isFolder}">&nbsp; | &nbsp;</apex:outputLabel>
+                   <!--  <a href="javascript:if (window.confirm('Are you sure?')) DeleteAccount1('{!mCon.Id}');" style="font-weight:bold" >Del</a> -->
+                    <apex:commandlink action="{!Deletefunction}" onclick="if(confirm('Are you sure you want to delete all its contents?')) return confirmDelete('{!jsinhtmlencode(mCon.cloudtype.Id)}'); else return false;" target="_top" >del
+                      <apex:param name="deletefolderId" value="{!mCon.cloudtype.Id}"/> 
+                    </apex:commandlink> &nbsp;
+                    <apex:outputLabel value="|" rendered="{!mCon.isFile}"></apex:outputLabel>&nbsp; &nbsp;
+                    <!--   <apex:commandlink target="_top" onclick="return openPopup('{!mCon.cloudtype.External_Path__c}','{!mCon.cloudtype.Access__c}','{!mCon.cloudtype.File_Path__c}','{!mCon.cloudtype.name}');" rendered="{!mCon.isFile}">-->
+                     <apex:commandlink onclick="openfile('{!jsinhtmlencode(mCon.cloudtype.Id)}');" rendered="{!mCon.isFile}">
+                    view</apex:commandlink> 
+                  <!--     <apex:commandlink target="_top" onclick="return openPopup(,'Public','');" rendered="{!mCon.isPublic}">view</apex:commandlink>  
+                 <!--     <a href="/apex/viewDocument" onclick="return openPopup(this.href);" target="_parent" >view</a> -->
+                    </apex:column>   
+                         
+                    <apex:column width="60" >
+                        <apex:facet name="header"><apex:commandLink value="Name" action="{!Sorting}" title="Click here to sort" ><apex:param name="column" value="Name"/>
+                        <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        <apex:commandLink value="{!mCon.cloudtype.name}" action="{!fileList}" rendered="{!mCon.isFolder}"  styleClass="btn" style="text-decoration: none;">
+                        <apex:param name="FolderId" value="{!mCon.cloudtype.Id}"/>
+             
+                        </apex:commandLink>
+                    <apex:outputLink value="{!urlFor($Page.Cloudrop__Viewfilepage_Dynamic,null,[RecId=objectID,FileId=mCon.cloudtype.id])}" target="_top" rendered="{!mCon.isFile}" >{!mCon.cloudtype.name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column width="10" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Version Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version_Name__c"/>
+                         <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mCon.cloudtype.Cloudrop__Version_Name__c}  
+                    </apex:column>
+                    <apex:column width="50" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Version" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version__c"/>
+                         <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mCon.cloudtype.Cloudrop__Version__c}  
+                    </apex:column>
+                     <apex:column width="70" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Description" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="DescriptionNew__c"/>
+                         <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mCon.cloudtype.Cloudrop__DescriptionNew__c}  
+                    </apex:column>
+                       <apex:column width="10" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Keyword" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Keyword__c"/>
+                         <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mCon.cloudtype.Cloudrop__Keyword__c}  
+                    </apex:column>    
+                    <apex:repeat value="{!lis}" var="i">
+                    <apex:column width="10" rendered="{!displayrecs[i].isadvance}" >
+                        <apex:facet name="header"><apex:commandLink value="{!displayrecs[i].fname}" action="{!Sorting}" title="Click here to sort" ><apex:param name="column" value="{!displayrecs[i].fapiname}" assignTo="{!column}"/>
+                         <apex:param name="listname" value="FolderFilelist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mCon.cloudtype[displayrecs[i].fapiname]}  
+                    </apex:column>    </apex:repeat>
+                     
+                          
+                                    
+       </apex:pageBlockTable>
+       
+   </apex:pageBlock>
+   
+   <!-- Page block is enabled when clicked in any folder -->
+   
+   <apex:pageBlock rendered="{!fileblock}">
+       <apex:pageBlockButtons location="top">
+      <apex:outputPanel id="mainFileBtnPanel">
+      <apex:commandButton value="Previous" action="{!back}"/>
+         <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFilePage_Dynamic,null,[RecId=objectID,FolId=FolderId])}" id="selFilesDisplay" target="_top" styleClass="btn" style="text-decoration: none;" rendered="{!newdocbuttonshow}">New Document</apex:outputLink>
+         <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFolderPage,null,[RecId=objectID,FolId=FolderId,isNew=true,isRoot=false])}" target="_top" styleClass="btn" style="text-decoration: none;" rendered="{!newfolbuttonshow}">New Folder</apex:outputLink>
+         <apex:commandButton value="Go to Root" action="{!rootFolder}"/>
+         </apex:outputPanel>
+         </apex:pageBlockButtons>
+         <!-- diaplay folder name -->
+         &nbsp;&nbsp;&nbsp; <b><apex:outputLabel value="{!folderDispName}"></apex:outputLabel> </b>
+         
+         <!-- List of folder and files -->
+              <apex:pageBlockTable value="{!AllDoclist}" var="mDoc" id="filetable">
+
+                    <apex:column width="50">
+                        <apex:facet name="header">Action</apex:facet>
+                  <!--       <apex:outputLink value="{!urlFor($Page.UpdateFilePage,null,[RecId=objectID,FileId=mDoc.cloudtype.id])}" target="_top"  rendered="{!mDoc.isFile}">edit</apex:outputLink>  -->
+                       
+                        <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFolderPage,null,[RecId=objectID,FolId=mDoc.cloudtype.id,isNew=false,isRoot=false])}"  target="_top" rendered="{!mDoc.isFolder}">edit  </apex:outputLink>
+                          <apex:outputLabel value="" rendered="{!mDoc.isFolder}">&nbsp; | &nbsp;</apex:outputLabel>
+                   <!--  <a href="javascript:if (window.confirm('Are you sure?')) DeleteAccount1('{!mDoc.Id}');" style="font-weight:bold" >Del</a> -->
+                    <apex:commandlink action="{!Deletefunction}" onclick="if(confirm('Are you sure you want to delete all its contents?')) return confirmDelete('{!jsinhtmlencode(mDoc.cloudtype.Id)}'); else return false;" target="_top" >del
+                      <apex:param name="deletefolderId" value="{!mDoc.cloudtype.Id}"/> 
+                    </apex:commandlink> &nbsp;
+                    <apex:outputLabel value="|" rendered="{!mDoc.isFile}"></apex:outputLabel>&nbsp; &nbsp;
+                     <!--  <apex:commandlink target="_top" onclick="return openPopup('{!mDoc.cloudtype.External_Path__c}','{!mDoc.cloudtype.Access__c}','{!mDoc.cloudtype.File_Path__c}','{!mDoc.cloudtype.name}');" rendered="{!mDoc.isFile}">-->
+                      <apex:commandlink onclick="openfile('{!jsinhtmlencode(mDoc.cloudtype.Id)}');" rendered="{!mDoc.isFile}">
+                     view</apex:commandlink>  
+                 <!--     <a href="/apex/viewDocument" onclick="return openPopup(this.href);" target="_parent" >view</a> -->
+                    </apex:column>   
+                         
+                    <apex:column width="60">
+                       <apex:facet name="header"><apex:commandLink value="Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Name"/>
+                       <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        <apex:commandLink value="{!mDoc.cloudtype.name}" action="{!fileList}" rendered="{!mDoc.isFolder}"  styleClass="btn" style="text-decoration: none;">
+                        <apex:param name="FolderId" value="{!mDoc.cloudtype.Id}"/>
+                        <apex:param name="FolderName" value="{!mDoc.cloudtype.Name}"/>
+             
+                        </apex:commandLink>
+                    <apex:outputLink value="{!urlFor($Page.Cloudrop__Viewfilepage_Dynamic,null,[RecId=objectID,FileId=mDoc.cloudtype.id])}" target="_top" rendered="{!mDoc.isFile}" >{!mDoc.cloudtype.name}</apex:outputLink>
+                    </apex:column>
+                    <apex:column width="70" rendered="{!isbasic}">
+                       <apex:facet name="header"><apex:commandLink value="Version Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version_Name__c"/>
+                       <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mDoc.cloudtype.Cloudrop__Version_Name__c}  
+                    </apex:column>
+                    <apex:column width="70" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Version" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version__c"/>
+                        <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mDoc.cloudtype.Cloudrop__Version__c}  
+                    </apex:column>
+                     <apex:column width="70" rendered="{!isbasic}">
+                       <apex:facet name="header"><apex:commandLink value="Description" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="DescriptionNew__c"/>
+                       <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mDoc.cloudtype.Cloudrop__DescriptionNew__c}  
+                    </apex:column>
+                       <apex:column width="10" rendered="{!isbasic}"> 
+                      <apex:facet name="header"><apex:commandLink value="Keyword" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Keyword__c"/>
+                      <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mDoc.cloudtype.Cloudrop__Keyword__c}  
+                    </apex:column> 
+                    <apex:repeat value="{!lis}" var="i">
+                    <apex:column width="10" rendered="{!displayrecs[i].isadvance}">
+                      <apex:facet name="header"><apex:commandLink value="{!displayrecs[i].fname}" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="{!displayrecs[i].fapiname}" assignTo="{!column}"/>
+                      <apex:param name="listname" value="AllDoclist"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mDoc.cloudtype[displayrecs[i].fapiname]}  
+                    </apex:column>    </apex:repeat>
+                                                            
+       </apex:pageBlockTable>
+        
+    
+   </apex:pageBlock>
+
+   
+   <!-- Page block for search functionality  -->
+   
+      <apex:pageBlock rendered="{!searchblock}">
+       <apex:pageBlockButtons location="top">
+      <apex:outputPanel id="mainSearchPanel">
+         <apex:commandButton value="Back" action="{!rootFolder}"/>
+         </apex:outputPanel>
+         </apex:pageBlockButtons>
+              <apex:pageBlockTable value="{!FolderFileSearch}" var="mSoc" id="filetable">
+
+                    <apex:column width="50">
+                        <apex:facet name="header">Action</apex:facet>
+                <!--         <apex:outputLink value="{!urlFor($Page.UpdateFilePage,null,[RecId=objectID,FileId=mDoc.id])}" target="_top">edit</apex:outputLink>&nbsp; | &nbsp;  -->
+                <apex:outputLink value="{!urlFor($Page.Cloudrop__NewFolderPage,null,[RecId=objectID,FolId=mSoc.cloudtype.id,isNew=false,isRoot=true])}"  target="_top" rendered="{!mSoc.isFolder}">edit  </apex:outputLink>
+                          <apex:outputLabel value="" rendered="{!mSoc.isFolder}">&nbsp; | &nbsp;</apex:outputLabel>
+                   <apex:commandlink action="{!Deletefunction}" onclick="if(!confirm('Are you sure you want to delete all its contents?')) return false;" target="_top" >del
+                      <apex:param name="deletefolderId" value="{!mSoc.cloudtype.Id}"/> 
+                    
+                      </apex:commandlink> &nbsp;
+                    <apex:outputLabel value="|" rendered="{!mSoc.isFile}"></apex:outputLabel>&nbsp; &nbsp;
+                     
+                  <!-- <apex:commandlink target="_top" onclick="return openPopup('{!mSoc.cloudtype.External_Path__c}','{!mSoc.cloudtype.Access__c}','{!mSoc.cloudtype.File_Path__c}','{!mSoc.cloudtype.name}');" rendered="{!mSoc.isFile}">-->
+                   <apex:commandlink onclick="openfile('{!jsinhtmlencode(mSoc.cloudtype.Id)}');" rendered="{!mSoc.isFile}">
+                  view</apex:commandlink>
+                    </apex:column>  
+                         
+                    <apex:column width="60">
+                    <apex:facet name="header"><apex:commandLink value="Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Name"/>
+                    <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Name',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                    <apex:commandLink value="{!mSoc.cloudtype.name}" action="{!fileList}" rendered="{!mSoc.isFolder}"  styleClass="btn" style="text-decoration: none;">
+                        <apex:param name="FolderId" value="{!mSoc.cloudtype.Id}"/>          
+                        </apex:commandLink>                      
+                       <apex:outputLink value="{!urlFor($Page.Cloudrop__Viewfilepage_Dynamic,null,[RecId=objectID,FileId=mSoc.cloudtype.id])}" target="_top" rendered="{!mSoc.isFile}">{!mSoc.cloudtype.name}</apex:outputLink>
+                      </apex:column>
+   
+                    <apex:column width="50" rendered="{!isbasic}">
+                    <apex:facet name="header"><apex:commandLink value="Version Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version_Name__c"/>
+                    <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version_Name__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mSoc.cloudtype.Cloudrop__Version_Name__c}  
+                    </apex:column>
+                    <apex:column width="10" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Version" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Version__c"/>
+                        <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Version__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mSoc.cloudtype.Cloudrop__Version__c}  
+                    </apex:column>
+                    <apex:column width="100" rendered="{!isbasic}">
+                       <apex:facet name="header"><apex:commandLink value="Description" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="DescriptionNew__c"/>
+                       <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='DescriptionNew__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mSoc.cloudtype.Cloudrop__DescriptionNew__c}  
+                    </apex:column>
+                        <apex:column width="20" rendered="{!isbasic}">
+                        <apex:facet name="header"><apex:commandLink value="Keyword" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Keyword__c"/>
+                        <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Keyword__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mSoc.cloudtype.Cloudrop__Keyword__c}  
+                    </apex:column>                    
+                         <apex:column width="60" rendered="{!isbasic}">
+                          <apex:facet name="header"><apex:commandLink value="Folder Name" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="Folder__c"/>
+                          <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname=='Folder__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname=='Folder__c',true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                        {!mSoc.cloudtype.Folder__r.Name}  
+                    </apex:column>    
+                    <apex:repeat value="{!lis}" var="i">
+                    <apex:column width="10" rendered="{!displayrecs[i].isadvance}">
+                      <apex:facet name="header"><apex:commandLink value="{!displayrecs[i].fname}" action="{!Sorting}" title="Click here to sort"><apex:param name="column" value="{!displayrecs[i].fapiname}" assignTo="{!column}"/>
+                      <apex:param name="listname" value="FolderFileSearch"/>&nbsp;&nbsp;&nbsp;<apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/up.png')}" rendered="{!up}" height="8" width="8"/></apex:outputLabel>
+                        <apex:outputLabel rendered="{!if(colname==displayrecs[i].fapiname,true,false)}"><apex:image value="{!URLFOR($Resource.Cloudrop__Arrow,'Arrow/down.png')}" rendered="{!down}" height="8" width="8"/></apex:outputLabel></apex:commandLink></apex:facet>
+                     {!mSoc.cloudtype[displayrecs[i].fapiname]}  
+                    </apex:column>    </apex:repeat>                               
+       </apex:pageBlockTable>
+        
+    
+   </apex:pageBlock>
+   <apex:actionFunction name="geturl" action="{!downloadfile}" rerender="thepage" timeout="100000">
+<apex:param value="x" name="x" assignTo="{!fileid}"/>
+</apex:actionFunction>
+
+     <apex:inputHidden value="{!apikey}" id="keyId"/>
+   <apex:inputHidden value="{!userName}" id="userId"/>
+   <apex:inputHidden value="{!PrivateConName}" id="conId"/> 
+  </apex:form>
+</apex:page>

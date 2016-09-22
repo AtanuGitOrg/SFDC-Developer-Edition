@@ -1,0 +1,9 @@
+<apex:page renderAs="pdf" Controller="ReportClass">
+<apex:datatable value="{!opportunityList}" var="opp" columnsWidth="25%,25%,25%,25%">
+<apex:column value="{!opp.name}" headerValue="Name"/>
+<apex:column value="{!opp.amount}" headerValue="Name"/>
+<apex:column value="{!opp.account.name}" headerValue="Account Name"/>
+<apex:column value="{!opp.owner.name}" headerValue="Owners Name"/>
+</apex:datatable>
+<analytics:reportChart reportId="00O90000007dAYi"></analytics:reportChart>
+</apex:page>

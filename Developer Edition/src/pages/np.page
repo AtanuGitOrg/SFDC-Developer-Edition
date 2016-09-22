@@ -1,0 +1,29 @@
+<apex:page controller="np">
+<apex:form >
+    <apex:pageBlock title="Search Layout">
+        <apex:pageBlockSection collapsible="false">
+            <apex:commandButton value="Search" action="{!search_now}" rerender="out" status="status"/>
+        </apex:pageBlockSection>
+        <apex:pageBlock >
+        <apex:selectList value="{!search}" size="1">
+            <apex:selectOptions value="{!items}"/>
+        </apex:selectList>        
+    </apex:pageBlock>
+    <apex:outputPanel id="out">
+        <apex:actionstatus id="status" startText="Getting records...">
+            <Apex:facet name="stop">
+                <apex:outputPanel >
+        
+                        <apex:pageBlockTable value="{!acts}" var="a">
+                            <apex:column value="{!a.Name}"/>
+                            <apex:column value="{!a.Type}"/>
+                            <apex:column value="{!a.Industry}"/>
+                        </apex:pageBlockTable>
+                </apex:outputPanel>
+               </Apex:facet>
+            
+        </apex:actionstatus>
+    </apex:outputPanel>
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

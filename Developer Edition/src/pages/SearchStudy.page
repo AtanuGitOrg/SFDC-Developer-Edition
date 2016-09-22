@@ -1,0 +1,42 @@
+<apex:page controller="myStudies">
+<apex:form >
+ <apex:pageBlock title="Search Study">
+ <apex:pageBlockSection >
+     <apex:pageBlockSectionItem >
+         <apex:outputpanel >
+             <table border='1' cellpadding='2' cellspacing='2' width='100%'>
+                 <tr><td colspan='2' width='100%'>
+                 <apex:image url="{!$Resource.SearchFinder}"/>
+                 </td></tr>
+                 <tr><td colspan='2' width='100%'>Select a Condition <font color='red'>*</font></td></tr>
+                 <tr><td cols="2" width='100%'>1.&nbsp;&nbsp;<apex:selectList value="{!condName}" multiselect="false" size="1">
+                 <apex:selectOptions value="{!conditions}"></apex:selectOptions>
+                 </apex:selectList>
+                 </td>
+                 <tr><td colspan='2' width='100%'>Enter your zipCode or city,State <font color='red'>*</font></td></tr>
+                 </tr>
+                  <tr><td width='100%'>2.&nbsp;&nbsp;<apex:inputText value="{!address}" /></td></tr>
+                 
+                 <tr><td colspan="2" width='100%'>Distance Willing To Travel <font color='red'>*</font></td>
+                 </tr><tr>
+                 <td colspan='2'><apex:selectRadio value="{!selRanges}" layout="lineDirection">
+                 <apex:selectOptions value="{!distanceSelection}"></apex:selectOptions>
+                 
+                 </apex:selectRadio>
+                 </td>
+                 </tr>
+                 <tr><td><apex:commandButton value="Submit" action="{!doSubmit}" styleClass="btn" reRender="pbDet"/>
+                 </td></tr>
+             </table>
+         </apex:outputpanel>
+     </apex:pageBlockSectionItem>
+ </apex:pageBlockSection>
+ <apex:pageBlockTable id="pbDet" var="s" value="{!searchData}" columns="4">
+     <apex:column headerValue="Condition" Value="{!s.Condition__c}" />
+     <apex:column headerValue="Study Id" Value="{!s.Name}" />
+     <apex:column headerValue="Title" Value="{!s.Title__c}" />
+     <apex:column headerValue="Status" Value="{!s.Status__c}" />
+ </apex:pageBlockTable>
+ </apex:pageBlock>
+ </apex:form>
+</apex:page>

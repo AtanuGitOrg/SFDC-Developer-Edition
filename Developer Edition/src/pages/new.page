@@ -1,0 +1,13 @@
+<apex:page standardController="Account" extensions="Test">
+<apex:form >
+<apex:pageBlock title="Pick List Example">
+
+   <apex:pageBlockSection >
+         <apex:selectList id="pl" value="{!Account.Name}" size="1">
+           <apex:selectOption value="{!Acct}"></apex:selectOption>
+         </apex:selectList>
+
+   </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form> 
+</apex:page>

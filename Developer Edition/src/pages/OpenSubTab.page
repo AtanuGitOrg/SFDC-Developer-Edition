@@ -1,0 +1,28 @@
+<apex:page standardController="Task">
+ <apex:includeScript value="/soap/ajax/27.0/connection.js"/>
+ <apex:includeScript value="/support/console/27.0/integration.js"/>
+   <script type="text/javascript">
+       var tabid;
+       function testOpenPrimaryTab() {
+       
+           <!-- sforce.connection.sessionId = '{!$Api.Session_ID}'; -->
+           if('{!$UserRole.Name}' == 'HR' && '{!Task.Status}' == 'Completed'){
+                alert('You are Not allowed to Edit!!');
+              <!--  sforce.console.openPrimaryTab(undefined, '/' +'{!Task.Id}', true, '{!Task.subject}'); -->
+           }
+           else { 
+                sforce.console.getEnclosingPrimaryTabId(openSubtabs);
+           }
+        }
+    
+           var openSubtabs = function openSubtabs(result) {
+           tabid = result.id;
+           sforce.console.openSubtab(tabid,'{!$CurrentPage.parameters.id}'+'/e?&nooverride=1&retURL=%2F',true,'Task',null, doPrimaryTabRefresh);
+          };
+                 
+             window.onload = function() { 
+             testOpenPrimaryTab();
+                    } 
+
+   </script>
+</apex:page>

@@ -1,0 +1,22 @@
+<apex:page standardController="Account" sidebar="false" >
+ <apex:pageBlock title="{!Account.Name}">
+   <apex:pageBlockSection title="General Info" collapsible="false" columns="2">
+   <b>Account Name</b>:<i>{!Account.Name}</i><br/>
+   <b>Account Type</b>:<i>{!Account.Type}</i><br/>
+   <b>Account Industry</b>:<i>{!Account.Industry}</i><br/>
+   </apex:pageBlockSection>
+   
+   <apex:pageBlockSection title="Contacts of {!Account.Name}" collapsible="false" columns="1" >
+   <apex:relatedList list="Contacts"/>
+   </apex:pageBlockSection>
+   
+  <apex:pageBlockSection title="Oppurtunities of {!Account.Name}" collapsible="false" columns="1" >
+   <apex:relatedList list="Opportunities"/>
+   </apex:pageBlockSection>
+   
+    <apex:pageBlockSection title="Detail Info" collapsible="false" columns="1">
+   <apex:detail relatedList="false" />
+   </apex:pageBlockSection>
+ 
+ </apex:pageBlock>
+</apex:page>

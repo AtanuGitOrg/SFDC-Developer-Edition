@@ -1,0 +1,21 @@
+<apex:page standardController="Account">
+  
+  <apex:form >
+          <apex:pageBlock title="Account Other Information">
+              <apex:pageBlockSection title="Information" columns="2">
+                  
+                  <apex:pageBlockSectionItem >
+                      <apex:outputLabel >
+                          Campaign Name:
+                      </apex:outputLabel>
+                      <apex:outputField value="{!account.Campaign__c}"/>
+                  </apex:pageBlockSectionItem>
+              
+              </apex:pageBlockSection>
+          
+          </apex:pageBlock>
+          
+          
+  </apex:form>
+  
+</apex:page>

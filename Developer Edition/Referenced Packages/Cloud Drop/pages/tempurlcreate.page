@@ -1,0 +1,55 @@
+<apex:page standardController="Cloudrop__Cloud_Storage__c" extensions="Cloudrop.tempurcreate_ext"  >
+<apex:sectionHeader title="Cloud Drop Temporary URL Generator" id="sheader" > 
+<apex:form >
+<br/><br/>
+<apex:pageBlock >
+<apex:pageMessages ></apex:pageMessages>
+<apex:pageBlockButtons >
+<apex:commandButton value="Generate Temp URL" action="{!generateurl}"/>
+<apex:commandButton value="Back" action="{!Back}"/>
+</apex:pageBlockButtons>
+<apex:pageblockSection >
+<apex:pageblockSectionItem >
+<apex:outputText ><b>File name</b></apex:outputText>
+</apex:pageblockSectionItem>
+<apex:pageblockSectionItem >
+{!jsinhtmlencode(Cloudrop__Cloud_Storage__c.Name)}
+</apex:pageblockSectionItem>
+
+
+
+<apex:pageblockSectionItem >
+<apex:outputText >
+<b>Enter time  after which the URL would expire</b>&nbsp;&nbsp;&nbsp;
+</apex:outputText>
+</apex:pageblockSectionItem>
+<apex:pageblockSectionItem >
+<apex:selectList id="Duration" value="{!selectedduration}" size="1" title="Duration">
+    <apex:selectOptions value="{!Duration}"></apex:selectOptions>
+    <apex:inputText value="{!exttime}" size="3" maxlength="2" />
+    </apex:selectList> 
+
+</apex:pageblockSectionItem>
+
+<apex:pageBlockSectionItem >
+
+<apex:outputText >
+
+<b>
+The temporary URL for the file is &nbsp;&nbsp;
+</b>
+</apex:outputText>
+</apex:pageblockSectionItem>
+<apex:pageblockSectionItem >
+<apex:inputTextarea rows="6" cols="90" title="temporary Url for the file" value="{!tempurl}" readonly="true"/> 
+
+</apex:pageBlockSectionItem>
+
+</apex:pageblockSection>
+
+</apex:pageBlock>
+
+
+ </apex:form> 
+ </apex:sectionheader>
+</apex:page>

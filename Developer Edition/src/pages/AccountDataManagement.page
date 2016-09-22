@@ -1,0 +1,39 @@
+<apex:page standardController="Account" extensions="AccountData"  >
+  
+   <apex:form >
+   <apex:sectionHeader title="Account Details" subtitle="{!ac.name}"/>
+
+   <apex:pageBlock >
+      <apex:pageblockButtons ><apex:commandButton value="Save" action="{!doCreateAccount}"/></apex:pageblockButtons>
+      <apex:pageBlockSection id="pbSection" columns="2">
+         <apex:pageblocksectionItem >
+             <apex:outputLabel >
+                 Enter Name:
+             </apex:outputLabel>
+             <apex:inputField id="nameIn" value="{!ac.Name}" />
+             
+            
+         </apex:pageblocksectionItem>
+         <apex:pageBlockSectionItem >
+             <apex:outputLabel value="Select Industry"/>
+             <apex:inputfield id="ind" value="{!ac.Industry}"/>
+         </apex:pageBlockSectionItem>
+         
+         <apex:pageBlockSectionItem >
+              <apex:outputLabel value="Bank Account" />
+              <apex:inputfield id="ba" value="{!ac.BankAccountNumber__c}"/>
+         </apex:pageBlockSectionItem>
+      
+      </apex:pageBlockSection>
+      
+   
+   
+       <apex:pageBlockTable id="dl" value="{!accountDetails}" var="a">
+           <apex:column headerValue="Account Name" value="{!a.Name}"/>
+           <apex:column headerValue="Industry" value="{!a.Industry}" />
+       </apex:pageBlockTable>
+   
+   </apex:pageBlock>
+   </apex:form>
+   
+</apex:page>

@@ -1,0 +1,314 @@
+<apex:page extensions="bcmanhelp.UserSearch"  standardController="Account" showHeader="true" sideBar="false" standardStylesheets="true" title="Learning" docType="html-5.0" id="QQQ">
+<link rel="stylesheet" href="{!$Resource.jqm}/jqm/jquery.mobile-1.1.0.min.css" />
+
+<script src="{!$Resource.jqm}/jqm/jquery-1.7.1.min.js"></script>
+<script src="{!$Resource.jqm}/jqm/jquery.mobile-1.1.0.min.js"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+
+
+
+<style>
+	#content {
+		padding: 0;
+		position : absolute !important;
+		top : 40px !important;
+		right : 0;
+		bottom : 0 !important;
+		left : 0 !important;
+	}
+
+	#map {
+
+		width:100%;
+		height: 100%;
+		position:relative;
+		top:0px;
+
+	}
+</style>
+
+<script>
+	var CheckListAll= new Array();
+	function deleteDIV(){
+		for (i=0;i<CheckListAll.length;i++)
+			$('#'+CheckListAll[i]).remove();
+		CheckListAll=[];
+	}
+</script>
+
+
+	<div data-role="page" id="page" >
+		<div data-role="header">
+			 <apex:outputPanel id="popInnerOutputPnl"  layout="block" rendered="{!displayPop}">
+				 <apex:form >
+					<apex:inputField value="{!Acc.OwnerId}"/>
+					<apex:commandButton value="Select" action="{!savePopup}" rerender="page,Check" oncomplete="deleteDIV(),loadPage('{!JSENCODE(InforoleListJSON)}','coll');"/>
+					<apex:commandButton value="Delete" action="{!Notp}" rerender="QQQ" onclick="deleteDIV()"/>
+				 </apex:form>
+			</apex:outputPanel>
+		</div>
+		<!-- <apex:outputPanel id="popInnerXe"  layout="block" rendered="{!Admin}">
+			<div data-role="header" data-theme="c"><a href="#6" data-icon="gear" class="ui-btn-right" onclick="Setup();">Options</a><span class="ui-title" /></div>
+		</apex:outputPanel> -->
+		<div data-role="content">
+			<div data-role="collapsible" data-collapsed="false" id="coll">
+				<span></span>
+			</div>
+		</div>
+	</div>
+	<div id="newpage" data-role="page"  >
+		<div data-role="header"  id="sss" data-theme="c">
+			<a href='#page' id="back2ContactList" onclick="reloadDivMap();" class='ui-btn-left' data-icon='arrow-l' data-direction="reverse" data-transition="slide">Back</a>
+			<h1>Google Maps</h1>
+		</div>
+		<div data-role="content" id="content">
+			<div id="map" ></div>
+		</div>
+	</div>
+	<div id="setup" data-role="page"  >
+		<div data-role="header"  id="sett" data-theme="c" >
+			<a href='#6' id="savesetup"  class='ui-btn-right' data-icon='check' data-direction="reverse" data-transition="slide" onclick="Save();">Save</a>
+			<h1>Setup</h1>
+			<a href="#6" data-icon="arrow-l" class="ui-btn-left" onclick="Back();" >Back</a>
+		</div>
+		<div data-role="footer">
+			<div data-role="navbar" data-theme="c">
+				<ul>
+					<li><a href="#">User</a></li>
+					<li><a href="#">Account</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</div><!-- /navbar -->
+		</div><!-- /footer -->
+		<div data-role="content" id="contentsetup">
+			<div id="setupcont" ></div>
+		</div>
+	</div>
+	<apex:outputPanel id="Check">
+		<script>
+			var CheckList= new Array();
+
+			function Check(X){
+				var complit=true;
+				for(i=0; i<CheckList.length;i++){
+					if (CheckList[i]==X) {
+						complit=false;
+					}
+				}
+				return   complit;
+			}
+
+		</script>
+	</apex:outputPanel>
+	<apex:outputPanel id="SS">
+		<script>
+			function AAA(){
+				//AAA();
+		</script>
+	</apex:outputPanel>
+	<apex:outputPanel Id="JSON" styleClass="test" >
+		<script>
+
+			function reloadDivMap(){
+
+				$('#map').remove();
+				$('<div id="map" />').appendTo($('#content'));
+
+			}
+
+
+
+			function Setup(){
+				$.mobile.changePage("#setup",{transition: "slide", changeHash: true});
+			}
+
+			function Back(){
+				$.mobile.changePage("#page",{transition: "slide", changeHash: true});
+			}
+
+			function Save(){
+			$.mobile.changePage("#page",{transition: "slide", changeHash: true});
+			}
+
+			function GOOGLE(x,y){
+				$.mobile.changePage("#newpage",{transition: "slideup", changeHash: true});
+
+				var nam=y;
+			setTimeout(function(){
+			var map;
+			var marker;
+
+			var geocoder = new google.maps.Geocoder();
+			var address = x;
+
+			var infowindow = new google.maps.InfoWindow({
+				content: '<b>'+nam+'</b>'
+			});
+
+			geocoder.geocode( { address: address}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK && results.length) {
+				  if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+
+					//create map
+					myOptions = {
+							zoom: 16,
+							mapTypeId: google.maps.MapTypeId.ROADMAP,
+							mapTypeControl: true,
+							center: results[0].geometry.location
+					  }
+					map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+					marker = new google.maps.Marker({
+						position: results[0].geometry.location,
+						map: map,
+						title: ' '+nam+' '
+					});
+
+					//add listeners
+					google.maps.event.addListener(marker, 'click', function() {
+					  infowindow.open(map,marker);
+					});
+					google.maps.event.addListener(infowindow, 'closeclick', function() {
+					  map.setCenter(marker.getPosition());
+					});
+
+				  }
+
+				} else {
+				  $('#map').css({'height' : '15px'});
+				  $('#map').html("Oops! '+nam+' s address could not be found, please make sure the address is correct.");
+				  resizeIframe();
+				}
+			});
+				  function resizeIframe() {
+				var me = window.name;
+				if (me) {
+				  var iframes = parent.document.getElementsByName(me);
+				  if (iframes && iframes.length == 1) {
+					height = document.body.offsetHeight;
+					iframes[0].style.height = height + "px";
+				  }
+				}
+			}
+
+
+			//}
+			},500);
+
+			}
+			function ADDUser(toadd,name,idd,nod){
+					CheckListAll.push(idd);
+					var INF='<p style="font-family:arial;color:blue;font-size:16px;">';
+					INF+='<img src="'+nod.FullPhotoUrl+'" width="130" height="120" align="left" hspace="10"/>';
+					INF+='<img src="{!$Resource.Mob}/adress.png" valign="middle" hspace="3"/>  <a href="#6" data-transition="slide" onclick="GOOGLE(\''+nod.Address+'\',\''+nod.name+'\')">'+nod.Address+'</a><br>';
+					INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.Phone+'" title="Call">'+nod.Phone+'</a><br>';
+					INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.FAX+'" title="Call">'+nod.FAX+'</a><br>';
+					INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.Mobile+'" title="Call">'+nod.Mobile+'</a><br>';
+					INF+='<img src="{!$Resource.Mob}/mail.png" valign="middle" hspace="3"/>  '+nod.Email+'<br>';
+					INF+='</p></br>'
+					$('<div id="'+idd+'" data-role="collapsible"   data-mini="true" data-theme="c" data-collapsed="true"><h4>'+name+'</h4>'+INF+'</div>').appendTo($('#'+toadd+' div:first'));
+					$('#'+toadd).find('div[data-role=collapsible]').collapsible();
+			}
+			function ADDRole(toadd,name,idd){
+					CheckListAll.push(idd);
+					$('<div id="'+idd+'" data-role="collapsible"  data-mini="true" data-theme="a" data-collapsed="true"><h4>'+name+'</h4></div>').appendTo($('#'+toadd+' div:first'));
+					$('#'+toadd).find('div[data-role=collapsible]').collapsible();
+			}
+
+			function ADDAccount(toadd,nod){
+				//CheckList.push(idd);
+				CheckListAll.push(nod.id);
+				var INF='<p style="font-family:arial;color:blue;font-size:16px;">';
+
+				INF+='<img src="{!$Resource.Mob}/adress.png" valign="middle" hspace="3"/> Billing Address <a href="#6" data-transition="slide" onclick="GOOGLE(\''+nod.BillingAddress+'\',\''+nod.name+'\')">'+nod.BillingAddressQ+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/adress.png" valign="middle" hspace="3"/> Shipping Address <a href="#6" data-transition="slide" onclick="GOOGLE(\''+nod.ShippingAddress+'\',\''+nod.name+'\')">'+nod.ShippingAddressQ+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.Phone+'" title="Call">'+nod.Phone+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.FAX+'" title="Call">'+nod.FAX+'</a><br>';
+				INF+='Site  '+nod.Site+'<br>';
+				INF+='</p>'
+				$('<div id="'+nod.id+'" data-role="collapsible"   data-mini="true" data-theme="c" data-collapsed="true"><h4>'+nod.name+'</h4>'+INF+'</div>').appendTo($('#'+toadd+' div:first'));
+				$('#'+toadd).find('div[data-role=collapsible]').collapsible();
+			}
+
+			function ADDContact(toadd,nod){
+				CheckListAll.push(nod.id);
+				var INF='<p style="font-family:arial;color:blue;font-size:16px;">';
+
+				INF+='<img src="{!$Resource.Mob}/adress.png" valign="middle" hspace="3"/>  <a href="#6" data-transition="slide" onclick="GOOGLE(\''+nod.MailingAddress+'\',\''+nod.name+'\')">'+nod.MailingAddressQ+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.Phone+'" title="Call">'+nod.Phone+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.FAX+'" title="Call">'+nod.FAX+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/phone.png" valign="middle" hspace="3"/>  <a href="tel:'+nod.MobilePhone+'" title="Call">'+nod.MobilePhone+'</a><br>';
+				INF+='<img src="{!$Resource.Mob}/mail.png" valign="middle" hspace="3"/>  '+nod.Email+'<br>';
+
+				INF+='</p>'
+				$('<div id="'+nod.id+'" data-role="collapsible"   data-mini="true" data-theme="c" data-collapsed="true"><h4>'+nod.name+'</h4>'+INF+'</div>').appendTo($('#'+toadd+' div:first'));
+				$('#'+toadd).find('div[data-role=collapsible]').collapsible();
+			}
+
+			function ADDList(Listt,toadd){
+					if (Listt!=null){
+
+							for (i=0;i<Listt.length;i++){
+
+									if (Listt[i].isFolder==0) ADDUser(toadd,Listt[i].name,Listt[i].id,Listt[i]);
+									if (Listt[i].isFolder==1) ADDRole(toadd,Listt[i].name,Listt[i].id);
+									if (Listt[i].isFolder==2) ADDAccount(toadd,Listt[i]);
+									if (Listt[i].isFolder==3) ADDContact(toadd,Listt[i]);
+							}
+
+					}
+			}
+
+			function loadPage(node,toId){
+				if (node!=null && node!='[]'){
+					var Info=JSON.parse(node);
+					ADDList(Info,toId);
+					CheckList.push(toId);
+					Info=null;
+				}
+			}
+
+
+		</script>
+	</apex:outputPanel>
+
+
+
+
+	<script>
+		$(document).on("click", "div", function(event){
+			var Id=$(this).attr('id');
+			event.stopPropagation();
+			if (Id!=null && Id!='coll' && Id!='home' && Id!='undefined' && Id!='page' && Id.length>10){
+				if(Check(Id)){
+					toJSON(Id);
+					CheckList.push(Id);
+				}
+			}
+		});
+
+		$(document).on("dblclick", "div", function(event){
+			var Id=$(this).attr('id');
+			event.stopPropagation();
+			if (Id!=null && Id!='coll' && Id!='home' && Id!='undefined' && Id!='page' && Id.length>10){
+				//toJSON(Id);
+				//CheckList.push(Id);
+			}
+		});
+
+		var m=true;
+		if (m)	{
+			$(document).ready(function(){
+				loadPage('{!JSENCODE(LoadJSON)}','coll');
+			});
+			m=false;
+		}
+
+	</script>
+	<apex:form >
+		<apex:actionFunction name="toJSON" action="{!toJSON}" reRender="SS"  oncomplete="loadPage('{!JSENCODE(DataJSON)}','{!JSENCODE(DataId)}');">
+			<apex:param name="firstParam" assignTo="{!IDfromJS}" value="firstParam" />
+		</apex:actionFunction>
+	</apex:form>
+
+</apex:page>

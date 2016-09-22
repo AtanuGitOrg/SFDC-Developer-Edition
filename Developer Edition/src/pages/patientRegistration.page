@@ -1,0 +1,31 @@
+<apex:page standardController="M_Patient__c" extensions="PRCls">
+    <apex:outputPanel id="all">
+         <apex:form >
+    <apex:pageblock id="pb">
+    <Apex:pageBlockSection >
+        <apex:commandButton value="New Patient" onclick="window.location ='apex/NewPatient';return false;" style="width:100px; height:20px;"/>
+    </Apex:pageBlockSection>
+    <apex:PageBlockTable id="dtLead" value="{!PatientList}" var="ac">
+           
+           <apex:column headerValue="Name">
+                   <apex:commandLink value="{!ac.Name__c}">
+                        <apex:param name="accName" value="{!ac.ID}"/>
+                    </apex:commandLink>
+           </apex:column>
+           <apex:column headerValue="Mobile">
+                    {!ac.Mobile__c}
+                
+           </apex:column>
+            
+   </apex:PageBlockTable>
+   <apex:panelGrid cellpadding="1">
+   <table widht="100%"><tr><td>
+   <apex:commandLink id="cmdFirst" action="{!first}" value="First" reRender="pb" rendered="{!hasPrevious}" /></td><td><apex:commandLink id="cmdPrevious" action="{!previous}" value="Previous" reRender="pb" rendered="{!hasPrevious}" /></td>
+   <td><apex:commandLink id="cmdNext" action="{!next}" value="Next" reRender="pb" rendered="{!hasNext}" /></td><td><apex:commandLink id="cmdNext1" action="{!last}" value="Last" reRender="pb" rendered="{!hasNext}" /></td></tr>
+   </table>
+   </apex:panelGrid>
+    </apex:pageblock>  
+    </apex:form>
+    </apex:outputPanel>
+ 
+</apex:page>

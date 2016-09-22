@@ -1,0 +1,12 @@
+<apex:page standardController="Task"  extensions="TaskController" id="pageid"> 
+<script type="text/javascript">
+var boolean = false;
+if('{!Task.Status}'=='Completed'){
+    alert("Completed Task cannot be edited");   
+    window.open("https://na17.salesforce.com/"+'{!Task.whatid}',"_parent"); 
+  }
+else{
+    window.open("https://na17.salesforce.com/"+'{!Task.Id}'+'/e?&nooverride=1&retURL=%2F'+'{!Task.Id}',"_parent");
+}
+</script>
+</apex:page>

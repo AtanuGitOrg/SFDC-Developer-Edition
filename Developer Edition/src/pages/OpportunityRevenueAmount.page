@@ -1,0 +1,88 @@
+<!-- Author: Swati -->
+<!-- Description: -->
+<!-- 1. Creating a custom VF Page on the Opportunity object to display data corresponding to Opportunity Revenue Amount details -->
+<!-- 2. The page displays details and edit section of Opportunity object's custom fields corresponding to Revenue Amount -->
+<!-- 3. The VF page is to be displayed in standard SF's DETAILS page of Opportunity object-->
+<!-- 4. The page displays 3 fields, Probable Revenue, Actual Revenue and Revenue Difference Amounts related to Opportunity -->
+<!-- 5. The details section of the VF page must display field labels & their output field values as entered by user -->
+<!-- 6. The details section of the VF page must have EDIT & CANCEL buttons -->
+<!-- 7. The edit section of the VF page must contain field labels, their input field values to be entered by user -->
+<!-- 8. The edit section of the VF page must have SAVE & CANCEL buttons -->
+<!-- 9. The details section of the VF page is the default landing page and edit section at this time must be hidden from view -->
+<!-- 10. When the edit section of the VF page is viewable, the detail section must be hidden -->
+<!-- 11. When clicked on EDIT button, the edit section of the VF page must be displayed -->
+<!-- 12. When clicked on SAVE button, the detail section of VF page must be displayed -->
+<!-- DATE: 25 Feb 2013
+<!-- ********************************************************************************************   -->
+
+<apex:page standardController="Opportunity" extensions="OpportunityCls">
+  
+  <apex:sectionHeader title="Opportunity Revenue Amount Details"/>
+  <apex:form >
+  <apex:pageBlock >
+  
+      <!-- DETAIL Section of Opportunity Revenue Amount VF Page -->
+      
+      <!-- Adding EDIT and CANCEL buttons on the DETAIL section of the VF page -->
+      
+
+          <apex:commandButton id="btnEdit_detailpage" value="EDIT" action="{!doShowEdit}" 
+          rendered="{!ShowDetailPage}"/>
+          <apex:commandButton id="btnCancel_detailpage" value="CANCEL" action="{!doShowDetails}" 
+          rendered="{!ShowDetailPage}"/>
+      
+      
+      <!-- Displaying 3 output labels and 3 output fields on the DETAIL section of the VF page -->
+      <apex:pageBlockSection id="oppDetailSection" title="Opportunity Detail Section" columns="3" rendered="{!ShowDetailPage}">
+      
+          <apex:pageblockSectionItem >
+              <apex:outputLabel >Probable Revenue Amount: </apex:outputLabel>
+              <apex:outputField id="outputfield_probableRevenue" value="{!objOpp.Probable_Revenue_Amount__c}"/>
+          </apex:pageblockSectionItem>
+          
+          <apex:pageblockSectionItem >
+              <apex:outputLabel >Actual Revenue Amount: </apex:outputLabel>
+              <apex:outputField id="outputfield_actualRevenue" value="{!objOpp.Actual_Revenue_Amount__c}"/>
+          </apex:pageblockSectionItem>
+          
+          <apex:pageblockSectionItem >
+              <apex:outputLabel >Opportunity Revenue Amount Difference: </apex:outputLabel>
+              <apex:outputField id="outputfield_RevenueAmtDifference" value="{!objOpp.Revenue_Amount_Difference__c}"/>
+          </apex:pageblockSectionItem>
+          
+      </apex:pageBlockSection>
+      
+   <!-- -------------------------------------------------------------------  -->
+   
+      <!-- EDIT Section of Opportunity Revenue Amount VF Page -->
+           
+      <!-- Adding SAVE and CANCEL buttons on the EDIT section of the VF page -->
+      
+     
+          <apex:commandButton id="btnSave_editpage" value="SAVE" action="{!doSave}" 
+          rendered="{!ShowEditPage}"/>
+          <apex:commandButton id="btnCancel_editpage" value="CANCEL" action="{!doShowEdit}" 
+          rendered="{!ShowEditPage}"/>
+      
+      
+      <!-- Displaying 2 output labels i.e. 2 input fields on the EDIT section of the VF page -->
+      <apex:pageBlockSection id="oppEditSection" title="Opportunity Edit Section" columns="3" rendered="{!ShowEditPage}">
+      
+          <apex:pageblockSectionItem >
+              <apex:outputLabel >Probable Revenue Amount: </apex:outputLabel>
+              <apex:inputField id="inputfield_probableRevenue" value="{!objOpp.Probable_Revenue_Amount__c}"/>
+          </apex:pageblockSectionItem>
+          
+          <apex:pageblockSectionItem >
+              <apex:outputLabel >Actual Revenue Amount: </apex:outputLabel>
+              <apex:inputField id="inputfield_actualRevenue" value="{!objOpp.Actual_Revenue_Amount__c}"/>
+          </apex:pageblockSectionItem>
+          
+                  
+      </apex:pageBlockSection>
+      
+   </apex:pageBlock>   
+      
+  </apex:form>
+  
+</apex:page>

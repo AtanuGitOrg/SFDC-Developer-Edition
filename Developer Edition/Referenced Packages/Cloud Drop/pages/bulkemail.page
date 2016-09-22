@@ -1,0 +1,360 @@
+<apex:page controller="Cloudrop.bulkemail_controller" tabStyle="Cloudrop__Cloud_Storage__c" id="thepage">
+              
+ <apex:Pagemessages />
+ <style>
+h1#status {
+    display: none; font-size: 2.25em; margin-bottom: 15px; font-weight: normal; color: #333;
+}
+.uploading {
+    background: url("https://mansasyscloud.com/cloudfiles/loading.gif") no-repeat scroll 0 0 transparent;
+    padding-left: 50px;
+    display: block !important;
+}
+
+</style>
+<style>
+.label{text-align:right;font-weight:bolder;}
+.ccinputbox{width:300px;height:50px;}
+</style>
+<apex:sectionHeader title="Send Bulk Email"/>
+<apex:form id="theForm" rendered="{!form1}">
+
+<apex:inputhidden id="Templateids" value="{!templateid}"/><!-- for template thing   -->
+<apex:actionFunction name="referesh" action="{!onchangevalue}" />
+<apex:actionFunction name="refereshcc" action="{!onchangecc}" />
+<apex:actionFunction name="refereshbcc" action="{!onchangebcc}"/>
+<apex:actionFunction name="refereshobj" action="{!onchangeobj}" />
+<apex:actionFunction name="chk" action="{!chk}" reRender="doc"/>
+<apex:actionFunction name="removeit" action="{!remove}" />
+<apex:actionFunction name="pass" action="{!passvalue}" reRender="cc,bcc,ccid,ccemail,cclookup,bccid,cclookup,bccemail"/>
+<apex:actionFunction name="change" action="{!checkvalue}"  reRender="cc,ccid,ccemail,cclookup" />
+<apex:actionFunction name="changebcc" action="{!checkvaluebcc}"  reRender="bcc,bccid,bcclookup,bccemail"/>
+<apex:actionfunction name="showmergevalue" action="{!gettemplatemergevalue}" />
+
+<!-- component start for template thing   -->
+<apex:actionFunction name="setSelectedDocumentDetails23" action="{!templateselect}"   >
+<apex:param name="template" value="template" assignTo="{!templateid}"/>
+
+</apex:actionfunction>
+
+
+<!-- component ends for template thing   -->
+
+<apex:pageBlock id="thepageblock">
+<apex:pageBlockButtons >
+<apex:commandButton value="Send" title="Send" action="{!send}"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<apex:commandButton value="Cancel" title="Cancel" action="{!close}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<apex:commandButton value="Select Template" onClick="javascript:return openDocumentPopup2();" />
+</apex:pageBlockButtons>
+<table align="center" width="100%">
+<tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--<apex:outputLabel value="{!success}" style="color:red" ></apex:outputlabel>-->
+</td></tr>
+<tr><td></td></tr><tr><td></td></tr>
+<tr>
+<apex:outputpanel rendered="{!showemailformat}">
+<td class="label"><font color="#302226">Email Format</font></td>
+<td>
+<apex:outputtext >
+<b> &nbsp;&nbsp;
+{!selemailformat} &nbsp;&nbsp; [ &nbsp; 
+<apex:commandlink value="{!optemailformat}" action="{!switchemailformat}" onclick="return checkemailformat();"/>
+ &nbsp;  ] </b>
+</apex:outputtext>
+</td>
+</apex:outputpanel>
+</tr>
+<tr> <td class="label"> Template Record
+</td>
+<td>
+<apex:selectList size="1" value="{!selectedtemplateobject}"  title="Select Object for Related Merge fields used in Selected Template" >
+<apex:selectOptions value="{!tempobj}" ></apex:selectOptions>
+<apex:actionsupport event="onchange" action="{!onchangetemprecord}" />
+</apex:selectList>&nbsp;&nbsp;
+<!-- <apex:inputtext id="luckup2id" value="{!templaterecordname}" size="43" > </apex:inputtext>-->
+
+<apex:inputtext id="luckup2id" value="{!templaterecordname}" size="43" > 
+
+</apex:inputtext>
+<a href ="" style="cursor: pointer" onClick="javascript:return opendocPopup2(this.parentNode,'{!HTMLENCODE(selectedtemplateobject)}')"  ><img src="/s.gif"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" /></a>
+ <apex:inputHidden id="hidTemplateRecordId" value="{!templaterecordid}" />
+
+</td>
+</tr>
+<tr><td class="label">To </td>
+<td>
+
+<apex:selectList size="1" value="{!relatedTo}" onchange="referesh();">
+<apex:selectOptions value="{!Items}" ></apex:selectOptions>
+
+</apex:selectList>&nbsp;&nbsp;
+
+<apex:inputField value="{!CS.Cloudrop__ToLead__c}" style="width:300px"  rendered="{!tolead}"/>
+<apex:inputField value="{!CS.Cloudrop__ToContact__c}" style="width:300px" rendered="{!tocontact}"/>
+</td></tr>
+<tr>
+<td class="label">
+Cc</td>
+<td><apex:selectList size="1" value="{!ccsrchobj}"  onchange="refereshcc();" id="selectcc">
+<apex:selectOptions value="{!ccobj}"  ></apex:selectOptions>
+</apex:selectList>
+&nbsp;
+
+<apex:inputText value="{!ccEmail}" style="width:300px"  onchange="change();" id="cc"/>
+<a id="cclookup" href ="" style="cursor: pointer" onClick="javascript:return openemailPopup(this.parentNode,'{!JSENCODE(ccsrchobj)}','cc')" ><img src="/s.gif"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" /></a>
+<apex:inputHidden id="ccid" value="{!ccAddress}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+<apex:inputHidden id="ccemail" value="{!ccAddress}" />&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+</tr>
+<tr><td class="label">Bcc</td>
+<td align="left">
+<apex:selectList size="1" value="{!bccsrchobj}"  onchange="refereshbcc();" id="selectbcc">
+<apex:selectOptions value="{!bccobj}"  ></apex:selectOptions>
+</apex:selectList>&nbsp;&nbsp;
+
+<apex:inputText value="{!bccemail}" style="width:300px" onchange="changebcc();" id="bcc"/>
+<a id="bcclookup" href ="" style="cursor: pointer" onClick="javascript:return openemailPopup(this.parentNode,'{!JSENCODE(ccsrchobj)}','bcc')" ><img src="/s.gif"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" /></a>
+<apex:inputHidden id="bccid" value="{!bccAddress}" />&nbsp;&nbsp;&nbsp;&nbsp;
+
+<apex:inputHidden id="bccemail" value="{!bccAddress}" />&nbsp;&nbsp;&nbsp;&nbsp;
+</td><td>&nbsp;</td></tr>
+<tr><td class="label">
+<apex:outputText value="Subject" ></apex:outputText></td>
+<td>
+<apex:inputText value="{!subject}"  style="width:550px;" /></td></tr>
+
+<tr>
+<td class="label">Attachment  </td> <td> &nbsp; &nbsp; Select from &nbsp;<apex:selectList size="1" value="{!objname}" onchange="refereshobj();">
+<apex:selectOptions value="{!obj}" ></apex:selectOptions>
+</apex:selectList>&nbsp;&nbsp;
+<a href ="" style="cursor: pointer" onClick="javascript:return opendocPopup(this.parentNode,'{!JSENCODE(objname)}')"  ><img src="/s.gif"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" /></a>
+ <!-- <apex:commandLink onclick="javascript:return opendocPopup(this.parentNode,'{!objname}')"  oncomplete="chk();" title="Upload File"  value="Upload File link" /> -->
+<apex:inputHidden id="recid1" value="{!RecId}" />&nbsp;&nbsp;&nbsp;&nbsp;
+<apex:inputHidden id="recid" value="{!recordid}" />&nbsp;&nbsp;&nbsp;&nbsp;
+</td></tr><tr><td></td>
+
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>
+<apex:pageBlockTable value="{!fileslist}" var="f" border="1"  id="doc">
+<apex:column headerValue="Action" width="50">
+<apex:commandLink value="Remove"  action="{!remove}">
+  <apex:param name="removeid" value="{!f.cd.id}" assignTo="{!removeid}"/>  
+  </apex:commandlink>
+<!--<apex:inputHidden value="{!removeid}" id="rid"/>-->
+<!--<apex:outputLink target="_top"  rendered="{!f.isinclude}">Remove  </apex:outputLink>
+<apex:param name="removeid" value="{!f.cd.id}"/>-->
+</apex:column>
+<apex:column value="{!f.cd.Name}" headerValue="Attachments" colspan="5" />
+<apex:column value="{!f.cd.Cloudrop__Temp_Path__c}" headerValue="File Path" colspan="20"   />
+<apex:column value="{!f.frm_obj}" headerValue="Object" colspan="7"   />
+ </apex:pageBlockTable>
+ </td> 
+
+
+</tr>
+
+<tr><td class="label">Body</td>
+<td><apex:inputField id="emailbody" value="{!CS.Cloudrop__Body__c}" rendered="{!showrichtextarea}" /><!--<apex:inputTextarea rows="8" value="{!filepath}" style="width:550px;"/>-->
+<apex:inputTextarea rows="8" value="{!textbody}" style="width:550px;" rendered="{!IF(showrichtextarea,false,true)}"/>
+</td></tr>
+</table>
+
+</apex:pageBlock>
+</apex:form> 
+<apex:form rendered="{!form2}" >
+<apex:pageBlock >
+<apex:pageBlockSection ><apex:commandlink value="Back" action="{!close}"/><br/>
+<apex:outputText > Your message has been sent successfully.&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</apex:outputText>
+
+
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+<script type="text/javascript">
+var curPopupWindow = [];
+
+// for template thing by anchal
+  function opendocPopup2(obj,objname)
+            {
+                currConColumn = obj;
+              // alert('Hello'+objname);
+              // var likeString ='{!JSENCODE(templaterecordname)}';
+              var likeString=document.getElementById("thepage:theForm:thepageblock:luckup2id").value;
+              likeString=encodeURIComponent(likeString);
+              //alert('likestring '+likeString);
+              
+              //  var likeString = (obj.getElementsByTagName('input')[0]).value; 
+                                         
+                var url ;
+                var a=0;
+              if(objname!='')
+              {
+              //alert('Object is not blank');
+              } 
+              else
+             {
+              //alert('Object  blank');
+              objname='Cloud Drop';
+              }   
+                  url = "selecttemplaterecord?likestring="+likeString+"&obj="+objname;
+                openWind(url);
+                return false;
+             }
+function checkemailformat()
+{
+var selemail="{!JSENCODE(optemailformat)}";
+var ischeck=true;
+    if(selemail=='Switch-to-Text-Only')
+    {
+    ischeck=confirm("All the Html Email formatting would be lost.Are you sure?");
+    }
+return ischeck;
+}
+function setSelectedDocumentDetails2(etbody)
+{
+document.getElementById("thepage:theForm:Templateids").value=etbody;
+setSelectedDocumentDetails23(etbody);
+curPopupWindow.close();
+
+return false;
+
+}
+function setSelectedTemplateDetails(recid,recname)
+{
+//var recname1=new string(recname);
+    /* if(recname.indexof("&amp;")!=0)
+     {
+      recname=recname.replace("&amp;","&");
+      alert('withi');
+     }
+*/
+
+document.getElementById("thepage:theForm:thepageblock:luckup2id").value=recname;
+document.getElementById("thepage:theForm:thepageblock:hidTemplateRecordId").value=recid;
+
+//setSelectedDocumentDetails23(etbody);
+//alert('do the next steps!!');
+showmergevalue();
+curPopupWindow.close();
+//alert('do the next steps111!!');
+}
+           
+       function openDocumentPopup2(obj)
+        {
+        currConColumn = obj;
+        
+        var url ;
+        url = "emailtemplate";
+        openWind(url);
+        
+        return false;
+        }
+ //logic ended for template things       
+        
+       function opendocPopup(obj,objname)
+            {
+                currConColumn = obj;
+               //alert('Hello'+obj);
+               var likeString ='';
+              //  var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                var a=0;
+              if(objname!='')
+              {
+              //alert('Object is not blank');
+              } 
+              else
+             {
+              //alert('Object  blank');
+              objname='Cloud Drop';
+              }   
+                  url = "bulkemail_lookup?likestring="+likeString+"&obj="+objname;
+                openWind(url);
+                return false;
+             }
+            
+            function openemailPopup(obj,objname,c)
+            {
+                currConColumn = obj;
+               // alert('Hi'+currConColumn);
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                 if(objname!='')
+              {
+              //alert('Object is not blank');
+              } 
+              else
+             {
+              //alert('Object  blank');
+              objname='Contact';
+              }  
+                url = "multilookup?likestring="+likeString+"&obj="+objname+"&cc="+c;
+                openWind(url);
+                return false;
+             }
+               function openWind(URL)
+            {
+                curPopupWindow = window.open(URL, "_blank","width=500, height=400,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=1", false);
+                //curPopupWindow = window.showModalDialog(URL, "","width:500px;height:400px;dependent:no;resizable:yes;toolbar:no;status:no;directories:no;menubar:no;scrollbars:1");            
+                            
+            }
+            function setSelectedDocumentDetails(etId)
+            {
+            
+              var inputArr = currConColumn.getElementsByTagName('input');               
+                inputArr[0].value =  etId;
+                inputArr[1].value =  etId;
+                             
+                if(curPopupWindow != null)                
+                    curPopupWindow.close();
+                
+                currConColumn = null;
+              // alert('VAlue 1---------'+inputArr[1].value );
+                check();
+              
+                 return false;
+               
+           
+            }
+            function setSelectedDetails(obj,Email,cc)
+            {              // alert('U selected this Email'+Email);
+                var inputArr = currConColumn.getElementsByTagName('input');               
+               // alert('no');
+               inputArr[0].value = Email;               
+                inputArr[1].value =  Email;
+                
+                if(curPopupWindow != null)                
+                    curPopupWindow.close();
+                          
+               // check();
+                  check1();
+                   
+                 return false;
+            }
+            function check()
+           {
+           chk();
+          
+           } 
+             function check1()
+           {
+          
+           pass();
+           } 
+           function click(obj,id1)
+           {
+           var id=id1;
+         //  alert('---------remove----'+id);
+             document.getElementById('rid').value=id;
+         call();
+             return false;
+           }
+           function call()
+           { removeit();
+           }
+</script>
+</apex:page>

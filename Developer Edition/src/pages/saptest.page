@@ -1,0 +1,156 @@
+<apex:page controller="ContactSearchController" sidebar="false">
+
+<apex:form >
+ <apex:pageMessages id="errors" />
+
+  <apex:pageBlock title="2014 Forecast" mode="edit">
+
+  <table width="100%" border="0">
+   <tr>  
+     <td width="200" valign="top">
+
+  <apex:pageBlock title="Parameters" mode="edit" id="criteria">
+
+  <script type="text/javascript">
+  function doSearch() {
+    searchServer(
+      document.getElementById("name").value,
+      document.getElementById("accountid").value,
+      document.getElementById("amount").value,
+      document.getElementById("closedate").value,
+      document.getElementById("forecastcategoryname").options[document.getElementById("forecastcategoryname").selectedIndex].value,
+      document.getElementById("ownerid").value
+
+      );
+  }
+  </script> 
+
+  <apex:actionFunction name="searchServer" action="{!runSearch}" rerender="results,debug,errors">
+      <apex:param name="name" value="" />
+      <apex:param name="accountid" value="" />
+      <apex:param name="amount" value="" />
+      <apex:param name="closedate" value="" />
+      <apex:param name="forecastcategoryname" value="" />
+      <apex:param name="ownerid" value="" />
+  </apex:actionFunction>
+
+  <table cellpadding="2" cellspacing="2">
+  <tr>
+    <td style="font-weight:bold;">Quote Name<br/>
+    <input type="text" id="name" onkeyup="doSearch();"/>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;">Account Name<br/>
+    <input type="text" id="accountid" onkeyup="doSearch();"/>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;">Amount<br/>
+    <input type="text" id="amount" onkeyup="doSearch();"/>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;">Close Date<br/>
+    <input type="text" id="closedate" onkeyup="doSearch();"/>
+    </td>
+  </tr>
+ <tr>
+    <td style="font-weight:bold;">Forecast Category<br/>
+      <select id="forecastcategoryname" onchange="doSearch();">
+        <option value=""></option>
+        <apex:repeat value="{!forecastcategoryname}" var="category">
+          <option value="{!category}">{!category}</option>
+        </apex:repeat>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight:bold;">Opportunity Owner<br/>
+    <input type="text" id="ownerid" onkeyup="doSearch();"/>
+    </td>
+  </tr>
+  </table>
+
+  </apex:pageBlock>
+
+</td>
+<td valign="top">
+
+<apex:pageBlock mode="edit" id="results">
+
+    <apex:pageBlockTable value="{!opportunities}" var="o">
+
+
+        <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Name" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="name" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+          <!--  <apex:outputField value="{!o.name}"/> -->
+        </apex:column>
+
+        <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Account Name" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="accountid" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+           <!-- <apex:outputField value="{!o.accountid}"/> -->
+        </apex:column>
+
+         <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Amount" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="amount" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+          <!--  <apex:outputField value="{!o.amount}"/> -->
+        </apex:column>
+
+         <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Close Date" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="closedate" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+          <!--  <apex:outputField value="{!o.closedate}"/> -->
+        </apex:column>
+
+         <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Forecast Category" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="forecastcategoryname" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+          <!--  <apex:outputField value="{!o.forecastcategoryname}"/> -->
+        </apex:column>
+
+         <apex:column >
+            <apex:facet name="header">
+                <apex:commandLink value="Opportunity Owner" action="{!toggleSort}" rerender="results,debug">
+                    <apex:param name="sortField" value="ownerid" assignTo="{!sortField}"/>
+                </apex:commandLink>
+            </apex:facet>
+          <!--  <apex:outputField value="{!o.ownerid}"/> -->
+        </apex:column>
+
+
+    </apex:pageBlockTable>
+
+</apex:pageBlock>
+
+</td>
+</tr>
+</table>
+
+<apex:pageBlock title="Debug - SOQL" id="debug">
+    <apex:outputText value="{!debugSoql}" />           
+</apex:pageBlock>    
+
+</apex:pageBlock>
+
+</apex:form>
+
+</apex:page>

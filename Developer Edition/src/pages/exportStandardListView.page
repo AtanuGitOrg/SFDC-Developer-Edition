@@ -1,0 +1,19 @@
+<apex:page controller="listviewAPI" readOnly="true" action="{!fetchListviewRecords}" language="en-US" cache="true" contentType="application/vnd.ms-excel#file_name.xls" showheader="false">
+<table border="1">
+    <tr>
+        <apex:repeat value="{!columnName}" var="colName">
+            <td>{!colName} </td>
+        </apex:repeat>  
+    </tr>
+    <apex:repeat value="{!allRecords}" var="records">
+    <apex:repeat value="{!records}" var="rec"> 
+    <tr>
+        <apex:repeat value="{!fields}" var="fieldName">
+           <td> <apex:outputText value=" {!rec[fieldName]}"> </apex:outputText> </td>      
+        </apex:repeat>
+    </tr>
+    </apex:repeat>
+    </apex:repeat>
+</table>
+
+</apex:page>

@@ -1,0 +1,27 @@
+<apex:page standardController="M_Patient__c">
+   <apex:form >
+       <apex:pageBlock >
+           <apex:pageBlockSection >
+               <table>
+                   <tr>
+                       
+                       <td><apex:inputField value="{!M_Patient__c.Name__c}"/></td>
+                   </tr>
+                   <tr>
+                       
+                       <td><apex:inputField value="{!M_Patient__c.Mobile__c}"/></td>
+                   </tr>
+                   <tr>
+                       
+                       <td><apex:inputField value="{!M_Patient__c.Address__c}"/></td>
+                   </tr>
+                   <tr>
+                       
+                       <td><apex:commandButton action="{!save}" value="Save" /></td>
+                   </tr>
+               </table>
+           </apex:pageBlockSection>
+       </apex:pageBlock>
+   </apex:form>
+  
+</apex:page>

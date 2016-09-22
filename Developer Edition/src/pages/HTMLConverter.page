@@ -1,0 +1,25 @@
+<apex:page controller="HTMLDEMOCLS">
+  <apex:form >
+  
+  <apex:pageBlock >
+      <apex:pageBlockButtons >
+          <apex:commandButton id="cmdGenerate" value="Generate" action="{!doGenerate}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection COLumns="1">
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >
+              ENTER TEXT:
+              </apex:outputLabel>
+              <apex:inputTextarea cols="10" rows="30" value="{!inputData}"/>
+          </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+      
+      <apex:outputLabel id="opVal">{!outputData}</apex:outputLabel>
+     
+      
+      
+     
+  </apex:pageBlock>
+  </apex:form>
+  
+</apex:page>

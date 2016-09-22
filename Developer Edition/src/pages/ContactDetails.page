@@ -1,0 +1,83 @@
+<apex:page standardController="Contact" extensions="ContactCls">
+<!--  <apex:sectionHeader title="Contact preference info"/>
+  <apex:form >
+      <apex:pageBlock >
+          <apex:commandButton id="btnEdit" action="{!doShowEdit}" value="Edit"
+          rendered="{!blShowDet}"/>
+          <apex:commandButton id="btnNew" action="{!doShowAdd}" value="Add"
+          rendered="{!blShowDet}"/>
+          <apex:commandButton id="btnCanDet" action="{!doShowDetails}" value="Cancel"
+          rendered="{!blShowDet}"/>
+          -->
+          
+          <!-- CONTACT DETAILS SECTION -->
+    <!--      <apex:pageBlockSection ID="pbDetails" columns="2" 
+          TItle="Contact Details" rendered="{!blShowDet}">
+              
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Habbit:
+                  </apex:outputLabel>
+                  <apex:outputField value="{!contact.Contact_Habbit__c}"/>
+              </apex:pageBlockSectionItem>
+                            
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Choice:
+                  </apex:outputLabel>
+                  <apex:outputField value="{!contact.Contact_Choice__c}"/>
+              </apex:pageBlockSectionItem>         
+              
+           </apex:pageBlockSection>
+           
+           <apex:commandButton id="cmdSave" value="Save" 
+           rendered="{!blShowEdit}" action="{!doSave}"/>
+           <apex:commandButton id="cmdSaveNew" value="Save" 
+           rendered="{!blShowAdd}" action="{!doSaveNew}"/>
+           
+           <apex:commandButton id="btCanEdit" action="{!doShowDetails}" 
+           value="Cancel" rendered="{!blShowEdit}"/> -->
+         
+           <!-- Edit Section -->
+      <!--     <apex:pageBlockSection ID="pbEdit" columns="2" 
+          TItle="Contact Details Edit" rendered="{!blShowEdit}">
+              
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Habbit:
+                  </apex:outputLabel>
+                  <apex:inputField value="{!contact.Contact_Habbit__c}"/>
+              </apex:pageBlockSectionItem>
+                          
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Choice:
+                  </apex:outputLabel>
+                  <apex:inputField value="{!contact.Contact_Choice__c}"/>
+              </apex:pageBlockSectionItem>         
+              
+           </apex:pageBlockSection> -->
+           
+            <!-- Add Section -->
+       <!--    <apex:pageBlockSection ID="pbEditNew" columns="2" 
+          TItle="Contact Details Add" rendered="{!blShowAdd}">
+              
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Habbit:
+                  </apex:outputLabel>
+                  <apex:inputField value="{!contact.Contact_Habbit__c}"/>
+              </apex:pageBlockSectionItem>
+                          
+              <apex:pageBlockSectionItem >
+                  <apex:outputLabel >
+                      Customer Choice:
+                  </apex:outputLabel>
+                  <apex:inputField value="{!contact.Contact_Choice__c}"/>
+              </apex:pageBlockSectionItem>         
+              
+           </apex:pageBlockSection>
+            
+      </apex:pageBlock>
+  </apex:form>  -->
+ </apex:page>

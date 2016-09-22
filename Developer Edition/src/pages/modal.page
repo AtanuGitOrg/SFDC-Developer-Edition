@@ -1,0 +1,244 @@
+<apex:page standardcontroller="Contact" extensions="ContactExtn">
+    
+    <apex:includeScript value="https://www.datatables.net/release-datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js"/>
+   
+    <apex:stylesheet value="https://www.datatables.net/release-datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css"/>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
+   
+    <script>
+        function checkAll(cb)
+        {
+           var inputElem = document.getElementsByTagName("input");
+           for(var i=0;i<inputElem.length;i++)
+             {
+                     if(inputElem[i].id.indexOf("selectLine1")!=-1)
+                           inputElem[i].checked = cb.checked;
+              }
+        }
+    </script>
+     
+    <script>
+    
+       $( document ).ready(function() {        
+        });
+            
+        // increase the default animation speed to exaggerate the effect
+        $.fx.speeds._default = 1000;
+        $(function() {
+            $( "#dialog" ).dialog({
+                autoOpen: false,
+                show: "blind",
+                hide: "explode",
+                width: "80%", 
+                modal: true,
+                close: function() {
+                            jQuery( this ).dialog( "close" );
+                        }
+            });
+    
+            $( "#opener" ).click(function() {            
+                $( "#dialog" ).dialog( "open" );
+                return false;
+            });
+        });
+        
+        function openModal(){ 
+                
+            $( "#dialog" ).dialog( "open" );
+                return false;
+        }
+        
+        function CloseModal(){ 
+                
+            $( "#dialog" ).dialog( "close" );
+                return false;
+        }
+        
+        function jsAdd(){
+          
+            add();
+        } 
+        
+    </script> 
+ 
+      <head>
+        <apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" / >
+        <apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
+        <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
+        <script>
+            $ = jQuery.noConflict();
+            $(document).ready( function () {
+                var contactTable = $('[id$="contacttable"]').DataTable();
+            });
+            
+            $(document).ready(function(){
+               
+            });
+            
+         function drawTables(){
+         $('[id$=contacttableMain]').DataTable({"bFilter": false});}
+         
+         
+          function selectEM () {                                       
+                fnGetSelectedEM();              
+                //deselecting "Select All" check box                
+                if ($('#selectAllEM').attr("checked") == "checked"){                  
+                    $('#selectAllEM').attr('checked', false);
+                }
+            } 
+          
+          
+           function fnGetSelectedEM(){
+                var marked = new Array(); 
+                //find each checkbox selected          
+                $("input[id^='selectLine1']:checked").each(function() {               
+                    marked.push($(this).attr("name"));              
+                }); 
+                //put ';' separeted selected EM ids to input hidden 
+                var selected = marked.join(";");
+                $("input[id$=':selectedEMs']").val(selected);                     
+            } 
+            
+            function selectAllEMs () {              
+                //on uncheking "Select All" checkbox, uncheck all EM checkboxes
+                if($('#selectAllEM').prop("checked") == false){
+                    $('#selectAllEM').removeAttr('checked');                      
+                    $("input[id^='selectLine1']").each(function() {                    
+                        $(this).prop('checked', false);                                       
+                    });
+                }
+                //on cheking "Select All" checkbox check all EM checkboxes
+                else {
+                    $('#selectAllEM').attr('checked', 'checked');                      
+                    $("input[id^='selectLine1']").each(function() {                        
+                        $(this).prop('checked', true);
+                    });
+                }
+                fnGetSelectedEM();             
+            }
+            
+        </script>
+        
+       
+      </head>
+
+   
+    
+  <apex:form >
+   
+     
+    <apex:pageBlock >
+   
+    <apex:outputPanel id="op"></apex:outputPanel>
+    <apex:inputHidden id="selectedEMs" value="{!selectedEMs}"/>
+      <apex:actionFunction name="add" action="{!processSelected}" reRender="opnl1" oncomplete="drawTables();"/>
+    
+       <button id="opener">Open Dialog</button>
+        
+        <div id="dialog">
+            <apex:outputpanel id="Contactlist">
+               
+                 <table id="contacttable" class="display">
+                    <thead>
+                        <tr>
+                            <th><apex:inputCheckbox id="selectAll" onclick="checkAll(this)"/>Select</th>
+                            <th>Account</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!results}" var="cont" id="repeatContact">
+                        <apex:variable var="acc" value="{!cont.con}" /> 
+                            <tr id="{!$Component.repeatContact}:contact" class="dataRow">
+                           
+                                <td class="actionColumn">
+                                  <!--  <apex:inputCheckbox id="selectLine1" value="{!cont.selected}" name="{!cont.con.Id}" /> -->
+                                    <input type="checkbox" id="selectLine1" name="{!cont.con.Id}" onclick="selectEM();"/>
+                                </td>
+                               
+                                <td>{!cont.con.Account.Name}</td>
+                                <td>{!cont.con.FirstName}</td>
+                                <td>{!cont.con.LastName}</td>
+                                <td>{!cont.con.Phone}</td>
+                                
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                   </table>
+   
+                  <button id="add" onclick="jsAdd();">Add</button>
+              
+            </apex:outputpanel>
+    
+       </div>
+  
+        
+        <apex:outputPanel id="opnl1">
+        <apex:sectionHeader title="Selected Contact" rendered="{!mainresults!=null}"/> 
+         
+               <div id="contentToToggle" style="display:{!if(mainresults!=null,"block","none")};">
+                     <table id="contacttableMain">
+                        <thead>
+                            <tr> 
+                                <th>Account</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!mainresults}" var="cont" id="repeatContactMain">
+                            
+                                <tr id="{!$Component.repeatContactMain}:contact" >
+                                                         
+                                    <td>{!cont.Account.Name}</td>
+                                    <td>{!cont.FirstName}</td>
+                                    <td>{!cont.LastName}</td>
+                                    <td>{!cont.Phone}</td>
+                                    
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                     </table>
+               
+               </div>
+          
+       </apex:outputPanel>
+         
+     </apex:pageBlock>
+  </apex:form>
+  <style type="text/css">
+        .custPopup{
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            /* These are the 3 css properties you will need to change so the popup 
+            displays in the center of the screen. First set the width. Then set 
+            margin-left to negative half of what the width is. You can add 
+            the height property for a fixed size pop up if you want.*/
+            width: 500px;
+            margin-left: -250px;
+            top:100px;
+        }
+        .popupBackground{
+            background-color:black;
+            opacity: 0.20;
+            filter: alpha(opacity = 20);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        }
+
+    </style>
+    
+</apex:page>

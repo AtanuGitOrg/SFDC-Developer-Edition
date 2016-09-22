@@ -1,0 +1,26 @@
+<apex:page standardController="Test__c">
+
+   <script type="text/javascript">
+        function changetextbox(){
+            var ele=document.getElementById('{!$Component.form1.block1.pl1}');
+            var opt=ele.options[ele.selectedIndex].text;
+            if (opt=='X'){
+                var newEle=document.getElementById('{!$Component.form1.block1.pl2}');
+                newEle.disabled=true;
+            }
+            else{
+                var newEle=document.getElementById('{!$Component.form1.block1.pl2}');
+                newEle.disabled=false;
+            }
+        }
+    </script>
+ 
+   <apex:form id="form1">
+        <apex:pageBlock id="block1">
+            <apex:inputField value="{!Test__c.Type__c}" id="pl1" onchange="changetextbox();"/>
+            <apex:inputField value="{!Test__c.TestPL__c}" id="pl2"/>
+        </apex:pageBlock>
+    </apex:form>    
+    
+   
+</apex:page>

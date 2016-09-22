@@ -1,0 +1,55 @@
+<apex:page standardController="Cloudrop__Cloud_Storage__c" extensions="Cloudrop.multilookupclouddropdilesctrlr"  sidebar="false" showHeader="false" >
+<apex:SectionHeader subTitle="{!disobjectname}" />
+     <script>
+     
+         function populateParent(obj)
+         {
+            var trNode = obj.parentNode.parentNode;
+             var tdNodes = trNode.getElementsByTagName('td');
+             var etId = (tdNodes[0].getElementsByTagName('span')[0]).innerHTML;
+             var etName = (tdNodes[1].getElementsByTagName('a')[0]).innerHTML;  
+             top.window.opener.setSelectedDocumentDetails(etId , etName);            
+             return false;
+         }
+         
+         function goback(obj,vals,cc)
+         {//alert('hi --->'+vals);             
+             top.window.opener.setSelectedDetails(obj,vals,cc);             
+             return false;
+         }
+     </script>
+     <apex:form >{!sendvals}
+         <apex:outputPanel id="main">
+             <apex:outputPanel rendered="{!showSearch}"> 
+                 <table id="tblSearch">
+                     <tr>
+                         <td><B>Search</B></td>
+                         <td><apex:InputText value="{!likeString}"/></td>
+                         <td><apex:CommandButton value="Go!" action="{!findrecs}" reRender="detail"/></td>
+                     </tr>
+                 </table>
+             </apex:outputPanel>
+             <br/>
+             <br/>
+             <apex:outputPanel id="detail" >
+                 <apex:pageBlock rendered="{!showSearch}" title="{!disobjectname} Records" >
+                     <apex:commandButton value="Add" action="{!addselected}" oncomplete="return goback(this,'{!sendvals}','{!cc}')"/>
+                    <apex:pageBlockTable value="{!displayrecs}" var="et">
+                         <apex:column style="width:5px;" headerValue="Select" > 
+                             <apex:inputCheckbox value="{!et.isselected}"/>
+                        </apex:column>
+                        <apex:column style="width:0px;" > 
+                           <span style="display: none" width="0">{!et.oId}</span>
+                        </apex:column>
+                        <apex:column headerValue="Name">
+                            <apex:outputLink value="" onClick="return populateParent(this)">{!et.name} </apex:outputLink>
+                        </apex:column>   
+                        <apex:column headerValue="Email">
+                            <apex:outputLink value="" onClick="return populateParent(this)">{!et.Email} </apex:outputLink>
+                        </apex:column>                     
+                    </apex:pageBlockTable> 
+                </apex:pageBlock>
+              </apex:outputPanel> 
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

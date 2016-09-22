@@ -1,0 +1,65 @@
+<apex:page standardController="Account" extensions="CustomAttachmentCls">
+ <apex:form >
+        <apex:pageblock >
+            <apex:pageblockbuttons >
+                
+                <apex:commandbutton action="{!doAddAttach}" value="New Attachments" rendered="{!blShowDet}" />
+                <apex:commandbutton action="{!createRecordAndAttachments}" value="Attach Now" rendered="{!blShow}" />
+            </apex:pageblockbuttons>
+            <apex:pageBlockTable value="{!allAttachments}" var="at">
+                <apex:column headerValue="Title">
+                    <a href='/{!at.ID}' target='_parent'>{!at.Name}</a>
+                </apex:column>
+                <apex:column value="{!at.ParentId}" headerValue="Related To"/>
+                <apex:column value="{!at.ContentType}" headerValue="Type"/>
+            </apex:pageBlockTable>
+            
+            
+            <apex:pageblocksection title="Attach Legal Document" rendered="{!blShow}">
+                <apex:pageblockSectionItem >
+                    <apex:outputPanel >
+                    <table border='0' cellpadding = '2' cellspacing = '3' width='100%'>
+                    <tr><td>Upload First File:</td>
+                    <td>
+               
+                    <apex:inputFile value="{!atBody1}" accept="txt,doc,xls" filename="{!atName}" />
+                    </td>
+                    </tr>
+                    </table>
+                    
+                    </apex:outputPanel>
+                </apex:pageblockSectionItem>
+               
+                
+            </apex:pageblocksection>
+            <apex:pageblocksection title="Attach Commercial Document" rendered="{!blShow}">
+                 <apex:pageblockSectionItem >
+                    <apex:outputPanel >
+                    <table border='0' cellpadding = '2' cellspacing = '3' width='100%'>
+                    <tr><td>Upload Second File:</td>
+                    <td>              
+                    <apex:inputFile value="{!atBody2}" filename="{!atName1}" />
+                    </td>
+                    </tr>
+                    </table>
+                    
+                    </apex:outputPanel>
+                </apex:pageblockSectionItem>
+            </apex:pageblocksection>
+            <apex:pageblocksection title="Attach Technical Document" rendered="{!blShow}">
+              <apex:pageblockSectionItem >
+                    <apex:outputPanel >
+                    <table border='0' cellpadding = '2' cellspacing = '3' width='100%'>
+                    <tr><td>Upload Third File:</td>
+                    <td>              
+                    <apex:inputFile value="{!atBody3}" filename="{!atName2}" />
+                    </td>
+                    </tr>
+                    </table>
+                    
+                    </apex:outputPanel>
+                </apex:pageblockSectionItem>
+            </apex:pageblocksection>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

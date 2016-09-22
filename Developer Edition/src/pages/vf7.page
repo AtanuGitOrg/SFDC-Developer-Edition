@@ -1,0 +1,17 @@
+<apex:page controller="c2">
+<apex:pageBlock >
+    <apex:pageBlockTable value="{!acts_direct}" var="a">
+        <apex:column value="{!a.Name}"/>
+    </apex:pageBlockTable>
+</apex:pageBlock>
+<apex:form >
+<apex:pageBlock >
+    <apex:pageBlockTable value="{!acts_channel}" var="a">
+        <apex:column >
+            <apex:commandLink >{!a.Name}<apex:param name="contactid" value="{!a.ID}"/>
+                            <apex:param name="contactname" value="{!a.Name}"/></apex:commandLink>
+        </apex:column>
+    </apex:pageBlockTable>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

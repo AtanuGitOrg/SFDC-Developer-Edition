@@ -1,0 +1,43 @@
+<apex:page controller="Cloudrop.selecttemplaterecord_controller" title="Select Templates Record" showHeader="false" sidebar="false" tabStyle="Dynamic_cloudrop__tab" >
+ <script>
+     
+         function populateParent(obj) 
+         {
+            var obj1 =obj;
+            var trNode = obj1.parentNode.parentNode;
+             var tdNodes = trNode.getElementsByTagName('td');
+             var etId = (tdNodes[0].getElementsByTagName('span')[0]).innerHTML;
+             var etName = (tdNodes[1].getElementsByTagName('a')[0]).innerHTML;   
+            // var etsub = (tdNodes[2].getElementsByTagName('span')[0]).innerHTML;          
+             top.window.opener.setSelectedTemplateDetails(etId,etName)//, etsub);    
+                 
+             return false;
+         }
+   </script>
+<apex:form >
+   
+    <apex:sectionheader subtitle="{!disobjectname}"/>
+   &nbsp;&nbsp;
+    <apex:inputtext value="{!searchstring}" label="Enter Search Term here." title="Enter Search Term here."/>&nbsp;&nbsp;
+                 <apex:commandbutton value="Search Record" action="{!searchrecord}"/>
+     <br/><br/>
+     <apex:outputPanel id="detail" >
+     <Apex:pagemessages ></Apex:pagemessages>
+                 <apex:pageBlock title="Choose Template Record"  >
+                   <br/>
+                    <apex:pageBlockTable value="{!sobjlist}" var="et">
+                     <apex:column > 
+                           <span style="display: none" width="0">{!et["Id"]}</span>
+                        </apex:column>
+                         <apex:column headerValue="{!collabelname}">
+                           <apex:outputLink value="" onClick="return populateParent(this)" rendered="{!shownamefield}">{!et["Name"]} </apex:outputLink>
+                           <apex:outputLink value="" onClick="return populateParent(this)" rendered="{!IF(shownamefield==false && showcasefield==true,true,false)}">{!et["CaseNumber"]} </apex:outputLink>
+                           <apex:outputLink value="" onClick="return populateParent(this)" rendered="{!IF(shownamefield==false && showcasefield==false && showideafield==false,true,false)}">{!et["SolutionName"]} </apex:outputLink>
+                                                      <apex:outputLink value="" onClick="return populateParent(this)" rendered="{!showideafield}">{!et["Title"]} </apex:outputLink>
+                        </apex:column>                    
+                        
+                    </apex:pageBlockTable> 
+                </apex:pageBlock>
+              </apex:outputPanel> 
+</apex:form>
+</apex:page>

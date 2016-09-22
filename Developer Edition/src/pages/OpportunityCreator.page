@@ -1,0 +1,30 @@
+<apex:page standardController="Opportunity">
+  <apex:form >
+  <apex:pageBlock >
+      <apex:pageBlockSection columns="2">
+      <apex:pageBlockSectionItem >
+      <apex:outputPanel >
+      <table border="0" cellpadding="1" cellspacing="1" width="100%">
+      
+      <apex:repeat value="{!$Objecttype.Opportunity.FieldSets.OpFieldSet}"
+      var="a"  >
+          <tr>
+          <td>
+          <apex:outputLabel >{!a.Label}</apex:outputLabel>
+          </td>
+          </tr>
+          <tr>
+          <td>
+              <apex:inputField value="{!Opportunity[a]}" />
+          </td>
+          </tr>    
+      </apex:repeat>
+      </table>
+      </apex:outputPanel>
+      </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+  
+  </apex:pageBlock>
+  </apex:form>
+  
+</apex:page>

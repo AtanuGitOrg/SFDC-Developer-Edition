@@ -1,0 +1,38 @@
+<apex:page >
+<!--<apex:page standardController="Acc_PMO_BC__Release__c" extensions="relRequest"> -->
+ <apex:form >
+ <apex:pageBlock title="Search Request">
+    <!-- <apex:pageBlockSection columns="1">
+         <apex:pageblockSectionItem >
+             <apex:outputPanel >
+             <table border='0' cellpadding='2' cellspacing='2'>
+                 <tr>
+                     <td>
+                         Enter Releae Name: 
+                     </td>
+                     <td>
+                         <apex:inputField required="true" id="ipRelName" value="{!relObj.Name}"/>
+                     </td>
+                     <td>
+                         <apex:commandButton id="cmdSearch" value="Search" styleClass="btn" />
+                     </td>
+                 </tr>    
+             </table>
+             </apex:outputPanel>
+         </apex:pageblockSectionItem>
+     </apex:pageBlockSection>
+     <apex:pageBlockSection title="Request Details">
+             <apex:dataTable id="dlReqDetail" value="{!allRequests}" var="rq">
+                 <apex:column headerValue="Name" value="{!rq.Name}" />
+                 <apex:column headerValue="Name" value="{!rq.Acc_PMO_BC__Business_Benefit__c}" />
+             </apex:dataTable>
+     
+     </apex:pageBlockSection>
+     -->
+ 
+ </apex:pageBlock>
+ 
+ 
+ </apex:form>
+ 
+</apex:page>

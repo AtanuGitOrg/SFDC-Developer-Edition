@@ -1,0 +1,272 @@
+<apex:page Controller="Cloudrop.AssociateFileController"  tabStyle="Dynamic_cloudrop__tab" >
+<script type="text/javascript">
+       function openDocumentPopup(obj,objname)
+            {
+                 currConColumn = obj;
+               // alert('Hi'+currConColumn);
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                url = "lookupnew?likestring="+likeString+"&obj="+objname;
+                openWind(url);
+                return false;
+             }
+             function opencloudDocumentPopup(obj)
+            {
+                currConColumn = obj;
+             //   alert('Hi');
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                url = "lookupClouddrop?likestring="+likeString;
+                openWind(url);
+                return false;
+             }
+             //for contacts
+              function openContactPopup(obj)
+            {
+                currConColumn = obj;
+             //   alert('Hi');
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                url = "lookupContact?likestring="+likeString;
+                openWind(url);
+                return false;
+             }
+               //for Opportunities
+              function openOpportunityPopup(obj)
+            {
+                currConColumn = obj;
+             //   alert('Hi');
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                url = "lookupOpportunity?likestring="+likeString;
+                openWind(url);
+                return false;
+             }
+             //for Leads
+              function openLeadPopup(obj)
+            {
+                currConColumn = obj;
+             //   alert('Hi');
+                var likeString = (obj.getElementsByTagName('input')[0]).value;                            
+                var url ;
+                url = "lookupLead?likestring="+likeString;
+                openWind(url);
+                return false;
+             }
+            function openWind(URL)
+            {
+                curPopupWindow = window.open(URL, "_blank","width=500, height=400,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=1", false);            
+            }
+            function setSelectedDocumentDetails(etId, etName)
+            {                
+                var inputArr = currConColumn.getElementsByTagName('input');               
+                inputArr[0].value =  etName;
+                inputArr[1].value =  etId;
+                               
+                if(curPopupWindow != null)                
+                    curPopupWindow.close();
+                
+                currConColumn = null;
+                check();
+                 return false;
+            }
+          
+           function check()
+           {
+           folsubfol();
+           } 
+           
+           function validateAcc()
+           {
+            var val = '{!JSENCODE(lukupname)}';
+          if(val=='')
+             {
+             alert('Please select record first');
+             return false;
+              }
+           else
+           {
+           return true;
+           }
+           }
+              
+           
+                      
+              </script>
+  <apex:sectionHeader title="Move / Copy"/>
+  <apex:pageMessages /> 
+<apex:form id="form1">
+
+<apex:pageBlock id="pb1">
+&nbsp;&nbsp;&nbsp;&nbsp;<b>File:</b>&nbsp; {!filename} <hr/>
+<apex:pageBlockSection >
+<apex:outputLabel >Select Object&nbsp;&nbsp;&nbsp;
+<apex:selectList value="{!srchobj}"  multiselect="false" size="1" onchange="getvalue()" id="obnmeid">
+<apex:selectOptions value="{!srchobjitems}">
+</apex:selectOptions>
+</apex:selectList>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</apex:outputLabel>
+</apex:pageBlockSection>
+<apex:actionFunction name="getvalue" action="{!go}" />
+
+
+<apex:pageBlockSection id="CloudBlock" rendered="{!cloudsec}" title="{!headertext}" columns="1">
+<apex:outputpanel >
+<apex:inputText value="{!lukupname}" style="align:left;" id="idcloud" rendered="{!cloudsec}" /><a href ="" style="cursor: pointer" onClick="javascript:return openDocumentPopup(this.parentNode,'{!JSENCODE(srchobj)}')" ><img src="/s.gif"  class="lookupIcon" onblur="this.className = 'lookupIcon';" onfocus="this.className = 'lookupIconOn';" onmouseout="this.className = 'lookupIcon';this.className = 'lookupIcon';" onmouseover="this.className = 'lookupIconOn';this.className = 'lookupIconOn';" /></a>
+<apex:inputHidden id="hidEmailTemplateId" value="{!recid}" />&nbsp;&nbsp;&nbsp;&nbsp;
+  <apex:outputPanel rendered="{!cdlookup}">
+<apex:commandlink action="{!assign}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;" target="_top" >Move</apex:commandlink>
+                    &nbsp;|&nbsp;
+<apex:commandlink action="{!Copy}" onclick="if(confirm('Are you sure you want to Copy this file?')) return true; else return false;" target="_top" >Copy</apex:commandlink> 
+</apex:outputpanel>  </apex:outputpanel> </apex:pageBlockSection>
+</apex:pageBlock>
+
+<script>
+.oRight .infoTable .headerRow th {
+    background-color: #CCCCCC;
+    border: medium none;
+    font-weight: bold;
+    margin: 1px;
+    padding: 3px;
+    white-space: nowrap;
+    text-align: center; 
+}
+.list .headerRow th {
+    border-bottom: 2px solid #CCCCCC;
+    white-space: nowrap;
+    text-align: center; 
+}
+.mergeEntity .headerRow td, .mergeEntity .headerRow th {
+    background-color: #DDDDDD;
+    font-weight: bold;
+    text-align: center;
+}
+.pbBody, .pbBody a, .pbBody td, .lbBody a, .lbBodyDescription, .list .headerRow .noRowsHeader {
+    color: #000000;
+}
+.tabularEditElement tr.headerRow th {
+    padding: 12px 8px 6px;
+    text-align: center; 
+}
+.{
+    background-color: #E2F6E2;
+    text-align: center; 
+}
+.{
+    border-bottom: 1px solid #C0C0C0;
+    text-align: center; 
+}
+tr.dataRow:hover {
+    background-color: #E3F3FF;
+}
+th.dataCell {
+    white-space: nowrap;
+}
+tr td.dataCell img {
+    vertical-align: middle;
+}
+.list th.dataCell {
+    white-space: nowrap;
+}
+.list td.dataCell {
+    white-space: nowrap;
+}
+.list .extraRow tr {
+    border-right: medium none;
+    line-height: 16px;
+    padding-right: 0;
+}
+</script>
+
+<apex:actionFunction name="folsubfol" action="{!folrecords}"/>
+
+<apex:pageBlock rendered="{!buttn}" >
+<table width="100%" class="list ">
+    <thead class="rich-table-thead"  border="0.5" >
+        <tr class="headerRow " >
+            <th class="headerRow " width="15%;" style="text-align:left:;">
+              &nbsp;&nbsp;&nbsp;Action
+            </th>
+            <th class="headerRow" width="90%" style="text-align:left:;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Folder Path
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="dataRow odd" onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);} " onmouseover="if (window.hiOn){hiOn(this);} ">
+            <td class="dataCell " width="50" colspan="1">
+            <apex:commandLink action="{!assigntoRoot}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;">Move</apex:commandlink>&nbsp;|&nbsp;
+            <apex:commandLink action="{!copytoroot}" onclick="if(confirm('Are you sure you want to copy this file?')) return true; else return false;" value="Copy"/>
+            </td>
+            <td class="dataCell " width="50" colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Root</td>          
+        </tr>
+        <apex:repeat value="{!clist}" var="clt">
+        <tr class="dataRow odd" onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);} " onmouseover="if (window.hiOn){hiOn(this);} ">
+            <td class="dataCell " width="50" colspan="1">
+            <apex:commandlink action="{!assign}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;" target="_top" >Move
+                      <apex:param name="folderId" value="{!clt.Id}"/> 
+                    </apex:commandlink>
+                    &nbsp;|&nbsp;
+           <apex:commandlink action="{!Copy}" onclick="if(confirm('Are you sure you want to Copy this file?')) return true; else return false;" target="_top" >Copy
+                      <apex:param name="folderId" value="{!clt.Id}"/> 
+                    </apex:commandlink>         
+                    </td>           
+            <td class="dataCell " width="50" colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!clt.Temp_Path__c}</td>
+        </tr>
+        </apex:repeat>
+        
+    </tbody>
+</table> 
+
+
+
+</apex:pageBlock>                                               
+
+<!-- Section used for cloud drop -->
+<apex:pageBlock rendered="{!cloudsecfolder}" >
+<table width="100%" class="list ">
+    <thead class="rich-table-thead"  border="0.5" >
+        <tr class="headerRow " >
+            <th class="headerRow " width="15%;" style="text-align:left:;">
+              &nbsp;&nbsp;&nbsp;Action
+            </th>
+            <th class="headerRow" width="90%" style="text-align:left:;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Folder Path
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="dataRow odd" onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);} " onmouseover="if (window.hiOn){hiOn(this);} ">
+            <td class="dataCell " width="50" colspan="1">
+            <apex:commandLink action="{!assigntoRoot}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;">Move</apex:commandlink>&nbsp;|&nbsp;
+            <apex:commandLink action="{!copytoroot}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;" value="Copy"/>
+            </td>
+            <td class="dataCell " width="50" colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Root</td>          
+        </tr>
+        <apex:repeat value="{!clist}" var="clt">
+        <tr class="dataRow odd" onfocus="if (window.hiOn){hiOn(this);}" onblur="if (window.hiOff){hiOff(this);}" onmouseout="if (window.hiOff){hiOff(this);} " onmouseover="if (window.hiOn){hiOn(this);} ">
+            <td class="dataCell " width="50" colspan="1">
+            <apex:commandlink action="{!assign}" onclick="if(confirm('Are you sure you want to move this file?')) return true; else return false;" target="_top" >Move
+                      <apex:param name="folderId" value="{!clt.Id}"/> 
+                    </apex:commandlink>
+                    &nbsp;|&nbsp;
+           <apex:commandlink action="{!Copy}" onclick="if(confirm('Are you sure you want to Copy this file?')) return true; else return false;" target="_top" >Copy
+                      <apex:param name="folderId" value="{!clt.Id}"/> 
+                    </apex:commandlink>         
+                    </td>           
+            <td class="dataCell " width="50" colspan="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!clt.Temp_Path__c}</td>
+        </tr>
+        </apex:repeat>
+        
+    </tbody>
+</table> 
+
+
+
+</apex:pageBlock>
+
+</apex:form>
+</apex:page>

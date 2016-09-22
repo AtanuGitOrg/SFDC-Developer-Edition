@@ -1,0 +1,13 @@
+<apex:page controller="c1">
+{!hello}
+
+<apex:pageBlock title="List of Acocunts">
+    <apex:pageBlockTable value="{!acts}" var="a">
+        <apex:column value="{!a.Name}"/>
+        <apex:column value="{!a.Type}"/>
+        <apex:column value="{!a.Industry}"/>
+        <apex:column value="{!a.Phone}"/>
+    </apex:pageBlockTable>
+
+</apex:pageBlock>
+</apex:page>

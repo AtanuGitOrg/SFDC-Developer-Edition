@@ -1,0 +1,24 @@
+<apex:page controller="MyConverter">
+  
+  <apex:form >
+       
+        <apex:pageBlock >
+            <apex:pageBlockButtons >
+            <apex:commandButton id="btnGen" value="Generate" styleClass="btn" reRender="pbOutPut" action="{!doGenerate}"/>
+            </apex:pageBlockButtons>
+              <apex:pageBlockSection >
+                  <apex:pageBlockSectionItem >
+                          <apex:outputLabel >
+                              Product Description
+                          </apex:outputLabel>
+                          <apex:inputTextarea Value="{!myInput}" cols="45" rows="15" />
+                  </apex:pageBlockSectionItem>
+              </apex:pageBlockSection>
+             
+              <apex:outputPanel id="pbOutPut">
+                  <apex:outputLabel >{!myOutPut}</apex:outputLabel>
+              
+              </apex:outputPanel>
+       </apex:pageBlock>      
+  </apex:form>
+</apex:page>

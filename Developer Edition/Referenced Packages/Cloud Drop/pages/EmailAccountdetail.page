@@ -1,0 +1,104 @@
+<apex:page standardController="Cloudrop__Email_Account_Details__c" extensions="Cloudrop.EmailAccountController">
+<script type="text/javascript">
+document.getElementById("{!$Component.form.folid}").value = fol;
+function check(){
+ pass = document.getElementById("{!$Component.form.passwd}").value;
+ repass = document.getElementById("{!$Component.form.repasswd}").value;
+    if(pass!=repass){
+alert('Password Mismatch');
+    return false;
+    }
+    }
+    
+ </script>
+<apex:sectionHeader title="Email Account Details Edit" subtitle="New Email Account Details" id="sheader"/> 
+    <apex:pageMessages /> 
+<apex:form >
+<apex:pageBlock >
+
+<apex:pageBlockButtons >
+<apex:commandButton value="Save" action="{!VerifyDetails}"  />
+<!--<apex:commandButton value="Save & New" action="{!VerifyDetailsnew}" />-->
+<apex:commandButton value="Cancel" action="{!cancel}"/>
+</apex:pageBlockButtons>
+
+
+ <hr style="height: 4px;color: lightblue;background-color: lightblue;"></hr>
+  <h3 style="font-size: large">Information</h3> <br/>
+  <hr style="height: 1px;color: lightblue;background-color: lightblue;"></hr>
+      <table >
+            <tr><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                    <b>Account Name</b>   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td>
+                 <apex:inputField value="{!ead.Name}"   required="true" />
+                </td><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                   <b> Username  </b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td>
+                    <apex:inputField value="{!ead.Cloudrop__User_Name__c}"  required="true"  />
+                </td>
+                </tr>
+                
+                <tr><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                    <b>Password</b>   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                     <apex:inputsecret value="{!ead.Cloudrop__Password__c}"  id="passwd" required="true"  /></div>
+                </td><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                   <b> Retype Password  </b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td><div class="requiredInput"><div class="requiredBlock"></div>
+                    <apex:inputsecret value="{!ead.Cloudrop__Retype_Password__c}"  required="true"  id="repasswd"/></div>
+                </td>
+                </tr>
+                
+                 <tr><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                    <b>Server Details</b>   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td>
+                     <apex:inputField value="{!ead.Cloudrop__Server_Details__c}" required="true" />
+                </td><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                   <b> Access Type  </b> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td>
+                    <apex:inputField value="{!ead.Cloudrop__Access_Type__c}" required="true"  />
+                </td>
+                </tr>
+                
+              <tr><td>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td>
+                    <b>Folder Name</b>   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+                <td>
+                <apex:inputField value="{!ead.Cloudrop__Folder_Name__c}"/>
+
+                </td>
+                   </tr> 
+                </table>
+&nbsp;
+
+</apex:pageBlock>
+</apex:form>
+<!-- End Default Content REMOVE THIS -->
+</apex:page>

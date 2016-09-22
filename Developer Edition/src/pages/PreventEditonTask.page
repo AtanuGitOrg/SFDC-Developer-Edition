@@ -1,0 +1,43 @@
+<apex:page standardController="Task" id="pageid"> 
+<apex:includeScript value="/soap/ajax/27.0/connection.js"/>  
+<apex:includeScript value="/support/console/27.0/integration.js"/>
+
+<script type="text/javascript">
+
+var boolean = false;
+if('{!Task.Status}' == 'Completed'){
+    if('{!$UserRole.Name}' == 'TH_TSR'){
+          alert("You are not allowed to Edit Completed Task");             
+          sforce.console.openPrimaryTab(undefined, '/' +'{!Task.Id}', true, '{!Task.subject}');
+        }
+    else{
+         if (sforce.console.isInConsole()) {
+         sforce.console.openSubtab(PrimaryTabId, '/' +'{!Task.id}'+'/e?&nooverride=1&retURL=%2F', true, '{!Task.subject}');
+        // sforce.console.getFocusedPrimaryTabId(openNSubtab);      
+      } 
+     }
+   }
+  
+else{
+    alert(1);
+   function testOpenSubtab() {
+   alert(2);
+           sforce.connection.sessionId = '{!$Api.Session_ID}';
+            //First find the ID of the primary tab to put the new subtab in
+            alert(3);
+            sforce.console.getEnclosingPrimaryTabId(openSubtab);
+        }
+        alert(4);
+        var openSubtab = function openSubtab(result) {
+            //Now that we have the primary tab ID, we can open a new subtab in it
+            alert(5);
+            var primaryTabId = result.id;
+            alert(6);
+            sforce.console.openSubtab(PrimaryTabId, '/' +'{!Task.id}'+'/e?&nooverride=1&retURL=%2F', true, '{!Task.subject}');
+            
+        };
+   alert(7);
+}      
+       
+</script>
+</apex:page>

@@ -1,0 +1,15 @@
+<apex:page standardController="Opportunity" extensions="opAttchCls">
+  
+  <apex:pageBlock >
+  
+      <apex:pageBlockTable value="{!allNotesAndAttachment}" var="n">
+        <apex:column >
+        
+        </apex:column>
+      
+      
+      </apex:pageBlockTable>
+  
+  </apex:pageBlock>
+  
+</apex:page>

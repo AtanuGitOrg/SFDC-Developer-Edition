@@ -1,0 +1,19 @@
+<apex:component >
+    <apex:attribute name="sortbyfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="showselectbox" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="picklistfieldlabels" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="picklistfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="nontextfieldlabels" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="nontextfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="textfieldlabels" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="textfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="displaylabels" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="displayfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="selectfields" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="objectlabel" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="objectname" type="String" description="TODO: Describe me"/>
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Component: commonobjectsearchcomponent
+  <!-- End Default Content REMOVE THIS -->
+</apex:component>

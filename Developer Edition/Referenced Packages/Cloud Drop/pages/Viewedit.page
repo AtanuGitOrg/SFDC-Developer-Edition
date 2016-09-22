@@ -1,0 +1,62 @@
+<apex:page controller="Cloudrop.EditControllerClass">
+<apex:sectionHeader title="Edit" subtitle="File details" id="sheader"/> 
+<apex:pageMessages />
+<apex:form >
+<apex:pageblock >
+<table>
+
+<tr>
+<td>
+File &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>{!jsinhtmlencode(obj.Name)}<br/>
+</td>
+</tr>
+
+<tr>
+<td>Description &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><apex:inputfield value="{!obj.Cloudrop__DescriptionNew__c}"></apex:inputfield><br/></td>
+</tr>
+
+<tr>
+<td>Version Name </td>
+<td><apex:inputfield value="{!obj.Cloudrop__Version_Name__c}"></apex:inputfield><br/></td>
+</tr>
+
+<tr>
+<td>
+Version &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>{!obj.Version__c}<br/>
+</td>
+</tr>
+
+<tr>
+<td>Keyword &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td><apex:inputfield value="{!obj.Cloudrop__Keyword__c}"></apex:inputfield><br/></td>
+</tr>
+
+<tr>
+<td>
+Access Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>{!jsinhtmlencode(obj.Access__c)}<br/>
+</td>
+</tr>
+
+<apex:repeat value="{!lis}" var="i" >
+<tr>
+<td>
+{!jsinhtmlencode(displayrecs[i].fname)}
+</td>
+<td>
+<apex:inputfield value="{!obj[displayrecs[i].fapiname]}"></apex:inputfield><br/>
+</td>
+</tr>
+</apex:repeat>
+
+</table>
+<apex:pageBlockButtons location="bottom">
+<apex:commandButton value="Save" action="{!saveClick}"/>&nbsp;&nbsp;&nbsp;
+<apex:commandButton value="Cancel" action="{!cancle}"/>
+</apex:pageBlockButtons>
+</apex:pageblock>
+</apex:form>
+</apex:page>

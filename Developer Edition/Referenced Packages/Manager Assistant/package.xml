@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager Assistant</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <namespacePrefix>bcmanhelp</namespacePrefix>
+    <types>
+        <members>InfoAccount</members>
+        <members>InfoContact</members>
+        <members>InfoRole</members>
+        <members>RoleUtils</members>
+        <members>UserSearch</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>AccountSearch</members>
+        <members>ContactSearch</members>
+        <members>UserSearch</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Configuration_Hierarchy__c.Role_or_Manager__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Configuration_Hierarchy__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Mob</members>
+        <members>jqm</members>
+        <name>StaticResource</name>
+    </types>
+    <version>36.0</version>
+</Package>

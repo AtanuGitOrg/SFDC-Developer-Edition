@@ -1,0 +1,74 @@
+<apex:page sidebar="false" title="Cloud Drop" tabStyle="Cloud_Drop__tab">
+<apex:form >
+<apex:composition template="Cloudrop__SetUpTemplate">
+<!--<apex:composition template="SetUpTemplate">-->
+<apex:define name="heading"><p>Cloud Drop</p></apex:define>
+<apex:define name="image_1"><a href="/apex/mainscreen"><img src="{!URLFOR($Resource.SetUp,'SR/images/1.jpg')}" borde="0" height="45px" width="45px"/></a></apex:define>
+<apex:define name="left_middle1"><a href="/apex/mainscreen"><span>General</span></a></apex:define>
+
+<apex:define name="image_2"><a href="/apex/adddomain"><img src="{!URLFOR($Resource.SetUp,'SR/images/2.jpg')}" borde="0" height="45px" width="45px"/></a></apex:define> 
+<apex:define name="left_middle2"><a href="/apex/adddomain"><span>Email2Drop</span></a></apex:define>
+
+<apex:define name="image_3"><a href="/apex/mainsetup"><img src="{!URLFOR($Resource.SetUp,'SR/images/3.jpg')}" borde="0" height="45px" width="45px"/></a> 
+</apex:define>
+<apex:define name="left_middle3"><a href="/apex/mainsetup"><span>Layout</span></a></apex:define>
+<apex:define name="rackspace"></apex:define>
+
+<apex:define name="block_4"></apex:define> 
+<apex:define name="block_5"></apex:define> 
+<apex:define name="block_6"></apex:define> 
+<apex:define name="bottomline"></apex:define>
+<!--
+<apex:define name="left_middle4"></apex:define>
+<apex:define name="rackspace"></apex:define>
+-->
+<apex:define name="body">
+<table cellspacing="0" cellpadding="0" style="float:left;margin:10px 0px 6px 10px;width:700px "><tr><td style="height:10px; padding-left:15px; padding-right:10px; padding-top:5px; " valign="top"><font size="2.5" face="Arial" >Product Features</font><br/></td></tr></table>
+<table cellspacing="0" cellpadding="0" style="float:left;margin:10px 0px 6px 10px;width:700px "><tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; " valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; " valign="top">
+ <span><font size="2.5">Reduces data storage costs drastically by leveraging Rackspace Cloud Files cloud storage platform.</font></span>
+ </td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; " valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; " valign="top">
+<span><font size="2.5">Allows you to attach files to Account, Contact, Opportunity, Case and other objects for easier access to information.</font></span>
+</td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px; " valign="top">
+ <font size="2.5">Reduces the man hours spent on files search by enabling you to add keywords to files and by providing a keyword search.</font>
+</td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px;" valign="top">
+ <font size="2.5">Based on an elastic cloud hence offers unlimited file storage.</font>
+</td></tr> 
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px;" valign="top">
+ <font size="2.5">Enables you to organize files in hierarchical file structures to any levels with ease, making your business information organized.</font>
+</td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px;" valign="top">
+ <font size="2.5">Makes it easy to copy and move files associated to any standard or custom object users and can even upload files to partner/customer portal.</font>
+</td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px;" valign="top">
+ <font size="2.5">Users can now add custom fields that suit their business process.</font>
+</td></tr>
+<tr>
+<td align="left" style="height:30px; padding-left:15px; padding-right:10px; padding-top:10px;" valign="top">
+ <image src="{!URLFOR($Resource.CloudDrop_setup,'clouddrop/images/right.png')}" width="15" height="15"/></td><td style="valign:left; padding-right:10px; padding-top:10px;" valign="top">
+ <font size="2.5">Email2drop feature permits attachments from inbox to get automatically uploaded to Rackspace which can be accessed from Salesforce with the email subject.</font>
+</td></tr>
+</table>
+</apex:define>
+</apex:composition>
+ </apex:form>
+ <script>
+ document.getElementById("ovi").className="selected";
+ </script>
+</apex:page>

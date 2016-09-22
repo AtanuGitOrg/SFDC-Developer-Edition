@@ -1,0 +1,53 @@
+<apex:page standardController="Account" extensions="AccSearch" >
+    <apex:form >
+        <!-- Search Block -->
+        <apex:pageBlock title="Search Area" id="pbSearch" rendered="true">
+            <apex:outputPanel >
+                <apex:pageblockSection columns="2">
+                    
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >
+                            Search Account By KeyWords
+                        </apex:outputLabel>
+                        <apex:inputText id="txtSearch" value="{!searchAcc}" />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageblockSectionItem >
+                        
+                        <apex:commandButton id="cmdSearch" styleClass="btn" value="Search" action="{!doSearch}"/>
+                    
+                    </apex:pageblockSectionItem>
+                </apex:pageblockSection>            
+            </apex:outputPanel>
+            
+        </apex:pageBlock>
+        
+        <!-- Account Information Block -->
+        <apex:pageBlock title="Searched Accounts" id="pbAccount" rendered="{!blshowDetails}">
+            <apex:pageBlockTable value="{!searchedAccounts}" var="acc" >
+                <apex:column headerValue="Account Id" value="{!acc.Id}"/>
+                <apex:column headerValue="Account Name" value="{!acc.Name}" />
+                <apex:column headerValue="Get Customer Details"> 
+                    <apex:commandButton id="cmdContact" styleClass="btn" value="Get Contacts" action="{!doContSearch}" reRender="thePanelWrapper">
+                       <apex:param name="Accid" value="{!acc.Id}" />
+                    </apex:commandButton>  
+                </apex:column>       
+            </apex:pageBlockTable>
+            
+        </apex:pageBlock>
+        <apex:outputPanel id="thePanelWrapper">
+            <apex:pageBlock title="Searched Contacts" id="pbContact" rendered="{!contshowDetails}">
+                 
+                    <apex:pageBlockTable value="{!SearchedContacts}" var="cont" >
+                        <apex:column headerValue="Contact Id" value="{!cont.Id}"/>
+                        <apex:column headerValue="First Name" value="{!cont.FirstName}" />     
+                        <apex:column headerValue="Last Name" value="{!cont.LastName}" />     
+                    </apex:pageBlockTable>
+                   
+             </apex:pageBlock>
+         </apex:outputPanel>       
+    
+    </apex:form> 
+    
+     
+     
+</apex:page>

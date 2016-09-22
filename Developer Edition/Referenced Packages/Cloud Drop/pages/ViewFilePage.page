@@ -1,0 +1,245 @@
+<apex:page standardController="Cloudrop__Cloud_Storage__c" tabstyle="Cloudrop__Cloud_Storage__c" extensions="Cloudrop.ViewFileController" showHeader="true" > 
+
+<script language="javascript">
+     function openfile(file)
+   {
+    var id=file;
+    var url1='url value';
+     
+      url1= geturl(id);
+      
+    
+     alert(url);
+    window.open(url1, "_blank","width=500, height=400,dependent=no,resizable=yes,toolbar=no,status=no,directories=no,menubar=no,scrollbars=1", false);  
+     return true;
+     // window.open(URL);
+   }
+    function openPopup(url,val,obj) { 
+    val1 = document.getElementById("{!$Component.form.userId}").value;
+    val2 = document.getElementById("{!$Component.form.keyId}").value;
+    val3 = document.getElementById("{!$Component.form.conId}").value;   
+    val4 = document.getElementById("{!$Component.form.pageblock.nameId}").innerHTML;   
+   // alert(val1);
+   if(val =='Private'){
+      url = 'https://mansasyscloud.com/download/download.php?username=' + val1 + '&api_key=' + val2 + '&container_name=' + val3 + '&fname=' + val4;
+      url = url + '&object_name=' + obj;
+   }
+  // alert(url);
+   window.open(url, "_blank", "scrollbars=0,menubar=0,titlebar=0,location=0,resizable=1,status=0,toolbar=0,width=500,height=430,modal=yes");
+   return false; 
+    }  
+  </script>  
+  
+    <apex:sectionHeader title="{!SectionName}" subtitle="{!FileName}" id="sheader"/> 
+    <apex:pageMessages />
+    <apex:form id="form">
+      <apex:outputPanel id="UploadPanel">
+      
+      <!-- Page Block for view mode -->
+      
+         <apex:pageBlock title="File Detail" id="pageblock" rendered="{!viewmode}">
+          <table>
+            <tr>
+              <td>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <b>    Name </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.name}" id="nameId"/><br/><br/>
+              </td>
+            </tr>
+            <apex:outputPanel rendered="{!objCloudStorage.Cloudrop__IsEmailToDrop__c}">
+             <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <apex:outputLabel ><b>From</b></apex:outputLabel> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td><apex:outputField value="{!objCloudStorage.Cloudrop__From__c}" /><br/><br/> </td></tr>
+            
+             <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <apex:outputLabel ><b>To</b></apex:outputLabel> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td><apex:outputField value="{!objCloudStorage.Cloudrop__Email_To__c}" /><br/><br/> </td></tr>
+            
+            <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <apex:outputLabel ><b>Subject</b></apex:outputLabel> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td><apex:outputField value="{!objCloudStorage.Cloudrop__Subject__c}" /><br/><br/> </td></tr>
+            <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <apex:outputLabel ><b>Body</b></apex:outputLabel> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td><apex:outputField value="{!objCloudStorage.Cloudrop__Body__c}" /><br/><br/> </td></tr>
+              </apex:outputPanel>
+               <apex:outputPanel rendered="{!isemail}">
+               <tr>
+              <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+         <b>   Description </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.Cloudrop__DescriptionNew__c}"/><br/><br/>    
+              </td>
+            </tr>
+                         <tr>
+              <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+         <b>   Keywords </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.Cloudrop__Keyword__c}"/><br/><br/>    
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <apex:outputLabel rendered="true"><b>Version Name</b></apex:outputLabel> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.Cloudrop__Version_Name__c}" rendered="true"/><br/><br/>    
+              </td>
+            </tr>
+            <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                <b>Version </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.Cloudrop__Version__c}"/><br/><br/>    
+              </td>
+            </tr>
+             </apex:outputPanel>
+              <tr>
+              <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+         <b>   Access Type </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputField value="{!objCloudStorage.Cloudrop__Access__c}" id="Accesstypeid"/><br/><br/>   
+              </td>
+            </tr>            
+            <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>  File link  </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                <!-- <apex:commandlink target="_top" 
+                     onclick="return openPopup('{!objCloudStorage.Cloudrop__External_Path__c}','{!objCloudStorage.Cloudrop__Access__c}','{!objCloudStorage.File_Path__c}');" > -->
+                      <apex:commandlink onclick="openfile('{!jsinhtmlencode(objCloudStorage.Id)}');">
+                                       Click To View </apex:commandlink>
+              <br/><br/>
+              </td>
+            </tr>
+        </table>
+            <apex:detail rendered="{!isPublic}"><table>      
+                       <tr>
+              <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>  File URL  </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:outputLabel value="{!objCloudStorage.Cloudrop__External_Path__c}" />
+              <br/><br/>
+              </td>
+            </tr> 
+             
+             </table>
+             </apex:detail>
+             <table>
+             <tr>
+              <td colspan="3" align="center">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <apex:commandButton value="Previous" id="cancelbtn" action="{!back}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <apex:commandButton value="Edit" id="editbtn" action="{!editClick}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <apex:commandButton value="Upload New Version" id="upldverbtn" action="{!uploadnewfile}" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <apex:commandButton value="Send Email" id="sendemail1" action="{!sendemail}" rendered="{!isPublic}">
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:commandButton>
+                 <apex:commandButton value="Classic View" id="CalViewbtn1" action="{!CalView}"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <apex:commandButton value="Move/Copy" id="aacid" action="{!Associate}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <apex:commandButton value="Temp Url" id="tempurlid" action="{!tempurl}"/>
+                 
+              </td>
+            </tr>                                     
+ 
+           </table>      
+         </apex:pageBlock>
+         
+         <!-- To display the file versions of this file --> 
+         
+         <apex:pageBlock title="File versions" rendered="{!versionmode}"> 
+         <apex:pageBlockTable value="{!filedetails}" var="fdtl" id="fltable" rendered="{!isDetails}" >
+         <apex:column width="50">
+                        <apex:facet name="header">File</apex:facet>
+                        <apex:outputLink value="{!urlFor($Page.Cloudrop__ViewFilePage,null,[RecId=objectID,FileId=fdtl.id])}" target="_top" >{!fdtl.Name}</apex:outputLink>
+                                           
+         </apex:column> 
+         <apex:column width="50">
+                        <apex:facet name="header">Version Name</apex:facet>
+                        <apex:outputLabel value="{!fdtl.Cloudrop__Version_Name__c}"></apex:outputLabel>
+         </apex:column> 
+         <apex:column width="50">
+                        <apex:facet name="header">Version</apex:facet>
+                        <apex:outputLabel value="{!fdtl.Cloudrop__Version__c}"></apex:outputLabel>
+         </apex:column> 
+         <apex:column width="50">
+                        <apex:facet name="header">Description</apex:facet>
+                        <apex:outputLabel value="{!fdtl.Cloudrop__DescriptionNew__c}"></apex:outputLabel>
+         </apex:column> 
+          
+         <apex:column width="50">
+                        <apex:facet name="header">Keyword</apex:facet>
+                        <apex:outputLabel value="{!fdtl.Cloudrop__Keyword__c}"></apex:outputLabel>
+         </apex:column>  
+         
+         
+         </apex:pageBlockTable>
+         </apex:pageBlock>
+         <!-- Page Block for edit mode -->
+         
+         <apex:pageBlock title="File Edit" id="pageblock1" rendered="{!editmode}">
+         <table>
+             <tr>
+              <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+         <b>   Description </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:inputField value="{!objCloudStorage.Cloudrop__DescriptionNew__c}"/><br/><br/> 
+              </td>
+            </tr>
+             <tr>
+              <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+         <b>   Keywords </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </td>
+              <td>
+                 <apex:inputField value="{!objCloudStorage.Cloudrop__Keyword__c}"/><br/><br/> 
+              </td>
+            </tr>            
+             <tr>
+              <td colspan="2" align="center">
+              <apex:commandButton value="Save" id="savebtn" action="{!saveClick}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <apex:commandButton value="Cancel" id="cancelbtn1" action="{!cancle}"/>
+                 
+              </td>
+            </tr>            
+         </table>
+         
+          
+         </apex:pageBlock>
+      </apex:outputPanel> 
+     <apex:inputHidden value="{!apikey}" id="keyId"/>
+   <apex:inputHidden value="{!userName}" id="userId"/>
+   <apex:inputHidden value="{!PrivateConName}" id="conId"/>    
+   
+    <apex:actionFunction name="geturl" action="{!downloadfile}" rerender="thepage" timeout="100000">
+                    <apex:param value="x" name="x" assignTo="{!fileids}"/>
+          </apex:actionFunction>
+    </apex:form>
+</apex:page>

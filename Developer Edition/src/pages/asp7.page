@@ -1,0 +1,19 @@
+<apex:page controller="Example1">
+<apex:form >
+    <apex:pageBlock title="Search Layout">
+        <apex:pageBlockSection collapsible="false">
+            <apex:inputText value="{!search_string}"/>
+            <apex:commandButton value="Search" action="{!search_now}"/>
+        </apex:pageBlockSection>
+        
+        <apex:pageBlockTable value="{!acts}" var="a">
+            <apex:column >
+                    <a href="/{!a.ID}" target="abc"><apex:outputText value="{!a.name}"/></a>
+                </apex:column>
+            <apex:column value="{!a.Type}"/>
+            <apex:column value="{!a.Industry}"/>
+            <apex:column value="{!a.Phone}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:form>
+</apex:page>

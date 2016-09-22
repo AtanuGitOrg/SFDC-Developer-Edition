@@ -1,0 +1,32 @@
+<apex:page StandardController="Account" extensions="wrapperHelp">
+  <script>
+   function selAll()
+   {
+      var inputs = document.getElementsByTagName("input");
+      for(var i = 0; i < inputs.length; i++) {
+      if(inputs[i].type == "checkbox") {
+        inputs[i].checked = true; 
+        }
+    }  
+   }
+  </script>
+  
+  <apex:form >
+      <apex:sectionHeader title="Account List" subtitle="Edit Account" />
+      <apex:pageBlock >
+         
+         <apex:pageBlockTable var="ac" value="{!allAccounts}" cellpadding="3" cellspacing="3">
+             <apex:column >
+                   <apex:facet name="Header">
+                       <apex:inputCheckbox id="chkSelectAll" onchange="return selAll();"/> 
+                   </apex:facet>  
+                   <apex:inputCheckbox value="{!ac.isSelected}" id="chkSelect"/>                 
+             </apex:column>
+             <apex:column headerValue="Account Name" value="{!ac.acMain.Name}"/ >
+      
+         </apex:pageBlockTable> 
+      </apex:pageBlock>
+          
+      
+  </apex:form>
+ </apex:page>

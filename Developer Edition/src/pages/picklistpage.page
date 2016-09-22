@@ -1,0 +1,40 @@
+<apex:page controller="picklist" >
+    <apex:form >
+        <apex:pageBlock title="Picklist Layout">
+            <apex:pageBlockSection >
+               <apex:selectList value="{!Account}" size="1">
+                   <apex:selectOptions value="{!option}">
+                      <apex:param name="Pick" value="{!selectedAccount}"/>
+                   </apex:selectOptions>
+               </apex:selectList>
+               <apex:commandButton value="search" action="{!search}"/>
+               
+             </apex:pageBlockSection>
+                   
+        </apex:pageBlock>   
+        <apex:pageBlock title="Display Layout">
+                 <apex:pageBlockSection >
+                 
+                 <apex:outputPanel id="out">
+                    <apex:actionstatus id="status" startText="searching...">
+                        <apex:facet name="stop">
+                         <apex:outputPanel >
+                             <apex:pageBlockTable value="{!acts}" var="a">
+                             <apex:column value="{!a.Name}"/>
+                             <apex:column value="{!a.Type}"/>
+                             <apex:column value="{!a.Industry}"/>
+                             </apex:pageBlockTable>
+                           </apex:outputPanel>
+                        </apex:facet>
+                    </apex:actionstatus>
+                </apex:outputPanel>
+                         <apex:pageBlockTable value="{!Acts}" var="a">
+                             <apex:column value="{!a.Name}"/>
+                             <apex:column value="{!a.Type}"/>
+                             <apex:column value="{!a.Industry}"/>
+                         
+                         </apex:pageBlockTable>
+                 </apex:pageBlockSection>/>
+        </apex:pageBlock>     
+    </apex:form>
+</apex:page>

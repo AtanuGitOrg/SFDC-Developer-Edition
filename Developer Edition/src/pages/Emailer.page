@@ -1,0 +1,54 @@
+<apex:page controller="EmailComposePageController" sidebar="false" docType="html-5.0" standardStylesheets="true" id="thepageid" >
+
+ 
+ 
+
+<apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/>
+ 
+
+ <apex:includescript value="{!URLFOR($Resource.ckeEditor, 'ckeditor/ckeditor.js')}" />
+
+<apex:form style="width: 70%; margin-left: 15%;" id="theformid">
+
+ <apex:includescript value="{!URLFOR($Resource.ckeEditor, 'ckeditor/ckeditor.js')}" />
+    
+    <script type="text/javascript">
+        window.onload = function()
+        {
+           CKEDITOR.replace('thepageid:theformid:pb:editor'); 
+        }
+        
+        function abc()
+        {
+        var element = CKEDITOR.instances['editor'].getData();
+        alert(element);
+        }
+    </script>
+     
+      <apex:pageMessages ></apex:pageMessages>
+      <apex:pageBlock title="Email" id="pb">
+          TO::<apex:inputText style="width:100%" value="{!emailVal}"/>
+          <apex:commandLink value="AddCc" action="{!cc}" rendered="{!ccBln}"/>&nbsp;
+          <apex:commandLink value="AddBcc" action="{!bcc}" rendered="{!bccBln}"/>
+          
+         
+          <apex:outputpanel rendered="{!Not(ccBln)}"><br>
+          CC::<apex:inputText style="width:100%" value="{!cc}"/> </br>
+          </apex:outputpanel>
+          <apex:outputpanel rendered="{!Not(bccBln)}"><br>
+          BCC::<apex:inputText style="width:100%" value="{!bcc}"/> </br>
+          </apex:outputpanel>
+          <br>
+          
+          Subject::<apex:inputText style="width:100%" value="{!emailSubject}"/></br><br>
+          BODY::</br><br>
+            <!-- <c:RichEditor value="editor"/> -->
+           <apex:inputTextarea style="height:300px; width:100%" value="{!body}" id="editor"/></br> 
+          
+          <apex:commandButton value="Send Mail" action="{!sendMail}" onclick="abc()"/>
+          <apex:commandButton value="Add Attachment" action="{!Attachment}"/>
+          
+      </apex:pageBlock>
+</apex:form>
+<c:MultiAttachmentdoc objId="{!$CurrentPage.Parameters.pid}" rendered="{!attach}"/> 
+</apex:page>

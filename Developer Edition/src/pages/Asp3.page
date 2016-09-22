@@ -1,0 +1,19 @@
+<apex:page standardController="Account" recordSetVar="act">
+<Apex:form >
+ <apex:pageBlock title="Detail">
+  <apex:pageBlockTable value="{!act}" var="o">
+      <apex:column value="{!o.Name}"/>
+      <apex:column value="{!o.Type}"/>
+      <apex:column headervalue=" Industry">
+        <apex:outputField value="{!o.Industry}">
+        <apex:inlineEditSupport />
+        </apex:outputField>
+      </apex:column>  
+               
+  </apex:pageBlockTable>
+  <apex:pageBlockButtons >
+      <apex:commandButton value="Save" action="{!QuickSave}"/>
+      </apex:pageBlockButtons>    
+ </apex:pageBlock>
+ </Apex:form>
+</apex:page>

@@ -1,0 +1,14 @@
+<apex:page standardController="Task" action="{!IF($UserRole.Name == "CEO",
+            NULL,
+            urlFor($Action.Task.Delete,Task.id,[retURL="/"+$CurrentPage.Parameters.retURL], true))}"> 
+
+       
+       <apex:pageMessage severity="ERROR" 
+        strength="3" 
+        title="Task Delete" 
+        summary="You are not allowed to Delete/Edit Task records from Activity History.">
+    </apex:pageMessage> 
+        <apex:form >
+            <apex:OutputLink Value="/{!$CurrentPage.Parameters.retURL}"><b>Click To Return</b></apex:OutputLink>
+        </apex:form>
+</apex:page>

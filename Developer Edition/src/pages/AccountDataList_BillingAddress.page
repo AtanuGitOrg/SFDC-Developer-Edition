@@ -1,0 +1,106 @@
+<apex:page standardController="Account" extensions="AccountCls">
+
+  <apex:sectionHeader title="Account's Related List Info." subtitle="Accounts with Billing Addresses"/>
+  
+  
+   <apex:pageblock id="PageBlockForAccountRelatedList">
+   
+      <!-- Using PageBlockTable apex visualforce component to display list of data -->
+      <!--
+      <apex:pageBlockTable value="{!AllAddress}" var="accRecord">
+      
+           <apex:column value="{!accRecord.Name}" />
+           <apex:column value="{!accRecord.BillingStreet}" />
+           <apex:column value="{!accRecord.BillingCity}" />
+           <apex:column value="{!accRecord.BillingState}" />
+           <apex:column value="{!accRecord.BillingPostalCode}" />
+           <apex:column value="{!accRecord.BillingCountry}" />
+           <apex:column value="{!accRecord.CreatedDate}" />
+         
+      </apex:pageBlockTable>  
+      -->
+      
+      
+      <!-- Using DataTable apex visualforce component to display list of data -->
+      <!--
+      <apex:dataTable value="{!AllAddress}" var="accRecord" cellpadding="6" cellspacing="2" styleClass="tableClass">
+             
+           <apex:column >
+                <apex:facet name="header">NAME</apex:facet>
+                <apex:outputText value="{!accRecord.Name}" />
+           </apex:column>
+           
+           <apex:column headervalue="BILLING STREET" > {!accRecord.BillingStreet}
+                
+           </apex:column>
+           
+           <apex:column >
+                <apex:facet name="header">BILLING CITY</apex:facet>
+                <apex:outputText value="{!accRecord.BillingCity}" />
+           </apex:column>
+           
+           <apex:column >
+                <apex:facet name="header">BILLING STATE</apex:facet>
+                <apex:outputText value="{!accRecord.BillingState}" />
+           </apex:column>
+           
+           <apex:column >
+                <apex:facet name="header">BILLING POSTAL CODE</apex:facet>
+                <apex:outputText value="{!accRecord.BillingPostalCode}" />
+           </apex:column>
+           
+           <apex:column >
+                <apex:facet name="header">BILLING COUNTRY</apex:facet>
+                <apex:outputText value="{!accRecord.BillingCountry}" />
+           </apex:column>
+           
+           <apex:column >
+                <apex:facet name="header">ACCOUNT CREATED DATE</apex:facet>
+                <apex:outputText value="{!accRecord.CreatedDate}" />
+           </apex:column>
+                
+      </apex:dataTable>
+      -->
+           
+      
+      
+      <!-- Using dataList apex visualforce component to display list of data -->
+      <!--
+      <apex:dataList value="{!AllAddress}" var="accRecord">
+      
+           <apex:outputText value="{!accRecord.Name}" />
+           <apex:outputText value="{!accRecord.BillingStreet}" />
+           <apex:outputText value="{!accRecord.BillingCity}" />
+           <apex:outputText value="{!accRecord.BillingState}" />
+           <apex:outputText value="{!accRecord.BillingPostalCode}" />
+           <apex:outputText value="{!accRecord.BillingCountry}" />
+           <apex:outputText value="{!accRecord.CreatedDate}" />
+         
+      </apex:dataList>  
+      -->
+      
+      
+      <!-- Using repeat apex visualforce component to display list of data -->
+      
+      <table border="1" cellpadding="2" cellspacing="2" width='100%'>
+      <tr><td width='20%'>Name</td><td with='40%'>Billing Street</td>
+      <td width='15%'>Billing City</td><td width ='5%'>Billing State</td>
+      <td width ='25%'>Billing Postal Code</td><td width='25%'>Billing Country</td>
+      <td width='30%'>Created Date</td></tr>
+      
+      <apex:repeat value="{!AllAddress}" var="accRecord" >
+      
+           <tr><td>{!accRecord.Name}</td><td>{!accRecord.BillingStreet}</td>
+           <td>{!accRecord.BillingCity}</td><td>{!accRecord.BillingState}</td>
+           <td>{!accRecord.BillingPostalCode}</td><td>{!accRecord.BillingCountry}</td>
+           <td>{!accRecord.CreatedDate}</td>
+           </tr>
+            
+      </apex:repeat>
+      </table>
+      
+   </apex:pageblock>
+   
+ 
+  
+</apex:page>
